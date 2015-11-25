@@ -2,6 +2,6 @@
 
 To get started, `npm install` and `bower install`
 
-Then run `gulp`. (you might need to `npm install gulp-cli -g`)
+Then run `gulp demo`. (you might need to `npm install gulp-cli -g`)
 
-Open index.html in demo/ folder.
+Open demo.html in demo/ folder.
