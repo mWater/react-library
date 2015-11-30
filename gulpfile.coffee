@@ -69,7 +69,7 @@ gulp.task "demo", gulp.parallel([
   "libs_css"
   "copy_fonts"
   "copy_assets"
-  # "index_css"
+  "index_css"
 ])
 
 # gulp.task 'watch', gulp.series([
