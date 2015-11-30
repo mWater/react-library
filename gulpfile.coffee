@@ -54,10 +54,10 @@ gulp.task "libs_js", ->
 gulp.task "copy_fonts", ->
   return gulp.src(["./bower_components/bootstrap/dist/fonts/*"]).pipe(gulp.dest("./dist/fonts/"))
 
-# gulp.task "index_css", ->
-#   return gulp.src("./src/index.css")
-#     .pipe(rework(reworkNpm("./src/")))
-#     .pipe(gulp.dest("./dist/css/"))
+gulp.task "index_css", ->
+ return gulp.src("./src/index.css")
+   .pipe(rework(reworkNpm("./src/")))
+   .pipe(gulp.dest("./dist/css/"))
 
 gulp.task 'copy_assets', ->
   return gulp.src("assets/**/*")
