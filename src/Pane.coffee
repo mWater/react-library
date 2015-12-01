@@ -2,14 +2,11 @@ React = require 'react'
 H = React.DOM
 
 module.exports = class Pane extends React.Component
-  constructor: ->
-    super
-    @state = { 
-      
-    }
-
-  handleClick: => 
-    @setState(count: @state.count + 1)
+  
+  @propTypes: {
+    split: React.PropTypes.oneOf(['vertical', 'horizontal']).isRequired
+    width: React.PropTypes.oneOfType([React.PropTypes.string,React.PropTypes.number])
+  }
 
   render: ->
     classNames = ["pane"]

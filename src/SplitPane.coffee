@@ -5,6 +5,13 @@ Divider = require './Divider'
 ReactDOM = require 'react-dom'
 
 module.exports = class SplitPane extends React.Component
+  
+  @propTypes = {
+    split: React.PropTypes.oneOf(['vertical', 'horizontal']).isRequired
+    firstPaneSize: React.PropTypes.oneOfType([React.PropTypes.string,React.PropTypes.number])
+    minFirstPaneSize: React.PropTypes.number
+  }
+
   constructor: ->
     super
     @state = { 
@@ -14,10 +21,6 @@ module.exports = class SplitPane extends React.Component
 
   @defaultProps: ->
     split: 'vertical'
-
-  #componentDidUpdate: =>
-  #  node = ReactDOM.findDOMNode(@refs.firstPane)
-  #  initialSize = if @props.split == "vertical" then node.offsetWidth else node.offsetHeight
 
   onMouseUp: => 
     if @state.resizing

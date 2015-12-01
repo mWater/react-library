@@ -9,7 +9,7 @@ module.exports = class SampleComponent extends React.Component
       H.div null
       React.createElement(SplitPane, {split: "horizontal", firstPaneSize: "20%", minFirstPaneSize: 100}, [
         H.div null
-        React.createElement(SplitPane, {split: "vertical", firstPaneSize: "20%", minFirstPaneSize: 100}, [
+        React.createElement(SplitPane, {split: "vertical", firstPaneSize: 300, minFirstPaneSize: 200}, [
           H.div null
           H.div null
         ])
