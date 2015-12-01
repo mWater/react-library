@@ -9,17 +9,15 @@ module.exports = class SplitPane extends React.Component
     super
     @state = { 
       resizing: false
-      leftPaneSize: @props.leftPaneSize
+      firstPaneSize: @props.firstPaneSize
     }
 
   @defaultProps: ->
     split: 'vertical'
 
-  componentDidUpdate: =>
-    node = ReactDOM.findDOMNode(@refs.leftPane)
-    initialSize = if @props.split == "vertical" then node.offsetWidth else node.offsetHeight
-
-    console.log initialSize
+  #componentDidUpdate: =>
+  #  node = ReactDOM.findDOMNode(@refs.firstPane)
+  #  initialSize = if @props.split == "vertical" then node.offsetWidth else node.offsetHeight
 
   onMouseUp: => 
     if @state.resizing
@@ -32,17 +30,17 @@ module.exports = class SplitPane extends React.Component
   onMouseMove: (event) =>
     if @state.resizing
       if @props.split == "vertical"
-        leftPaneSize = ReactDOM.findDOMNode(@refs.leftPane).offsetWidth
+        firstPaneSize = ReactDOM.findDOMNode(@refs.firstPane).offsetWidth
         currentPosition = event.clientX
       else
-        leftPaneSize = ReactDOM.findDOMNode(@refs.leftPane).offsetHeight
+        firstPaneSize = ReactDOM.findDOMNode(@refs.firstPane).offsetHeight
         currentPosition = event.clientY
 
-      newSize = leftPaneSize - (@state.dragStartAt - currentPosition)
+      newSize = firstPaneSize - (@state.dragStartAt - currentPosition)
       @setState(dragStartAt: currentPosition)
 
-      if @props.minLeftPaneSize < newSize
-        @setState(leftPaneSize: newSize)
+      if @props.minFirstPaneSize < newSize
+        @setState(firstPaneSize: newSize)
         
 
   render: ->
@@ -67,6 +65,6 @@ module.exports = class SplitPane extends React.Component
       classNames.push('vertical')
 
     H.div {style: style, className: classNames.join(" "), onMouseMove: @onMouseMove, onMouseUp: @onMouseUp},
-      React.createElement(Pane,  {split: @props.split, width: @state.leftPaneSize , ref: "leftPane"}, @props.children[0]),
+      React.createElement(Pane,  {split: @props.split, width: @state.firstPaneSize , ref: "firstPane"}, @props.children[0]),
       React.createElement(Divider, {ref: "divider", split: @props.split, onMouseDown: @onMouseDown }),
       React.createElement(Pane,  {split: @props.split, ref:"rightPane"}, @props.children[1])
