@@ -6,6 +6,8 @@ SampleComponent = require './SampleComponent'
 
 # Wait for DOM to load
 $ ->
-  elem = React.createElement(SampleComponent)
+  elem = H.div null,
+    React.createElement(SampleComponent)
+    H.br()
 
   ReactDOM.render(elem, document.getElementById("main"))
