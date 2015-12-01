@@ -1,3 +1,15 @@
+#
+# SplitPane component
+# 
+# Create a resizable split pane with a draggable divider
+# 
+# React.createElement(SplitPane, {split: "vertical", firstPaneSize: "20%", minFirstPaneSize: 200}, [
+#   H.div null
+#   H.div null
+# ]) 
+#
+#
+
 React = require 'react'
 H = React.DOM
 Pane = require './Pane'
@@ -7,8 +19,13 @@ ReactDOM = require 'react-dom'
 module.exports = class SplitPane extends React.Component
   
   @propTypes = {
-    split: React.PropTypes.oneOf(['vertical', 'horizontal']).isRequired
+    # The split type "vertical" or "horizontal"
+    split: React.PropTypes.oneOf(['vertical', 'horizontal'])
+
+    # Size of the first pane. Takes a string with percentage value ("20%") or a number in pixels (300)
     firstPaneSize: React.PropTypes.oneOfType([React.PropTypes.string,React.PropTypes.number])
+
+    # Minimum size of the first pane. The first pane cannot be resized past this size. Takes a number in pixels
     minFirstPaneSize: React.PropTypes.number
   }
 
