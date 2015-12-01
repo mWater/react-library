@@ -8,7 +8,8 @@
 #   H.div null
 # ]) 
 #
-#
+# Vertical splitpane gets the classes "splitpane vertical"
+# Horizontal splitpane divider gets the classes "splitpane horizontal"
 
 React = require 'react'
 H = React.DOM
@@ -27,6 +28,10 @@ module.exports = class SplitPane extends React.Component
 
     # Minimum size of the first pane. The first pane cannot be resized past this size. Takes a number in pixels
     minFirstPaneSize: React.PropTypes.number
+
+    # Callback function that will be called when the resizing is done. 
+    # The current size of the firstpane is passed as first argument
+    onResize: React.PropTypes.func
   }
 
   constructor: ->
@@ -42,6 +47,7 @@ module.exports = class SplitPane extends React.Component
   onMouseUp: => 
     if @state.resizing
       @setState(resizing: false)
+      @props.onResize?(@state.firstPaneSize)
 
   onMouseDown: (event) =>
     dragStartAt = if @props.split == "vertical" then event.clientX else event.clientY
