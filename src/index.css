@@ -1,0 +1,13 @@
+.splitpane .divider{
+	background: #aeaeae;
+}
+
+.splitpane .divider.vertical{
+	width: 4px;
+	cursor: col-resize;
+}
+
+.splitpane .divider.horizontal{
+	height: 4px;
+	cursor: row-resize;
+}
