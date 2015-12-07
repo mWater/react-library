@@ -17,14 +17,14 @@ class Block2 extends React.Component
 
 # Wait for DOM to load
 $ ->
-  elem = R VerticalTreeLayoutComponent,
-    line: "solid 1px red"
-    height: 50
-    headElem: R(Block)
-    R(Block)
-    R(Block2)
-    R(Block)
-    R(Block)
+  # elem = R VerticalTreeLayoutComponent,
+  #   line: "solid 1px red"
+  #   height: 50
+  #   headElem: R(Block)
+  #   R(Block)
+  #   R(Block2)
+  #   R(Block)
+  #   R(Block)
   
   # ModalPopupComponent.show((onClose) =>
   #   return React.createElement(ModalPopupComponent, {
@@ -34,5 +34,16 @@ $ ->
   # elem = H.div null,
   #   React.createElement(SampleComponent)
   #   H.br()
+
+  elem = R ModalPopupComponent, { header: "OUTER", size: "large" }, 
+    H.div null, "OUTER MODAL"
+    H.div null, "OUTER MODAL"
+    H.div null, "OUTER MODAL"
+    H.div null, "OUTER MODAL"
+    H.div null, "OUTER MODAL"
+    R ModalPopupComponent, { header: "INNER" }, 
+      H.div null, "INNER MODAL"
+      H.div null, "INNER MODAL"
+
 
   ReactDOM.render(elem, document.getElementById("main"))
