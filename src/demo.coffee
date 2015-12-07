@@ -9,7 +9,11 @@ VerticalTreeLayoutComponent = require './VerticalTreeLayoutComponent'
 
 class Block extends React.Component
   render: ->
-    H.div style: { height: 200, width: 400, border: "solid 2px blue" }, " "
+    H.div style: { height: 200, width: 200, border: "solid 2px blue" }, " "
+
+class Block2 extends React.Component
+  render: ->
+    H.div style: { height: 300, width: 200, border: "solid 2px blue" }, " "
 
 # Wait for DOM to load
 $ ->
@@ -18,7 +22,7 @@ $ ->
     height: 50
     headElem: R(Block)
     R(Block)
-    R(Block)
+    R(Block2)
     R(Block)
     R(Block)
   

@@ -24,15 +24,15 @@ module.exports = class VerticalTreeLayoutComponent extends React.Component
 
       # Add spacer at start
       if i == 0
-        children.push(R(CrossComponent, key: i, height: @props.height))
+        children.push(R(CrossComponent, key: i, width: "100%", height: @props.height))
 
       # Add spacer at end
       else if i == len * 2
-        children.push(R(CrossComponent, key: i, height: @props.height))
+        children.push(R(CrossComponent, key: i, width: "100%", height: @props.height))
       
       # Add spacer if odd
       else if i % 2 == 0
-        children.push(R(CrossComponent, key: i, height: @props.height, e: @props.line, w: @props.line, n: (if isCenter then @props.line)))
+        children.push(R(CrossComponent, key: i, width: "100%", height: @props.height, e: @props.line, w: @props.line, n: (if isCenter then @props.line)))
 
       else
         child = React.Children.toArray(@props.children)[Math.floor(i/2)]
