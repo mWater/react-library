@@ -8,13 +8,15 @@ module.exports = class CrossComponent extends React.Component
     e: React.PropTypes.string # east border style (e.g. "solid 1px blue")
     s: React.PropTypes.string # south border style (e.g. "solid 1px blue")
     w: React.PropTypes.string # west border style (e.g. "solid 1px blue")
+    width: React.PropTypes.number
+    height: React.PropTypes.number
 
   render: ->
     # Make horizontal two boxes
-    H.div style: { display: "flex", flexDirection: "column", flex: "1 1 0px" },
-      H.div style: { display: "flex", flex: "1 1 0px", display: "flex" }, 
-        H.div style: { flex: "1 1 0px", borderRight: @props.n }
+    H.div style: { display: "flex", flexDirection: "column", flex: (if @props.height then "1 0 auto" else "1 1 0px"), width: @props.width, height: @props.height },
+      H.div style: { display: "flex", flex: "1 1 0px" }, 
+        H.div style: { flex: "1 1 0px", borderRight: @props.n, borderBottom: @props.w }
         H.div style: { flex: "1 1 0px", borderBottom: @props.e }
-      H.div style: { display: "flex", flex: "1 1 0px", display: "flex" },
+      H.div style: { display: "flex", flex: "1 1 0px" },
         H.div style: { flex: "1 1 0px", borderRight: @props.s }
-        H.div style: { flex: "1 1 0px", borderTop: @props.w }
+        H.div style: { flex: "1 1 0px" }
