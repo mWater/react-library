@@ -8,8 +8,12 @@ module.exports = class CrossComponent extends React.Component
     e: React.PropTypes.string # east border style (e.g. "solid 1px blue")
     s: React.PropTypes.string # south border style (e.g. "solid 1px blue")
     w: React.PropTypes.string # west border style (e.g. "solid 1px blue")
-    width: React.PropTypes.number
-    height: React.PropTypes.number
+    width: React.PropTypes.any  # 100% or 20. Default: 100%
+    height: React.PropTypes.any
+
+  @defaultProps:
+    width: "100%"
+    height: "100%"
 
   render: ->
     # Make horizontal two boxes
