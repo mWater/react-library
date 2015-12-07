@@ -51,15 +51,11 @@ module.exports = class VerticalTreeLayoutComponent extends React.Component
     return children
     
   render: ->
-
-    H.div null,
+    H.div style: { display: "flex", flexFlow: "column nowrap", alignItems: "center" },
       # Center head
-      H.div key: "head", style: { display: "flex", flexFlow: "column nowrap", alignItems: "center" },
-        @props.headElem
+      @props.headElem
+      if React.Children.count(@props.children) > 0
         R(CrossComponent, collapseTop: true, height: @props.height, s: @props.line)
-
-      # H.div key: "head", style: { display: "flex", flexFlow: "row nowrap", justifyContent: "center" }, @props.headElem
-
-      # Put children
-      H.div key: "children", style: { display: "flex", flexFlow: "row nowrap", justifyContent: "flex-start" }, 
+        # Put children
+      H.div key: "children", style: { display: "flex", flexFlow: "row nowrap", justifyContent: "flex-start", width: "100%" }, 
         @renderChildren()
