@@ -8,8 +8,9 @@ module.exports = class CrossComponent extends React.Component
     e: React.PropTypes.string # east border style (e.g. "solid 1px blue")
     s: React.PropTypes.string # south border style (e.g. "solid 1px blue")
     w: React.PropTypes.string # west border style (e.g. "solid 1px blue")
-    width: React.PropTypes.any  # 100% or 20. Default: 100%
-    height: React.PropTypes.any
+    width: React.PropTypes.any  # 100% or 20, etc. Default: 100%
+    height: React.PropTypes.any # 100% or 20, etc. Default: 100%
+    collapseTop: React.PropTypes.bool   # True to collapse top half of box
 
   @defaultProps:
     width: "100%"
@@ -18,7 +19,7 @@ module.exports = class CrossComponent extends React.Component
   render: ->
     # Make horizontal two boxes
     H.div style: { display: "flex", flexDirection: "column", width: @props.width, height: @props.height },
-      H.div style: { display: "flex", flex: "1 1 0px" }, 
+      H.div style: { display: "flex", flex: (if @props.collapseTop then "0 1 0px" else "1 1 0px") }, 
         H.div style: { flex: "1 1 0px", borderRight: @props.n, borderBottom: @props.w }
         H.div style: { flex: "1 1 0px", borderBottom: @props.e }
       H.div style: { display: "flex", flex: "1 1 0px" },

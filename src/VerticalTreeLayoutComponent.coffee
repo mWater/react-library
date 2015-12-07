@@ -24,21 +24,22 @@ module.exports = class VerticalTreeLayoutComponent extends React.Component
 
       # Add spacer at start
       if i == 0
-        children.push(R(CrossComponent, key: i, width: "100%", height: @props.height))
+        children.push(R(CrossComponent, key: i, collapseTop: true, height: @props.height))
 
       # Add spacer at end
       else if i == len * 2
-        children.push(R(CrossComponent, key: i, width: "100%", height: @props.height))
+        children.push(R(CrossComponent, key: i, collapseTop: true, height: @props.height))
       
       # Add spacer if odd
       else if i % 2 == 0
-        children.push(R(CrossComponent, key: i, width: "100%", height: @props.height, e: @props.line, w: @props.line, n: (if isCenter then @props.line)))
+        children.push(R(CrossComponent, key: i, collapseTop: true, height: @props.height, e: @props.line, w: @props.line, n: (if isCenter then @props.line)))
 
       else
         child = React.Children.toArray(@props.children)[Math.floor(i/2)]
 
         children.push(H.div key: i, style: { display: "flex", flexFlow: "column nowrap", justifyContent: "flex-start" },
           React.createElement(CrossComponent, 
+            collapseTop: true, 
             n: (if isCenter then @props.line)
             s: @props.line, 
             e: if i < (len * 2 - 1) then @props.line,
@@ -53,7 +54,11 @@ module.exports = class VerticalTreeLayoutComponent extends React.Component
 
     H.div null,
       # Center head
-      H.div key: "head", style: { display: "flex", flexFlow: "row nowrap", justifyContent: "center" }, @props.headElem
+      H.div key: "head", style: { display: "flex", flexFlow: "column nowrap", alignItems: "center" },
+        @props.headElem
+        R(CrossComponent, collapseTop: true, height: @props.height, s: @props.line)
+
+      # H.div key: "head", style: { display: "flex", flexFlow: "row nowrap", justifyContent: "center" }, @props.headElem
 
       # Put children
       H.div key: "children", style: { display: "flex", flexFlow: "row nowrap", justifyContent: "flex-start" }, 
