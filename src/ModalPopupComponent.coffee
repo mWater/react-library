@@ -16,7 +16,7 @@ module.exports = class ModalPopupComponent extends React.Component
     $("body").append(@modalNode)
 
     elem = React.createElement(ModalComponentContent, @props)
-    ReactDOM.render(elem, @modalNode)
+    ReactDOM.unstable_renderSubtreeIntoContainer(this, elem, @modalNode)
 
     _.defer () =>
       $(@modalNode).children().modal({ 
