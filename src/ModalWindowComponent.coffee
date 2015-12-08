@@ -21,8 +21,8 @@ module.exports = class ModalWindowComponent extends React.Component
 
   update: (props) ->
     elem = React.createElement(InnerModalComponent, props)
-    ReactDOM.render(elem, @modalNode)
-
+    ReactDOM.unstable_renderSubtreeIntoContainer(this, elem, @modalNode)
+    
   componentWillUnmount: ->
     ReactDOM.unmountComponentAtNode(@modalNode)
     $(@modalNode).remove()
