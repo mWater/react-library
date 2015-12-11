@@ -3,7 +3,8 @@ ReactDOM = require 'react-dom'
 H = React.DOM
 
 # Automatically injects the width or height of the DOM element into the
-# child component, updating as window resizes
+# child component, updating as window resizes. 
+# If children is a function, calls with with { width:,  height: } depending on injectHeight or injectWidth
 module.exports = class AutoSizeComponent extends React.Component
   @propTypes:
     injectWidth: React.PropTypes.bool # True to inject width
@@ -35,7 +36,11 @@ module.exports = class AutoSizeComponent extends React.Component
       if @props.injectHeight
         overrides.height = @state.height
 
-      innerElem = React.cloneElement(React.Children.only(@props.children), overrides)
+      # Call children to get element if function
+      if typeof(@props.children) == "function"
+        innerElem = @props.children(overrides)
+      else
+        innerElem = React.cloneElement(React.Children.only(@props.children), overrides)
 
     style = {}
     if @props.injectWidth
