@@ -17,6 +17,7 @@ module.exports = class ModalPopupComponent extends React.Component
     header: React.PropTypes.node # Header of modal. Any react element
     footer: React.PropTypes.node # Footer of modal. Any react element
     size: React.PropTypes.string # "large" for large
+    trigger: React.PropTypes.node #the trigger
 
 #  componentDidMount: ->
 #    # Add special region to body
@@ -89,9 +90,12 @@ module.exports = class ModalPopupComponent extends React.Component
 
     modal = React.createElement( Modal, modalProps, modalContent)
 
-    H.div null,
-      H.button onClick: @open,
-        "Open Modal"
+    triggerElement = @props.trigger
+
+    trigger = React.cloneElement(triggerElement, { onClick: @open})
+
+    H.span null,
+      trigger
       modal
 
   # Static version that displays a modal until the onClose is called.
