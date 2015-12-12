@@ -35,17 +35,11 @@ $ ->
   #   React.createElement(SampleComponent)
   #   H.br()
 
-#  elem = R ModalPopupComponent, { header: "OUTER", size: "large" },
-#    H.div null, "OUTER MODAL"
-#    H.div null, "OUTER MODAL"
-#    H.div null, "OUTER MODAL"
-#    H.div null, "OUTER MODAL"
-#    H.div null, "OUTER MODAL"
-#    R ModalPopupComponent, { header: "INNER" },
-#      H.div null, "INNER MODAL"
-#      H.div null, "INNER MODAL"
-
-  elem = R SampleComponent
+  elem = R ModalPopupComponent, { header: "OUTER", size: "large" },
+    R ModalPopupComponent, { header: "INNER" },
+      R ModalPopupComponent, { header: "INNER-1" , size: "small"},
+        R ModalPopupComponent, { header: "INNER-2", size: "large" },
+          "The last modal"
 
 
   ReactDOM.render(elem, document.getElementById("main"))
