@@ -1,6 +1,6 @@
 {
   "name": "react-library",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "React component library",
   "repository": "git@github.com:mWater/react-library.git",
   "main": "lib/index.js",
