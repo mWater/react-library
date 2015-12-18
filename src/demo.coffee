@@ -2,6 +2,7 @@ React = require 'react'
 ReactDOM = require 'react-dom'
 H = React.DOM
 R = React.createElement
+_ = require 'lodash'
 
 SampleComponent = require './SampleComponent'
 ModalPopupComponent = require './ModalPopupComponent'
@@ -14,6 +15,34 @@ class Block extends React.Component
 class Block2 extends React.Component
   render: ->
     H.div style: { height: 300, width: 200, border: "solid 2px blue" }, " "
+
+class ModalSample extends React.Component
+  constructor: ->
+    super
+    @state = {
+      editing: false
+    }
+
+  startEditing:=>
+    @setState(editing: true)
+
+  finishEditing:=>
+    @setState(editing: false)
+
+  handleModalClose: =>
+    @finishEditing()
+    console.log "editing finished"
+
+  render: ->
+    sizes = ["large", "small", ""]
+
+    H.div null,
+      H.a onClick: @startEditing,
+        "Edit me"
+      if @state.editing
+        R ModalPopupComponent, { header: "OUTER", size: _.sample(sizes), onClose: @handleModalClose},
+          R ModalSample
+
 
 # Wait for DOM to load
 $ ->
@@ -35,17 +64,13 @@ $ ->
   #   React.createElement(SampleComponent)
   #   H.br()
 
-  elem = R ModalPopupComponent, { header: "OUTER", size: "large", trigger: H.button(null, "Open Modal") },
-    R ModalPopupComponent, { header: "INNER", trigger: H.a(null, "Open Modal") },
-      R ModalPopupComponent, { header: "INNER-1" , size: "small", trigger: H.button(null, "Open Modal")},
-        R ModalPopupComponent, { header: "INNER-2", size: "large", trigger: H.a(null, "Open Modal") },
-          "The last modal"
+#  elem = R ModalPopupComponent, { header: "OUTER", size: "large", trigger: H.button(null, "Open Modal") },
+#    R ModalPopupComponent, { header: "INNER", trigger: H.a(null, "Open Modal") },
+#      R ModalPopupComponent, { header: "INNER-1" , size: "small", trigger: H.button(null, "Open Modal")},
+#        R ModalPopupComponent, { header: "INNER-2", size: "large", trigger: H.a(null, "Open Modal") },
+#          "The last modal"
 
-
-  el =
-    H.button null,
-      "set location"
-      R ModalPopupComponent, { header: "OUTER", size: "large"}
+  elem = R ModalSample
 
 
 
