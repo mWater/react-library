@@ -11,6 +11,7 @@ module.exports = class ModalPopupComponent extends React.Component
     header: React.PropTypes.node # Header of modal. Any react element
     footer: React.PropTypes.node # Footer of modal. Any react element
     size: React.PropTypes.string # "large" for large,  "small" for small and none for standard
+    onClose: React.PropTypes.func # callback function to be called when close is requested
 
   close: =>
     @props.onClose?()
