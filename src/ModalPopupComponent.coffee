@@ -26,6 +26,7 @@ module.exports = class ModalPopupComponent extends React.Component
       left: 0
       right: 0
       outline: 0
+      overflowY: "auto"
 
     backdropStyle =
       position: 'fixed'
