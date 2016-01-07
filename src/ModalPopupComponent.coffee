@@ -12,6 +12,7 @@ module.exports = class ModalPopupComponent extends React.Component
     footer: React.PropTypes.node # Footer of modal. Any react element
     size: React.PropTypes.string # "large" for large,  "small" for small and none for standard
     onClose: React.PropTypes.func # callback function to be called when close is requested
+    showCloseX: React.PropTypes.bool # True to show close 'x' at top right
 
   close: =>
     @props.onClose?()
@@ -86,13 +87,16 @@ class ModalComponentContent extends React.Component
     header: React.PropTypes.node # Header of modal. Any react element
     footer: React.PropTypes.node # Footer of modal. Any react element
     size: React.PropTypes.string # "large" for large
+    showCloseX: React.PropTypes.bool # True to show close 'x' at top right
+    onClose: React.PropTypes.func # callback function to be called when close is requested
 
   render: ->
     H.div className: "modal-content",
       if @props.header
         H.div className: "modal-header",
-          H.button className: "close",
-            H.span onClick: @props.onClose, "X"
+          if @props.showCloseX
+            H.button className: "close",
+              H.span onClick: @props.onClose, "\u00d7"
           H.h4 className: "modal-title",
             @props.header
       H.div className: "modal-body",
