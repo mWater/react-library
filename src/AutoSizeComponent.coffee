@@ -1,6 +1,6 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
-elementResizeEvent = require 'element-resize-event'
+elementResizeDetectorMaker = require 'element-resize-detector'
 H = React.DOM
 
 # Automatically injects the width or height of the DOM element into the
@@ -13,15 +13,17 @@ module.exports = class AutoSizeComponent extends React.Component
 
   constructor: ->
     @state = { width: null, height: null }
+    @resizeDetector = elementResizeDetectorMaker()
 
   componentDidMount: ->
     # Listen for changes
     $(window).on('resize', @updateSize)
-    elementResizeEvent(ReactDOM.findDOMNode(this), @updateSize)
+    @resizeDetector.listenTo(ReactDOM.findDOMNode(this), @updateSize)
     @updateSize()
 
   componentWillUnmount: ->
     # Stop listening to resize events
+    @resizeDetector.removeListener(ReactDOM.findDOMNode(this), @updateSize)
     $(window).off('resize', @updateSize)
 
   updateSize: =>
