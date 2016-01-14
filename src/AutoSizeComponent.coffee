@@ -18,12 +18,18 @@ module.exports = class AutoSizeComponent extends React.Component
   componentDidMount: ->
     # Listen for changes
     $(window).on('resize', @updateSize)
-    @resizeDetector.listenTo(ReactDOM.findDOMNode(this), @updateSize)
+    try
+      @resizeDetector.listenTo(ReactDOM.findDOMNode(this), @updateSize)
+    catch error
+
     @updateSize()
 
   componentWillUnmount: ->
     # Stop listening to resize events
-    @resizeDetector.removeListener(ReactDOM.findDOMNode(this), @updateSize)
+    try
+      @resizeDetector.removeListener(ReactDOM.findDOMNode(this), @updateSize)
+    catch error
+      
     $(window).off('resize', @updateSize)
 
   updateSize: =>
