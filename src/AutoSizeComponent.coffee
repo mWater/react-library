@@ -1,7 +1,8 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
-elementResizeDetectorMaker = require 'element-resize-detector'
+Resizable = require 'react-component-resizable'
 H = React.DOM
+R = React.createElement
 
 # Automatically injects the width or height of the DOM element into the
 # child component, updating as window resizes. 
@@ -13,23 +14,14 @@ module.exports = class AutoSizeComponent extends React.Component
 
   constructor: ->
     @state = { width: null, height: null }
-    @resizeDetector = elementResizeDetectorMaker()
 
   componentDidMount: ->
     # Listen for changes
     $(window).on('resize', @updateSize)
-    try
-      @resizeDetector.listenTo(ReactDOM.findDOMNode(this), @updateSize)
-    catch error
-
     @updateSize()
 
   componentWillUnmount: ->
     # Stop listening to resize events
-    try
-      @resizeDetector.removeListener(ReactDOM.findDOMNode(this), @updateSize)
-    catch error
-      
     $(window).off('resize', @updateSize)
 
   updateSize: =>
@@ -58,4 +50,4 @@ module.exports = class AutoSizeComponent extends React.Component
     if @props.injectHeight
       style.height = "100%"
 
-    return H.div(style: style, innerElem)
+    return R Resizable, {style: style, onResize: @updateSize}, innerElem
