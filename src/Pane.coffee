@@ -37,5 +37,9 @@ module.exports = class Pane extends React.Component
       classNames.push("first")
     else
       style.flex = 1 
+      if @props.split == 'vertical'
+        style.width = "100%"
+      else
+        style.height = "100%"
     
     H.div {style: style, className: classNames.join(" ")}, @props.children

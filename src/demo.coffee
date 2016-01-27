@@ -60,9 +60,9 @@ $ ->
   #     footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
   #     }, "TEST")
   #   )
-  # elem = H.div null,
-  #   React.createElement(SampleComponent)
-  #   H.br()
+  elem = H.div null,
+     React.createElement(SampleComponent)
+     H.br()
 
 #  elem = R ModalPopupComponent, { header: "OUTER", size: "large", trigger: H.button(null, "Open Modal") },
 #    R ModalPopupComponent, { header: "INNER", trigger: H.a(null, "Open Modal") },
@@ -70,7 +70,7 @@ $ ->
 #        R ModalPopupComponent, { header: "INNER-2", size: "large", trigger: H.a(null, "Open Modal") },
 #          "The last modal"
 
-  elem = R ModalSample
+#  elem = R ModalSample
 
 
 
