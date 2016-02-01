@@ -17,7 +17,7 @@ module.exports = class ActionCancelModalComponent extends React.Component
   render: ->
     React.createElement(ModalPopupComponent,
       size: @props.size
-      header: if @props.title then H.h4(className: "modal-title", @props.title)
+      header: @props.title
       footer: [
         H.button 
           key: "cancel"
