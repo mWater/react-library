@@ -10,6 +10,7 @@ R = React.createElement
 # of multiple updates, unmounting, componentWillReceiveProps vs componentDidMount, etc.
 # To use, override isLoadNeeded to determine if a prop change requires a load
 # and load to perform load and call setState with callback value.
+# Sets state of loading to true/false appropriately
 # DO NOT call @setState or reference @props in load
 module.exports = class AsyncLoadComponent extends React.Component
   constructor: ->
@@ -28,7 +29,7 @@ module.exports = class AsyncLoadComponent extends React.Component
   isLoadNeeded: (newProps, oldProps) -> throw new Error("Not implemented")
 
   # Call callback with state changes
-  load: (newProps, oldProps, callback) -> throw new Error("Not implemented")
+  load: (props, prevProps, callback) -> throw new Error("Not implemented")
 
   _performLoad: (newProps, oldProps) ->
     @_loadSeqStarted += 1

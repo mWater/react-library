@@ -14,7 +14,7 @@ class TestAsyncLoadComponent extends AsyncLoadComponent
     return @loadNeeded
 
   # Call callback with state changes
-  load: (newProps, oldProps, callback) ->
+  load: (props, prevProps, callback) ->
     @callbacks.push(callback)
 
   setState: (state, callback) ->
