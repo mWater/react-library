@@ -31,6 +31,10 @@ module.exports = class AsyncLoadComponent extends React.Component
   # Call callback with state changes
   load: (props, prevProps, callback) -> throw new Error("Not implemented")
 
+  # Call to force load
+  forceLoad: ->
+    @_performLoad(@props, @props)
+
   _performLoad: (newProps, oldProps) ->
     @_loadSeqStarted += 1
 
