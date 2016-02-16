@@ -29,6 +29,27 @@ module.exports = class ModalWindowComponent extends React.Component
 
   render: -> null
     
+  # Static version that displays a modal until the onClose is called.
+  # modalFunc takes close function as a single parameter and returns a ModalWindowComponent
+  @show: (modalFunc, onClose) =>
+    # Create temporary div to render into
+    tempDiv = $('<div></div>').get(0)
+
+    # Create close function
+    close = () =>
+      # Unrender
+      ReactDOM.unmountComponentAtNode(tempDiv)
+
+      # Remove div
+      $(tempDiv).remove()
+
+      # Call onClose
+      if onClose
+        onClose()
+
+    popupElem = modalFunc(close)
+    ReactDOM.render(popupElem, tempDiv)    
+
 # Content must be rendered at body level to prevent weird behaviour, so this is the inner component
 class InnerModalComponent extends React.Component
   @propTypes: 
