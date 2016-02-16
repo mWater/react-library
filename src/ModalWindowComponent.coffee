@@ -7,7 +7,7 @@ _ = require 'lodash'
 module.exports = class ModalWindowComponent extends React.Component
   @propTypes: 
     isOpen: React.PropTypes.bool.isRequired
-    onRequestClose: React.PropTypes.func.isRequired
+    onRequestClose: React.PropTypes.func
 
   componentDidMount: ->
     # Add special region to body
@@ -101,7 +101,8 @@ class InnerModalComponent extends React.Component
       H.style null, '''body { overflow-y: hidden }'''
       H.div style: overlayStyle, onClick: @props.onRequestClose
       H.div style: windowStyle,
-        H.div style: closeStyle,
-          H.span className: "glyphicon glyphicon-remove", onClick: @props.onRequestClose
+        if @props.onRequestClose
+          H.div style: closeStyle,
+            H.span className: "glyphicon glyphicon-remove", onClick: @props.onRequestClose
         H.div style: contentStyle,
           @props.children
