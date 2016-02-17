@@ -88,6 +88,7 @@ class InnerModalComponent extends React.Component
       right: 20
       top: 20
       bottom: 20
+      overflowY: "auto"  # Allow scrolling
     }
 
     closeStyle = {
