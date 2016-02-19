@@ -54,7 +54,7 @@ module.exports = class ModalWindowComponent extends React.Component
 class InnerModalComponent extends React.Component
   @propTypes: 
     isOpen: React.PropTypes.bool.isRequired
-    onRequestClose: React.PropTypes.func.isRequired
+    onRequestClose: React.PropTypes.func
 
   render: ->
     if not @props.isOpen
