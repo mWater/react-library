@@ -50,6 +50,13 @@ describe "AsyncLoadComponent", ->
     
     assert.deepEqual @comp.setstates, [{ loading: true }, { x: 1 }, { loading: false }]
 
+  it "sets state to second call and loading false after first callback is doubled", ->
+    @comp.componentWillMount()
+    @comp.callbacks[0]({ x: 1 })
+    @comp.callbacks[0]({ x: 2 })
+    
+    assert.deepEqual @comp.setstates, [{ loading: true }, { x: 1 }, { loading: false }, { x: 2 }, { loading: false }]
+
   it "sets state and loading true after 1st callback if 2nd pending", ->
     @comp.componentWillMount()
     @comp.loadNeeded = true
