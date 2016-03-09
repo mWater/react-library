@@ -7,13 +7,17 @@ module.exports = class TabbedComponent extends React.Component
     tabs: React.PropTypes.array.isRequired # Array of { id, label, elem }
     initialTabId: React.PropTypes.string # Initially selected id of tab
     onAddTab: React.PropTypes.func    # Set to have a plus to add a tab
+    onTabClick: React.PropTypes.func    # Set to be called back when a tab is clicked (tabId) instead of setting internal state
 
   constructor: ->
     super
     @state = { tabId: @props.initialTabId }
 
   handleClick: (tabId) =>
-    @setState(tabId: tabId)
+    if @props.onTabClick?
+      @props.onTabClick(tabId)
+    else
+      @setState(tabId: tabId)
 
   renderTab: (tab) =>
     H.li key: tab.id, className: (if @state.tabId == tab.id then "active"),
