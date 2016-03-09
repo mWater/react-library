@@ -6,6 +6,7 @@ module.exports = class TabbedComponent extends React.Component
   @propTypes:
     tabs: React.PropTypes.array.isRequired # Array of { id, label, elem }
     initialTabId: React.PropTypes.string # Initially selected id of tab
+    tabId: React.PropTypes.string # Selected id of tab
     onAddTab: React.PropTypes.func    # Set to have a plus to add a tab
     onTabClick: React.PropTypes.func    # Set to be called back when a tab is clicked (tabId) instead of setting internal state
 
@@ -25,7 +26,11 @@ module.exports = class TabbedComponent extends React.Component
         tab.label
 
   render: ->
-    currentTab = _.findWhere(@props.tabs, id: @state.tabId)
+    if @props.tabId?
+      tabId = @props.tabId
+    else
+      tabId =  @state.tabId
+    currentTab = _.findWhere(@props.tabs, id: tabId)
 
     H.div null,
       H.ul key: "tabs", className: "nav nav-tabs", style: { marginBottom: 10 },
