@@ -55,6 +55,12 @@ class InnerModalComponent extends React.Component
   @propTypes: 
     isOpen: React.PropTypes.bool.isRequired
     onRequestClose: React.PropTypes.func
+    outerPadding: React.PropTypes.number  # Outer padding default 40
+    innerPadding: React.PropTypes.number  # Inner padding default 20
+
+  @defaultProps:
+    outerPadding: 40
+    innerPadding: 20
 
   render: ->
     if not @props.isOpen
@@ -72,10 +78,10 @@ class InnerModalComponent extends React.Component
 
     windowStyle = {
       position: "fixed"
-      left: 40
-      right: 40
-      top: 40
-      bottom: 40
+      left: @props.outerPadding
+      right: @props.outerPadding
+      top: @props.outerPadding
+      bottom: @props.outerPadding
       zIndex: 1030 # Below bootstrap modals
       backgroundColor: "white"
       borderRadius: 10
@@ -84,10 +90,10 @@ class InnerModalComponent extends React.Component
 
     contentStyle = {
       position: "absolute"
-      left: 20
-      right: 20
-      top: 20
-      bottom: 20
+      left: @props.innerPadding
+      right: @props.innerPadding
+      top: @props.innerPadding
+      bottom: @props.innerPadding
       overflowY: "auto"  # Allow scrolling
     }
 
