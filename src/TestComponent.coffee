@@ -20,14 +20,29 @@ module.exports = class TestComponent
   destroy: ->
     ReactDOM.unmountComponentAtNode(@div)
 
-  # Find a subcomponent by a patten
-  findComponentByText: (pattern) ->
-    return ReactTestUtils.findAllInRenderedTree(@comp, (c) -> 
-      # Only match DOM components with a child node that is matching string
-      if ReactTestUtils.isDOMComponent(c)
-        _.any(c.childNodes, (node) -> 
-          (node.nodeType == 3 or node.nodeType == 1) and node.textContent and node.textContent.match(pattern))
-      )[0]
+  # Finds DOM node by pattern (optional)
+  findDOMNodesByText: (pattern) ->
+    matches = []
+
+    findRecursively = (node) ->
+      # Recurse to children
+      if node.nodeType == 1
+        for subnode in node.childNodes
+          # Check text match
+          if subnode.nodeType == 3 and subnode.nodeValue.match(pattern)
+            matches.push(node)
+
+          findRecursively(subnode)
+
+    findRecursively(ReactDOM.findDOMNode(@comp))
+    return matches
+
+  # Finds a DOM node by pattern
+  findDOMNodeByText: (pattern) ->
+    return @findDOMNodesByText(pattern)[0]
+
+  # Find a subcomponent by a pattern (deprecated)
+  findComponentByText: (pattern) -> return findDOMNodesByText(pattern)
 
   # Find input field
   findInput: ->
