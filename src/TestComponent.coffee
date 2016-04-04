@@ -26,7 +26,7 @@ module.exports = class TestComponent
       # Only match DOM components with a child node that is matching string
       if ReactTestUtils.isDOMComponent(c)
         _.any(c.childNodes, (node) -> 
-          node.nodeType == 3 and node.textContent.match(pattern))
+          (node.nodeType == 3 or node.nodeType == 1) and node.textContent and node.textContent.match(pattern))
       )[0]
 
   # Find input field
