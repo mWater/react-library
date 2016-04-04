@@ -33,6 +33,11 @@ module.exports = class TestComponent
   findInput: ->
     return ReactTestUtils.findRenderedDOMComponentWithTag(@comp, "input")
 
+  findComponentById: (id) ->
+    return ReactTestUtils.findAllInRenderedTree(@comp, (c) ->
+      c.id == id
+    )[0]
+
   @click: (comp) -> ReactTestUtils.Simulate.click(comp)
   @pressEnter: (comp) -> ReactTestUtils.Simulate.keyDown(comp, {key: "Enter", keyCode: 13, which: 13})
   @pressTab: (comp) -> ReactTestUtils.Simulate.keyDown(comp, {key: "Tab", keyCode: 9, which: 9})
