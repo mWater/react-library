@@ -19,9 +19,9 @@
     "async": "^1.5.0",
     "classnames": "^2.2.1",
     "lodash": "^3.10.1",
-    "react": "^0.14.3",
+    "react": "^15.0.1",
     "react-component-resizable": "^0.3.0",
-    "react-dom": "^0.14.3",
+    "react-dom": "^15.0.1",
     "react-overlays": "^0.5.4"
   },
   "devDependencies": {
