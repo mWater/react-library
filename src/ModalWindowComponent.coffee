@@ -8,6 +8,7 @@ module.exports = class ModalWindowComponent extends React.Component
   @propTypes: 
     isOpen: React.PropTypes.bool.isRequired
     onRequestClose: React.PropTypes.func
+    backgroundColor: React.PropTypes.string
 
   componentDidMount: ->
     # Add special region to body
@@ -57,10 +58,12 @@ class InnerModalComponent extends React.Component
     onRequestClose: React.PropTypes.func
     outerPadding: React.PropTypes.number  # Outer padding default 40
     innerPadding: React.PropTypes.number  # Inner padding default 20
+    backgroundColor: React.PropTypes.string
 
   @defaultProps:
     outerPadding: 40
     innerPadding: 20
+    backgroundColor: "white"
 
   render: ->
     if not @props.isOpen
@@ -83,7 +86,7 @@ class InnerModalComponent extends React.Component
       top: @props.outerPadding
       bottom: @props.outerPadding
       zIndex: 1030 # Below bootstrap modals
-      backgroundColor: "white"
+      backgroundColor: @props.backgroundColor
       borderRadius: 10
       border: "solid 1px #AAA"
     }
@@ -104,10 +107,10 @@ class InnerModalComponent extends React.Component
       color: "#888"
     }
 
-    H.div className: "mwater-visualization-modal-window-component",
+    H.div className: "modal-window-component",
       H.style null, '''body { overflow-y: hidden }'''
-      H.div style: overlayStyle, onClick: @props.onRequestClose
-      H.div style: windowStyle,
+      H.div style: overlayStyle, onClick: @props.onRequestClose, className: "modal-window-component-overlay",
+      H.div style: windowStyle, className: "modal-window-component-window",
         if @props.onRequestClose
           H.div style: closeStyle,
             H.span className: "glyphicon glyphicon-remove", onClick: @props.onRequestClose
