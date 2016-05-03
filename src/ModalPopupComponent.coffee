@@ -91,11 +91,6 @@ class ModalComponentContent extends React.Component
     showCloseX: React.PropTypes.bool # True to show close 'x' at top right
     onClose: React.PropTypes.func # callback function to be called when close is requested
 
-  componentDidMount: ->
-    # Fix popup + select2 issues
-    # https://github.com/select2/select2/issues/1645
-    $(".modal-dialog").removeAttr("tabindex")
-
   render: ->
     H.div className: "modal-content",
       if @props.header
