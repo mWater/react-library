@@ -5,10 +5,6 @@ _ = require 'lodash'
 Modal = require 'react-overlays/lib/Modal'
 className = require "classnames"
 
-# Fix popup + select2 issues
-# https://github.com/select2/select2/issues/1645
-$.fn.modal.Constructor.prototype.enforceFocus = (->)
-
 # Modal popup
 module.exports = class ModalPopupComponent extends React.Component
   @propTypes:
@@ -94,6 +90,11 @@ class ModalComponentContent extends React.Component
     size: React.PropTypes.string # "large" for large
     showCloseX: React.PropTypes.bool # True to show close 'x' at top right
     onClose: React.PropTypes.func # callback function to be called when close is requested
+
+  componentDidMount: ->
+    # Fix popup + select2 issues
+    # https://github.com/select2/select2/issues/1645
+    $(".modal-dialog").removeAttr("tabindex")
 
   render: ->
     H.div className: "modal-content",
