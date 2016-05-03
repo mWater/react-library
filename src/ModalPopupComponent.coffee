@@ -5,6 +5,10 @@ _ = require 'lodash'
 Modal = require 'react-overlays/lib/Modal'
 className = require "classnames"
 
+# Fix popup + select2 issues
+# https://github.com/select2/select2/issues/1645
+$.fn.modal.Constructor.prototype.enforceFocus = (->)
+
 # Modal popup
 module.exports = class ModalPopupComponent extends React.Component
   @propTypes:
