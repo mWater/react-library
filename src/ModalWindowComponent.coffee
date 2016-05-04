@@ -109,7 +109,7 @@ class InnerModalComponent extends React.Component
 
     H.div className: "modal-window-component",
       H.style null, '''body { overflow-y: hidden }'''
-      H.div style: overlayStyle, onClick: @props.onRequestClose, className: "modal-window-component-overlay",
+      H.div style: overlayStyle, onClick: @props.onRequestClose, className: "modal-window-component-overlay"
       H.div style: windowStyle, className: "modal-window-component-window",
         if @props.onRequestClose
           H.div style: closeStyle,
