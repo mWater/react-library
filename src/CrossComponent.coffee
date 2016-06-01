@@ -16,12 +16,13 @@ module.exports = class CrossComponent extends React.Component
     width: "100%"
     height: "100%"
 
+  # Make sure to always use className flexBox and not style: {display: 'flex'} (or else it won't work on all browsers)
   render: ->
     # Make horizontal two boxes
-    H.div style: { display: "flex", flexDirection: "column", width: @props.width, height: @props.height },
-      H.div style: { display: "flex", flex: (if @props.collapseTop then "0 1 0px" else "1 1 0px") }, 
-        H.div style: { flex: "1 1 0px", borderRight: @props.n, borderBottom: @props.w }
-        H.div style: { flex: "1 1 0px", borderBottom: @props.e }
-      H.div style: { display: "flex", flex: "1 1 0px" },
-        H.div style: { flex: "1 1 0px", borderRight: @props.s }
-        H.div style: { flex: "1 1 0px" }
+    H.div className: "flexBox", style: { display: "flex", flexDirection: "column", width: @props.width, height: @props.height },
+      H.div className: "flexBox", style: { display: "flex", flex: (if @props.collapseTop then "0 1 0px" else "1 1 0px") },
+        H.div className: "flexBox", style: { flex: "1 1 0px", borderRight: @props.n, borderBottom: @props.w }
+        H.div className: "flexBox", style: { flex: "1 1 0px", borderBottom: @props.e }
+      H.div className: "flexBox", style: { display: "flex", flex: "1 1 0px" },
+        H.div className: "flexBox", style: { flex: "1 1 0px", borderRight: @props.s }
+        H.div className: "flexBox", style: { flex: "1 1 0px" }
