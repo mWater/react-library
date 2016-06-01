@@ -11,3 +11,16 @@
 	height: 4px;
 	cursor: row-resize;
 }
+
+/* FlexBox is not super consistent across browsers
+   http://caniuse.com/#feat=flexbox # To know the level of support of various browsers
+   http://stackoverflow.com/questions/28976288/flexbox-not-working-in-safari # I've lost the link to that complete list, but this explain why we need different display values
+*/
+
+.flexBox {
+	display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;    /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;  /* TWEENER - IE 10 */
+	display: -webkit-flex; /* NEW - Chrome */
+	display: flex;         /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
