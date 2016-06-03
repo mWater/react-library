@@ -65,6 +65,7 @@ class SortableSampleItem extends React.Component
       @props.connectDragSource(H.span {style: handleStyle})
       H.span null,
         @props.item.id
+      R SortableContainer, {items: @props.item.children, updateOrder: @props.updateOrder, renderItem: @props.renderItem, parentIndex: @props.index, constrainTo: @props.item.id}
 
 class SortableSample extends React.Component
   constructor: ->
@@ -115,25 +116,8 @@ class SortableSample extends React.Component
       ]
 
   renderItem: (item, index, connectDragSource ) =>
-    if item.children.length > 0
-      style=
-        padding: 10
-        paddingLeft: 20
-
-      handleStyle =
-        height: 10
-        width: 10
-        background: "green"
-        marginLeft: -15
-        display: "inline-block"
-        cursor: "move"
-
-      H.div {style: style},
-        connectDragSource(H.span {style: handleStyle})
-        R SortableContainer, {items: item.children, updateOrder: @updateOrder, renderItem: @renderItem, parentIndex: index, constrainTo: item.id}
-    else
-      H.div null,
-        R SortableSampleItem, {item: item, index: index, connectDragSource:connectDragSource}
+    H.div null,
+      R SortableSampleItem, {item: item, index: index, connectDragSource:connectDragSource, updateOrder: @updateOrder, renderItem: @renderItem}
 
   updateOrder: (dragItemIndex, hoverItemIndex, dragArrayIndex, hoverArrayIndex) =>
     items = @state.items.splice(0)

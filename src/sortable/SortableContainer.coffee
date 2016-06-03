@@ -11,16 +11,18 @@ class SortableContainer extends React.Component
     items: React.PropTypes.array.isRequired # items to be sorted
     updateOrder: React.PropTypes.func.isRequired #callback
     renderItem: React.PropTypes.func.isRequired
-
+    onReorder: React.PropTypes.func.isRequired
   render: ->
-    H.div null,
+    style=
+      paddingLeft: 20
+    H.div {style: style},
       _.map @props.items, (item, index) =>
         params =
           item: item
           index: index
           renderItem: @props.renderItem
           updateOrder: @props.updateOrder
-          key: index
+          key: item.id
           parentIndex: @props.parentIndex
           constrainTo: @props.constrainTo
         R SortableItem, params
