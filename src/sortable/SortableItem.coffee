@@ -8,13 +8,10 @@ DropTarget = require('react-dnd').DropTarget
 
 itemTarget =
   drop: (props, monitor, component) ->
-    console.log monitor.getItem()
     dragItemIndex = monitor.getItem().index
     hoverItemIndex = props.index
 
-    dragArrayIndex = monitor.getItem().parentIndex
-    hoverArrayIndex = props.parentIndex
-    props.updateOrder(dragItemIndex, hoverItemIndex, dragArrayIndex, hoverArrayIndex)
+    props.updateOrder(dragItemIndex, hoverItemIndex)
     return {}
 
   canDrop: (props, monitor) ->
@@ -31,7 +28,6 @@ itemSource = {
   beginDrag: (props) ->
     return {
       id: props.item
-      parentIndex: props.parentIndex
       index: props.index
       constrainTo: props.constrainTo
     }

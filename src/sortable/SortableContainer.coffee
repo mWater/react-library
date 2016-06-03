@@ -1,4 +1,5 @@
 _ = require 'lodash'
+uuid = require 'node-uuid'
 React = require 'react'
 H = React.DOM
 R = React.createElement
@@ -11,8 +12,18 @@ class SortableContainer extends React.Component
     items: React.PropTypes.array.isRequired # items to be sorted
     updateOrder: React.PropTypes.func.isRequired #callback
     renderItem: React.PropTypes.func.isRequired
-    onReorder: React.PropTypes.func.isRequired
+
+  reorder: (dragIndex, hoverIndex) =>
+    items = @props.items.splice(0)
+
+    draggedItem = items[dragIndex]
+
+    items.splice(dragIndex, 1);
+    items.splice(hoverIndex, 0, draggedItem);
+    @props.updateOrder(items)
+
   render: ->
+    id = uuid.v4()
     style=
       paddingLeft: 20
     H.div {style: style},
@@ -21,10 +32,9 @@ class SortableContainer extends React.Component
           item: item
           index: index
           renderItem: @props.renderItem
-          updateOrder: @props.updateOrder
+          updateOrder: @reorder
           key: item.id
-          parentIndex: @props.parentIndex
-          constrainTo: @props.constrainTo
+          constrainTo: id
         R SortableItem, params
 
 module.exports = DragDropContext(HTML5Backend)(SortableContainer)

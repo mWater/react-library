@@ -65,7 +65,7 @@ class SortableSampleItem extends React.Component
       @props.connectDragSource(H.span {style: handleStyle})
       H.span null,
         @props.item.id
-      R SortableContainer, {items: @props.item.children, updateOrder: @props.updateOrder, renderItem: @props.renderItem, parentIndex: @props.index, constrainTo: @props.item.id}
+      R SortableContainer, {items: @props.item.children, updateOrder: @props.updateOrder, renderItem: @props.renderItem}
 
 class SortableSample extends React.Component
   constructor: ->
@@ -92,7 +92,16 @@ class SortableSample extends React.Component
             children:
               [
                 id: "hulk-blue"
-                children: []
+                children:
+                  [
+                    id: "hulk-blue-white"
+                    children: []
+                    parent: "hulk-blue"
+                  ,
+                    id: "hulk-blue-black"
+                    children: []
+                    parent: "hulk-blue"
+                  ]
                 parent: "hulk"
               ,
                 id: "hulk-white"
@@ -119,25 +128,33 @@ class SortableSample extends React.Component
     H.div null,
       R SortableSampleItem, {item: item, index: index, connectDragSource:connectDragSource, updateOrder: @updateOrder, renderItem: @renderItem}
 
-  updateOrder: (dragItemIndex, hoverItemIndex, dragArrayIndex, hoverArrayIndex) =>
-    items = @state.items.splice(0)
+  updateOrder: (reorderedList) =>
+    item = reorderedList[0]
 
-    sourceArray = if dragArrayIndex == null then items else items[dragArrayIndex].children
-    targetArray = if hoverArrayIndex == null then items else items[hoverArrayIndex].children
+    if item.parent == null
+      @setState(items: reorderedList)
+    else
+      items = @state.items.splice(0)
+      node = @findNodeById(items, item.parent)
+      node.children = reorderedList
+      @setState(items: items)
 
-    draggedItem = sourceArray[dragItemIndex]
+  findNodeById: (items, id) ->
+    for value, index in items
+      if value.id == id
+        return value
 
-    sourceArray.splice(dragItemIndex, 1);
-    targetArray.splice(hoverItemIndex, 0, draggedItem);
-
-    @setState(items: items)
-
+      if value.children and value.children.length
+        result = @findNodeById(value.children, id)
+        if result
+          return result
+    return false
 
   render: ->
     style=
       padding: 10
     H.div {style: style},
-      R SortableContainer, {items: @state.items, updateOrder: @updateOrder, renderItem: @renderItem, parentIndex: null, constrainTo: ""}
+      R SortableContainer, {items: @state.items, updateOrder: @updateOrder, renderItem: @renderItem}
 # Wait for DOM to load
 $ ->
   # elem = R VerticalTreeLayoutComponent,
