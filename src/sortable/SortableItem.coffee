@@ -18,8 +18,7 @@ itemTarget =
     return {}
 
   canDrop: (props, monitor) ->
-    true
-#    props.constrainTo == monitor.getItem().constrainTo
+    props.constrainTo == monitor.getItem().constrainTo
 
 collectTarget = (connect, monitor) ->
   return {
@@ -61,7 +60,7 @@ class SortableItem extends React.Component
     renderItem: React.PropTypes.func.isRequired
     constrainTo: React.PropTypes.string
 
-  renderItem: ->
+  renderItem: (connectDragSource) ->
     opacity = if @props.isDragging then 0 else 1
 
     style =
@@ -71,12 +70,12 @@ class SortableItem extends React.Component
       style.border = "1px dashed #eee"
       style.opacity = 0.6
     H.div style: style,
-      @props.renderItem(@props.item, @props.index)
+      @props.renderItem(@props.item, @props.index, connectDragSource)
 
   render: ->
     connectDropTarget = @props.connectDropTarget
     connectDragPreview = @props.connectDragPreview
     connectDragSource = @props.connectDragSource
-    connectDragPreview(connectDragSource(connectDropTarget(@renderItem())))
+    connectDragPreview(connectDropTarget(@renderItem(connectDragSource)))
 
 module.exports = _.flow(DragSource("form-item", itemSource, collectSource), DropTarget("form-item", itemTarget, collectTarget))(SortableItem)

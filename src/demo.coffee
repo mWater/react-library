@@ -53,9 +53,18 @@ class SortableSampleItem extends React.Component
     itemStyle =
       border: "1px solid #aeaeae"
       padding: "8px"
+
+    handleStyle =
+      height: 10
+      width: 10
+      background: "green"
+      marginRight: 10
+      display: "inline-block"
       cursor: "move"
     H.div {style: itemStyle},
-      @props.item.id
+      @props.connectDragSource(H.span {style: handleStyle})
+      H.span null,
+        @props.item.id
 
 class SortableSample extends React.Component
   constructor: ->
@@ -79,7 +88,16 @@ class SortableSample extends React.Component
             parent: "green"
           ,
             id: "hulk"
-            children: []
+            children:
+              [
+                id: "hulk-blue"
+                children: []
+                parent: "hulk"
+              ,
+                id: "hulk-white"
+                children: []
+                parent: "hulk"
+              ]
             parent: "green"
           ]
       ,
@@ -96,17 +114,26 @@ class SortableSample extends React.Component
         parent: null
       ]
 
-  renderItem: (item, index ) =>
+  renderItem: (item, index, connectDragSource ) =>
     if item.children.length > 0
       style=
         padding: 10
         paddingLeft: 20
+
+      handleStyle =
+        height: 10
+        width: 10
+        background: "green"
+        marginLeft: -15
+        display: "inline-block"
+        cursor: "move"
+
       H.div {style: style},
+        connectDragSource(H.span {style: handleStyle})
         R SortableContainer, {items: item.children, updateOrder: @updateOrder, renderItem: @renderItem, parentIndex: index, constrainTo: item.id}
-#        R SortableSampleItemGroup, { items: item.children, index: index }
     else
       H.div null,
-        R SortableSampleItem, {item: item, index: index}
+        R SortableSampleItem, {item: item, index: index, connectDragSource:connectDragSource}
 
   updateOrder: (dragItemIndex, hoverItemIndex, dragArrayIndex, hoverArrayIndex) =>
     items = @state.items.splice(0)
