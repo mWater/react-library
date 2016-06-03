@@ -8,6 +8,7 @@ SampleComponent = require './SampleComponent'
 ModalPopupComponent = require './ModalPopupComponent'
 ModalWindowComponent = require './ModalWindowComponent'
 VerticalTreeLayoutComponent = require './VerticalTreeLayoutComponent'
+SortableContainer = require "./sortable/SortableContainer"
 
 class Block extends React.Component
   render: ->
@@ -47,7 +48,85 @@ class ModalSample extends React.Component
       #   R ModalWindowComponent, { isOpen: true, onRequestClose: @handleModalClose },
       #     R ModalSample
 
+class SortableSampleItem extends React.Component
+  render: ->
+    itemStyle =
+      border: "1px solid #aeaeae"
+      padding: "8px"
+      cursor: "move"
+    H.div {style: itemStyle},
+      @props.item.id
 
+class SortableSample extends React.Component
+  constructor: ->
+    super
+    @state =
+      items: [
+        id: "red"
+        children: []
+        parent: null
+      ,
+        id: "green"
+        parent: null
+        children:
+          [
+            id: "leaves"
+            children: []
+            parent: "green"
+          ,
+            id: "plants"
+            children: []
+            parent: "green"
+          ,
+            id: "hulk"
+            children: []
+            parent: "green"
+          ]
+      ,
+        id: "blue"
+        children: []
+        parent: null
+      ,
+        id: "white"
+        children: []
+        parent: null
+      ,
+        id: "black"
+        children: []
+        parent: null
+      ]
+
+  renderItem: (item, index ) =>
+    if item.children.length > 0
+      style=
+        padding: 10
+        paddingLeft: 20
+      H.div {style: style},
+        R SortableContainer, {items: item.children, updateOrder: @updateOrder, renderItem: @renderItem, parentIndex: index, constrainTo: item.id}
+#        R SortableSampleItemGroup, { items: item.children, index: index }
+    else
+      H.div null,
+        R SortableSampleItem, {item: item, index: index}
+
+  updateOrder: (dragItemIndex, hoverItemIndex, dragArrayIndex, hoverArrayIndex) =>
+    items = @state.items.splice(0)
+
+    sourceArray = if dragArrayIndex == null then items else items[dragArrayIndex].children
+    targetArray = if hoverArrayIndex == null then items else items[hoverArrayIndex].children
+
+    draggedItem = sourceArray[dragItemIndex]
+
+    sourceArray.splice(dragItemIndex, 1);
+    targetArray.splice(hoverItemIndex, 0, draggedItem);
+
+    @setState(items: items)
+
+
+  render: ->
+    style=
+      padding: 10
+    H.div {style: style},
+      R SortableContainer, {items: @state.items, updateOrder: @updateOrder, renderItem: @renderItem, parentIndex: null, constrainTo: ""}
 # Wait for DOM to load
 $ ->
   # elem = R VerticalTreeLayoutComponent,
@@ -76,9 +155,7 @@ $ ->
 #        R ModalPopupComponent, { header: "INNER-2", size: "large", trigger: H.a(null, "Open Modal") },
 #          "The last modal"
 
-  elem = R ModalSample
-
-
+  elem = R SortableSample
 
 
   ReactDOM.render(elem, document.getElementById("main"))
