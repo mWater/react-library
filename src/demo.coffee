@@ -3,12 +3,13 @@ ReactDOM = require 'react-dom'
 H = React.DOM
 R = React.createElement
 _ = require 'lodash'
+uuid = require 'node-uuid'
 
 SampleComponent = require './SampleComponent'
 ModalPopupComponent = require './ModalPopupComponent'
 ModalWindowComponent = require './ModalWindowComponent'
 VerticalTreeLayoutComponent = require './VerticalTreeLayoutComponent'
-SortableContainer = require "./sortable/SortableContainer"
+ReorderableListComponent = require "./reorderable/ReorderableListComponent"
 
 class Block extends React.Component
   render: ->
@@ -50,6 +51,7 @@ class ModalSample extends React.Component
 
 class SortableSampleItem extends React.Component
   render: ->
+    id = uuid.v4()
     itemStyle =
       border: "1px solid #aeaeae"
       padding: "8px"
@@ -65,7 +67,7 @@ class SortableSampleItem extends React.Component
       @props.connectDragSource(H.span {style: handleStyle})
       H.span null,
         @props.item.id
-      R SortableContainer, {items: @props.item.children, updateOrder: @props.updateOrder, renderItem: @props.renderItem}
+      R ReorderableListComponent, {items: @props.item.children, onReorder: @props.updateOrder, getItemIdentifier: @props.getItemIdentifier, renderItem: @props.renderItem, listId: id}
 
 class SortableSample extends React.Component
   constructor: ->
@@ -126,7 +128,7 @@ class SortableSample extends React.Component
 
   renderItem: (item, index, connectDragSource ) =>
     H.div null,
-      R SortableSampleItem, {item: item, index: index, connectDragSource:connectDragSource, updateOrder: @updateOrder, renderItem: @renderItem}
+      R SortableSampleItem, {item: item, index: index, connectDragSource:connectDragSource, updateOrder: @updateOrder, renderItem: @renderItem, getItemIdentifier: @getItemIdentifier}
 
   updateOrder: (reorderedList) =>
     item = reorderedList[0]
@@ -150,11 +152,15 @@ class SortableSample extends React.Component
           return result
     return false
 
+  getItemIdentifier: (item) ->
+    item.id
+
   render: ->
+    id = uuid.v4()
     style=
       padding: 10
     H.div {style: style},
-      R SortableContainer, {items: @state.items, updateOrder: @updateOrder, renderItem: @renderItem}
+      R ReorderableListComponent, {items: @state.items, onReorder: @updateOrder, renderItem: @renderItem, listId: id, getItemIdentifier: @getItemIdentifier}
 # Wait for DOM to load
 $ ->
   # elem = R VerticalTreeLayoutComponent,

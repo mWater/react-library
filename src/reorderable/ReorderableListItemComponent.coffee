@@ -2,6 +2,7 @@ _ = require 'lodash'
 React = require 'react'
 H = React.DOM
 R = React.createElement
+ReactDOM = require 'react-dom'
 
 DragSource = require('react-dnd').DragSource
 DropTarget = require('react-dnd').DropTarget
@@ -13,6 +14,29 @@ itemTarget =
 
     props.updateOrder(dragItemIndex, hoverItemIndex)
     return {}
+
+  hover: (props, monitor, component) ->
+    dragIndex = monitor.getItem().index
+    hoverIndex = props.index
+
+    if dragIndex == hoverIndex
+      return
+
+    if props.constrainTo != monitor.getItem().constrainTo
+      return
+
+    hoverBoundingRect = ReactDOM.findDOMNode(component).getBoundingClientRect()
+    hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+    clientOffset = monitor.getClientOffset()
+    hoverClientY = clientOffset.y - hoverBoundingRect.top
+
+    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY)
+      return
+
+    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY)
+      return
+
+    props.dragPast(dragIndex, hoverIndex)
 
   canDrop: (props, monitor) ->
     props.constrainTo == monitor.getItem().constrainTo
@@ -26,8 +50,9 @@ collectTarget = (connect, monitor) ->
 
 itemSource = {
   beginDrag: (props) ->
+#    props.onDragStart(props.index)
     return {
-      id: props.item
+      id: props.getItemIdentifier(props.item)
       index: props.index
       constrainTo: props.constrainTo
     }
@@ -40,7 +65,7 @@ collectSource = (connect, monitor) ->
     isDragging: monitor.isDragging()
   }
 
-class SortableItem extends React.Component
+class ReorderableListItemComponent extends React.Component
   @propTypes:
     item: React.PropTypes.object.isRequired #the sortable item
     parentId: React.PropTypes.string # parent item id to constrain ordering
@@ -54,7 +79,9 @@ class SortableItem extends React.Component
     index: React.PropTypes.number.isRequired
 
     renderItem: React.PropTypes.func.isRequired
+    dragPast: React.PropTypes.func.isRequired
     constrainTo: React.PropTypes.string
+    getItemIdentifier: React.PropTypes.func.isRequired
 
   renderItem: (connectDragSource) ->
     opacity = if @props.isDragging then 0 else 1
@@ -74,4 +101,4 @@ class SortableItem extends React.Component
     connectDragSource = @props.connectDragSource
     connectDragPreview(connectDropTarget(@renderItem(connectDragSource)))
 
-module.exports = _.flow(DragSource("form-item", itemSource, collectSource), DropTarget("form-item", itemTarget, collectTarget))(SortableItem)
+module.exports = _.flow(DragSource("form-item", itemSource, collectSource), DropTarget("form-item", itemTarget, collectTarget))(ReorderableListItemComponent)
