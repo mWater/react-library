@@ -56,7 +56,7 @@ collectTarget = (connect, monitor) ->
 itemSource = {
   beginDrag: (props) ->
     return {
-      id: props.getItemIdentifier(props.item)
+      id: props.getItemId(props.item)
       index: props.index
       constrainTo: props.constrainTo
     }
@@ -84,7 +84,7 @@ class ReorderableListItemComponent extends React.Component
     renderItem: React.PropTypes.func.isRequired # function to render the current item, passed by ReorderableListComponent
     dragPast: React.PropTypes.func.isRequired # function called when an item is drag passed another item
     constrainTo: React.PropTypes.string.isRequired # the ID of the list where reordering is constrained to
-    getItemIdentifier: React.PropTypes.func.isRequired # function to return the identifier of the current item
+    getItemId: React.PropTypes.func.isRequired # function to return the identifier of the current item
 
   renderItem: (connectDragSource) ->
     opacity = if @props.isDragging then 0 else 1

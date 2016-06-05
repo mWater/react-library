@@ -14,11 +14,11 @@ class ReorderableListComponent extends React.Component
     onReorder: React.PropTypes.func.isRequired # callback function, called when an item is dropped, gets passed the reordered item list
     renderItem: React.PropTypes.func.isRequired # function which renders the item, gets passed the current item
     listId: React.PropTypes.string.isRequired # a uniqid for the list
-    getItemIdentifier: React.PropTypes.func.isRequired # function which should return the identifier of the current item, gets passed the current item
+    getItemId: React.PropTypes.func.isRequired # function which should return the identifier of the current item, gets passed the current item
 
   constructor: ->
     super
-    order = _.map @props.items, (item) => @props.getItemIdentifier(item)
+    order = _.map @props.items, (item) => @props.getItemId(item)
     @state = {
       initialOrder: order
       order: order
@@ -45,15 +45,15 @@ class ReorderableListComponent extends React.Component
     items.splice(dragIndex, 1)
     items.splice(hoverIndex, 0, draggedItem)
 
-    order = _.map items, (item) => @props.getItemIdentifier(item)
+    order = _.map items, (item) => @props.getItemId(item)
     @setState(initialOrder: order, dropItem: null, order: order)
     @props.onReorder(items)
 
   fixOrder: (items) =>
     items.sort (left, right) =>
-      if @state.order.indexOf(@props.getItemIdentifier(left)) < @state.order.indexOf(@props.getItemIdentifier(right))
+      if @state.order.indexOf(@props.getItemId(left)) < @state.order.indexOf(@props.getItemId(right))
         return -1
-      if @state.order.indexOf(@props.getItemIdentifier(left)) > @state.order.indexOf(@props.getItemIdentifier(right))
+      if @state.order.indexOf(@props.getItemId(left)) > @state.order.indexOf(@props.getItemId(right))
         return 1
       return 0
 
@@ -71,10 +71,10 @@ class ReorderableListComponent extends React.Component
           index: index
           renderItem: @props.renderItem
           onReorder: @reorder
-          key: @props.getItemIdentifier(item)
+          key: @props.getItemId(item)
           constrainTo: @props.listId
           dragPast: @dragPast
-          getItemIdentifier: @props.getItemIdentifier
+          getItemId: @props.getItemId
         R ReorderableListItemComponent, params
 
 module.exports = DragDropContext(HTML5Backend)(ReorderableListComponent)

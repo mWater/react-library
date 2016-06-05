@@ -67,7 +67,7 @@ class SortableSampleItem extends React.Component
       @props.connectDragSource(H.span {style: handleStyle})
       H.span null,
         @props.item.id
-      R ReorderableListComponent, {items: @props.item.children, onReorder: @props.updateOrder, getItemIdentifier: @props.getItemIdentifier, renderItem: @props.renderItem, listId: id}
+      R ReorderableListComponent, {items: @props.item.children, onReorder: @props.updateOrder, getItemId: @props.getItemId, renderItem: @props.renderItem, listId: id}
 
 class SortableSample extends React.Component
   constructor: ->
@@ -128,7 +128,7 @@ class SortableSample extends React.Component
 
   renderItem: (item, index, connectDragSource ) =>
     H.div null,
-      R SortableSampleItem, {item: item, index: index, connectDragSource:connectDragSource, updateOrder: @updateOrder, renderItem: @renderItem, getItemIdentifier: @getItemIdentifier}
+      R SortableSampleItem, {item: item, index: index, connectDragSource:connectDragSource, updateOrder: @updateOrder, renderItem: @renderItem, getItemId: @getItemId}
 
   updateOrder: (reorderedList) =>
     item = reorderedList[0]
@@ -152,7 +152,7 @@ class SortableSample extends React.Component
           return result
     return false
 
-  getItemIdentifier: (item) ->
+  getItemId: (item) ->
     item.id
 
   render: ->
@@ -160,7 +160,7 @@ class SortableSample extends React.Component
     style=
       padding: 10
     H.div {style: style},
-      R ReorderableListComponent, {items: @state.items, onReorder: @updateOrder, renderItem: @renderItem, listId: id, getItemIdentifier: @getItemIdentifier}
+      R ReorderableListComponent, {items: @state.items, onReorder: @updateOrder, renderItem: @renderItem, listId: id, getItemId: @getItemId}
 # Wait for DOM to load
 $ ->
   # elem = R VerticalTreeLayoutComponent,
