@@ -25,6 +25,11 @@ class ReorderableListComponent extends React.Component
       dropItem: null
     }
 
+  componentWillReceiveProps: (nextProps) ->
+    if nextProps.items.length != @state.initialOrder.length
+      order = _.map nextProps.items, (item) => @props.getItemId(item)
+      @setState(initialOrder: order, dropItem: null, order: order)
+
   dragPast: (dragIndex, hoverIndex) =>
     if @state.dropItem == hoverIndex
       return
