@@ -155,11 +155,23 @@ class SortableSample extends React.Component
   getItemId: (item) ->
     item.id
 
+  addNewItem: =>
+    items = @state.items.splice(0)
+    id = uuid.v4()
+    items.push({
+      id: id,
+      children: [],
+      parent: null
+    })
+    @setState(items: items)
+
   render: ->
     id = uuid.v4()
     style=
       padding: 10
     H.div {style: style},
+      H.button onClick: @addNewItem,
+        "Add new item"
       R ReorderableListComponent, {items: @state.items, onReorder: @updateOrder, renderItem: @renderItem, listId: id, getItemId: @getItemId}
 # Wait for DOM to load
 $ ->
