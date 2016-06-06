@@ -21,10 +21,6 @@ itemTarget =
     dragIndex = monitor.getItem().index
     hoverIndex = props.index
 
-    # if the item being dragged and the current component is same do nothing
-    if dragIndex == hoverIndex
-      return
-
     # if the list ID of the item being dragged is not the same as the list ID of current component, do nothing
     if props.constrainTo != monitor.getItem().constrainTo
       return
