@@ -83,7 +83,7 @@ class ReorderableListItemComponent extends React.Component
     getItemId: React.PropTypes.func.isRequired # function to return the identifier of the current item
 
   renderItem: (connectDragSource) ->
-    opacity = if @props.isDragging then 0 else 1
+    opacity = if @props.isDragging then 0.4 else 1
 
     style =
       opacity: opacity
