@@ -13,6 +13,17 @@ itemTarget =
     dragItemIndex = monitor.getItem().index
     hoverItemIndex = props.index
 
+    hoverBoundingRect = ReactDOM.findDOMNode(component).getBoundingClientRect()
+    hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+    clientOffset = monitor.getClientOffset()
+    hoverClientY = clientOffset.y - hoverBoundingRect.top
+
+    if (dragItemIndex < hoverItemIndex && hoverClientY < hoverMiddleY)
+      return {}
+
+    if (dragItemIndex > hoverItemIndex && hoverClientY > hoverMiddleY)
+      return {}
+
     props.onReorder(dragItemIndex, hoverItemIndex)
     return {}
 
