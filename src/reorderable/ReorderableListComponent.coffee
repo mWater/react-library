@@ -18,47 +18,55 @@ class ReorderableListComponent extends React.Component
 
   constructor: ->
     super
+
     order = _.map @props.items, (item) => @props.getItemId(item)
     @state = {
       initialOrder: order
       order: order
-      dropItem: null
     }
 
   componentWillReceiveProps: (nextProps) ->
     order = _.map nextProps.items, (item) => @props.getItemId(item)
     if not _.isEqual(order, @state.initialOrder)
-      @setState(initialOrder: order, dropItem: null, order: order)
+      @setState(initialOrder: order, order: order)
 
-  dragPast: (dragIndex, hoverIndex) =>
-    if @state.dropItem == hoverIndex
-      return
+  # Put beforeId right before id
+  handlePutBefore: (id, beforeId, isDrop) =>
+    order = @state.initialOrder.slice()
 
-    order = @state.initialOrder.slice(0)
+    # Remove beforeId and splice in
+    order = _.without(order, beforeId)
+    index = order.indexOf(id)
+    console.log index
+    order.splice(index, 0, beforeId)
 
-    draggedItem = order[dragIndex]
+    @setState(order: order)
 
-    order.splice(dragIndex, 1);
-    order.splice(hoverIndex, 0, draggedItem);
+    # Make permanent
+    if isDrop
+      @props.onReorder(@fixOrder(@props.items, order))
 
-    @setState(order: order, dropItem: hoverIndex)
+  # Put afterId right after id
+  handlePutAfter: (id, afterId, isDrop) =>
+    order = @state.initialOrder.slice()
 
-  reorder: (dragIndex, hoverIndex) =>
-    items = @props.items.slice(0)
-    draggedItem = items[dragIndex]
+    # Remove afterId and splice in
+    order = _.without(order, afterId)
+    index = order.indexOf(id)
+    order.splice(index + 1, 0, afterId)
 
-    items.splice(dragIndex, 1)
-    items.splice(hoverIndex, 0, draggedItem)
+    @setState(order: order)
 
-    order = _.map items, (item) => @props.getItemId(item)
-    @setState(initialOrder: order, dropItem: null, order: order)
-    @props.onReorder(items)
+    # Make permanent
+    if isDrop
+      @props.onReorder(@fixOrder(@props.items, order))
 
-  fixOrder: (items) =>
+  # Re-arrange items to match the order of order (list of ids)
+  fixOrder: (items, order) =>
     items.sort (left, right) =>
-      if @state.order.indexOf(@props.getItemId(left)) < @state.order.indexOf(@props.getItemId(right))
+      if order.indexOf(@props.getItemId(left)) < order.indexOf(@props.getItemId(right))
         return -1
-      if @state.order.indexOf(@props.getItemId(left)) > @state.order.indexOf(@props.getItemId(right))
+      if order.indexOf(@props.getItemId(left)) > order.indexOf(@props.getItemId(right))
         return 1
       return 0
 
@@ -66,8 +74,8 @@ class ReorderableListComponent extends React.Component
     style=
       paddingLeft: 20
 
-    items = @props.items.slice(0)
-    @fixOrder(items)
+    items = @props.items.slice()
+    @fixOrder(items, @state.order)
 
     H.div {style: style},
       _.map items, (item, index) =>
@@ -75,11 +83,11 @@ class ReorderableListComponent extends React.Component
           item: item
           index: index
           renderItem: @props.renderItem
-          onReorder: @reorder
           key: @props.getItemId(item)
           constrainTo: @props.listId
-          dragPast: @dragPast
           getItemId: @props.getItemId
+          onPutAfter: @handlePutAfter
+          onPutBefore: @handlePutBefore
         R ReorderableListItemComponent, params
 
 module.exports = DragDropContext(HTML5Backend)(ReorderableListComponent)

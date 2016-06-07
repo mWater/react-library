@@ -7,47 +7,46 @@ ReactDOM = require 'react-dom'
 DragSource = require('react-dnd').DragSource
 DropTarget = require('react-dnd').DropTarget
 
+# Handles drags and hovers
+dragOrHover = (props, monitor, component, isDrop) ->
+  # Hovering over self does nothing
+  hoveringId = monitor.getItem().id
+  myId = props.getItemId(props.item)
+  if hoveringId == myId
+    return
+
+  # If the list ID of the item being dragged is not the same as the list ID of current component, do nothing
+  if props.constrainTo != monitor.getItem().constrainTo
+    return
+
+  hoverBoundingRect = ReactDOM.findDOMNode(component).getBoundingClientRect()
+
+  hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+  clientOffset = monitor.getClientOffset()
+
+  # Get position within hovered item
+  hoverClientY = clientOffset.y - hoverBoundingRect.top
+
+  # If is in top half, and is within the height of the dragged item
+  if (hoverClientY < hoverMiddleY) and (hoverClientY < monitor.getItem().height)
+    # Put before
+    props.onPutBefore(myId, hoveringId, isDrop)
+    return
+
+  # If is in bottom half, and is within the height of the dragged item
+  if (hoverClientY > hoverMiddleY) and (hoverClientY > hoverBoundingRect.height - monitor.getItem().height)
+    # Put before
+    props.onPutAfter(myId, hoveringId, isDrop)
+    return
+
 itemTarget =
   # called when an item is dropped on this component
-  drop: (props, monitor, component) ->
-    dragItemIndex = monitor.getItem().index
-    hoverItemIndex = props.index
-
-    hoverBoundingRect = ReactDOM.findDOMNode(component).getBoundingClientRect()
-    hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-    clientOffset = monitor.getClientOffset()
-    hoverClientY = clientOffset.y - hoverBoundingRect.top
-
-    if (dragItemIndex < hoverItemIndex && hoverClientY < hoverMiddleY)
-      return {}
-
-    if (dragItemIndex > hoverItemIndex && hoverClientY > hoverMiddleY)
-      return {}
-
-    props.onReorder(dragItemIndex, hoverItemIndex)
-    return {}
+  drop: (props, monitor, component) -> 
+    dragOrHover(props, monitor, component, true)
 
   # called when an item hovers over this component
   hover: (props, monitor, component) ->
-    dragIndex = monitor.getItem().index
-    hoverIndex = props.index
-
-    # if the list ID of the item being dragged is not the same as the list ID of current component, do nothing
-    if props.constrainTo != monitor.getItem().constrainTo
-      return
-
-    hoverBoundingRect = ReactDOM.findDOMNode(component).getBoundingClientRect()
-    hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-    clientOffset = monitor.getClientOffset()
-    hoverClientY = clientOffset.y - hoverBoundingRect.top
-
-    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY)
-      return
-
-    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY)
-      return
-
-    props.dragPast(dragIndex, hoverIndex)
+    dragOrHover(props, monitor, component, false)
 
   canDrop: (props, monitor) ->
     # if the list ID of the item being dragged is not the same as the list ID of current component, do nothing
@@ -61,12 +60,16 @@ collectTarget = (connect, monitor) ->
   }
 
 itemSource = {
-  beginDrag: (props) ->
+  beginDrag: (props, monitor, component) ->
     return {
       id: props.getItemId(props.item)
-      index: props.index
       constrainTo: props.constrainTo
+      # Save height of dragged component 
+      height: ReactDOM.findDOMNode(component).getBoundingClientRect().height
     }
+
+  isDragging: (props, monitor) ->
+    return props.getItemId(props.item) == monitor.getItem().id
 }
 
 collectSource = (connect, monitor) ->
@@ -85,23 +88,21 @@ class ReorderableListItemComponent extends React.Component
     connectDragSource: React.PropTypes.func.isRequired # the drag source connector, supplied by React DND
     connectDropTarget: React.PropTypes.func.isRequired # the drop target connector, supplied by React DND
     connectDragPreview: React.PropTypes.func.isRequired # the drag preview connector, supplied by React DND
-    onReorder: React.PropTypes.func.isRequired # callback function, called when an item is dropped, gets passed the reordered item list
+    onPutBefore: React.PropTypes.func.isRequired # Call with (id, beforeId, isDrop)
+    onPutAfter: React.PropTypes.func.isRequired # Call with (id, afterId, isDrop)
     index: React.PropTypes.number.isRequired # index of the current item
 
     renderItem: React.PropTypes.func.isRequired # function to render the current item, passed by ReorderableListComponent
-    dragPast: React.PropTypes.func.isRequired # function called when an item is drag passed another item
     constrainTo: React.PropTypes.string.isRequired # the ID of the list where reordering is constrained to
     getItemId: React.PropTypes.func.isRequired # function to return the identifier of the current item
 
   renderItem: (connectDragSource) ->
-    opacity = if @props.isDragging then 0.4 else 1
+    style = {}
 
-    style =
-      opacity: opacity
-
-    if @props.isOver
-      style.border = "1px dashed #eee"
+    if @props.isDragging
+      # style.border = "dashed 1px #ccc"
       style.opacity = 0.6
+
     H.div style: style,
       @props.renderItem(@props.item, @props.index, connectDragSource)
 
