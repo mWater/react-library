@@ -1,5 +1,6 @@
 _ = require 'lodash'
 React = require 'react'
+uuid = require 'node-uuid'
 H = React.DOM
 R = React.createElement
 DragDropContext = require('react-dnd').DragDropContext
@@ -13,7 +14,7 @@ class ReorderableListComponent extends React.Component
     items: React.PropTypes.array.isRequired # items to be reordered
     onReorder: React.PropTypes.func.isRequired # callback function, called when an item is dropped, gets passed the reordered item list
     renderItem: React.PropTypes.func.isRequired # function which renders the item, gets passed the current item
-    listId: React.PropTypes.string.isRequired # a uniqid for the list
+    listId: React.PropTypes.string # a uniqid for the list
     getItemId: React.PropTypes.func.isRequired # function which should return the identifier of the current item, gets passed the current item
 
   constructor: ->
@@ -23,6 +24,7 @@ class ReorderableListComponent extends React.Component
     @state = {
       initialOrder: order
       order: order
+      listId: if @props.listId then @props.listId else id = uuid.v4()
     }
 
   componentWillReceiveProps: (nextProps) ->
@@ -37,7 +39,6 @@ class ReorderableListComponent extends React.Component
     # Remove beforeId and splice in
     order = _.without(order, beforeId)
     index = order.indexOf(id)
-    console.log index
     order.splice(index, 0, beforeId)
 
     @setState(order: order)
@@ -84,7 +85,7 @@ class ReorderableListComponent extends React.Component
           index: index
           renderItem: @props.renderItem
           key: @props.getItemId(item)
-          constrainTo: @props.listId
+          constrainTo: @state.listId
           getItemId: @props.getItemId
           onPutAfter: @handlePutAfter
           onPutBefore: @handlePutBefore
