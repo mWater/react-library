@@ -20,52 +20,57 @@ class ReorderableListComponent extends React.Component
   constructor: ->
     super
 
-    order = _.map @props.items, (item) => @props.getItemId(item)
     @state = {
-      initialOrder: order
-      order: order
+      order: null   # Ordered list of ids. Only present when dragging
       listId: if @props.listId then @props.listId else uuid.v4()
     }
 
   componentWillReceiveProps: (nextProps) ->
-    order = _.map nextProps.items, (item) => @props.getItemId(item)
-    if not _.isEqual(order, @state.initialOrder)
-      @setState(initialOrder: order, order: order)
+    newOrder = _.map nextProps.items, (item) => @props.getItemId(item)
+    oldOrder = _.map @props.items, (item) => @props.getItemId(item)
+
+    # If order changed, reset order
+    if not _.isEqual(newOrder, oldOrder)
+      @setState(order: null)
       
     @setState(listId: if @props.listId then @props.listId else uuid.v4())
 
   # Put beforeId right before id
-  handlePutBefore: (id, beforeId, isDrop) =>
-    order = @state.initialOrder.slice()
+  handlePutBefore: (id, beforeId) =>
+    order = _.map @props.items, (item) => @props.getItemId(item)
 
     # Remove beforeId and splice in
     order = _.without(order, beforeId)
     index = order.indexOf(id)
     order.splice(index, 0, beforeId)
 
-    @setState(order: order)
-
-    # Make permanent
-    if isDrop
-      @props.onReorder(@fixOrder(@props.items, order))
+    # Set state if different
+    if not _.isEqual(order, @state.order)
+      @setState(order: order)
 
   # Put afterId right after id
-  handlePutAfter: (id, afterId, isDrop) =>
-    order = @state.initialOrder.slice()
+  handlePutAfter: (id, afterId) =>
+    order = _.map @props.items, (item) => @props.getItemId(item)
 
     # Remove afterId and splice in
     order = _.without(order, afterId)
     index = order.indexOf(id)
     order.splice(index + 1, 0, afterId)
 
-    @setState(order: order)
+    # Set state if different
+    if not _.isEqual(order, @state.order)
+      @setState(order: order)
 
-    # Make permanent
-    if isDrop
-      @props.onReorder(@fixOrder(@props.items, order))
+  handleEndDrag: =>
+    @props.onReorder(@fixOrder(@props.items, @state.order))
+    @setState(order: null)
 
   # Re-arrange items to match the order of order (list of ids)
+  # If order is null, return list
   fixOrder: (items, order) =>
+    if not order
+      return items
+
     items.sort (left, right) =>
       if order.indexOf(@props.getItemId(left)) < order.indexOf(@props.getItemId(right))
         return -1
@@ -91,6 +96,7 @@ class ReorderableListComponent extends React.Component
           getItemId: @props.getItemId
           onPutAfter: @handlePutAfter
           onPutBefore: @handlePutBefore
+          onEndDrag: @handleEndDrag
         R ReorderableListItemComponent, params
 
 module.exports = DragDropContext(HTML5Backend)(ReorderableListComponent)
