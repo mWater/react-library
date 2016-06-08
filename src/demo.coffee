@@ -67,7 +67,7 @@ class SortableSampleItem extends React.Component
       @props.connectDragSource(H.span {style: handleStyle})
       H.span null,
         @props.item.id
-      R ReorderableListComponent, {items: @props.item.children, onReorder: @props.updateOrder, getItemId: @props.getItemId, renderItem: @props.renderItem, listId: id}
+      R ReorderableListComponent, {items: @props.item.children, onReorder: @props.updateOrder, getItemId: @props.getItemId, renderItem: @props.renderItem}
 
 class SortableSample extends React.Component
   constructor: ->
@@ -172,7 +172,7 @@ class SortableSample extends React.Component
     H.div {style: style},
       H.button onClick: @addNewItem,
         "Add new item"
-      R ReorderableListComponent, {items: @state.items, onReorder: @updateOrder, renderItem: @renderItem, listId: id, getItemId: @getItemId}
+      R ReorderableListComponent, {items: @state.items, onReorder: @updateOrder, renderItem: @renderItem, getItemId: @getItemId}
 # Wait for DOM to load
 $ ->
   # elem = R VerticalTreeLayoutComponent,
