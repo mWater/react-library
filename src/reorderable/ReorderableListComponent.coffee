@@ -31,9 +31,8 @@ class ReorderableListComponent extends React.Component
     order = _.map nextProps.items, (item) => @props.getItemId(item)
     if not _.isEqual(order, @state.initialOrder)
       @setState(initialOrder: order, order: order)
-
-    if nextProps.listId
-      @setState(listId: nextProps.listId)
+      
+    @setState(listId: if @props.listId then @props.listId else uuid.v4())
 
   # Put beforeId right before id
   handlePutBefore: (id, beforeId, isDrop) =>
