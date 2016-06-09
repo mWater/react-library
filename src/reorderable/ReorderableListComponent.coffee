@@ -6,6 +6,7 @@ R = React.createElement
 DragDropContext = require('react-dnd').DragDropContext
 HTML5Backend = require('react-dnd-html5-backend')
 ReorderableListItemComponent = require "./ReorderableListItemComponent"
+NestableDragDropContext = require "../NestableDragDropContext"
 
 # Reorderable component for nested items
 # Currently supports reordering within the same list
@@ -33,7 +34,7 @@ class ReorderableListComponent extends React.Component
     if not _.isEqual(newOrder, oldOrder)
       @setState(order: null)
       
-    @setState(listId: if @props.listId then @props.listId else uuid.v4())
+    @setState(listId: if nextProps.listId then nextProps.listId else uuid.v4())
 
   # Put beforeId right before id
   handlePutBefore: (id, beforeId) =>
@@ -62,8 +63,9 @@ class ReorderableListComponent extends React.Component
       @setState(order: order)
 
   handleEndDrag: =>
-    @props.onReorder(@fixOrder(@props.items, @state.order))
+    order = @state.order.slice(0)
     @setState(order: null)
+    @props.onReorder(@fixOrder(@props.items, order))
 
   # Re-arrange items to match the order of order (list of ids)
   # If order is null, return list
@@ -99,4 +101,4 @@ class ReorderableListComponent extends React.Component
           onEndDrag: @handleEndDrag
         R ReorderableListItemComponent, params
 
-module.exports = DragDropContext(HTML5Backend)(ReorderableListComponent)
+module.exports = NestableDragDropContext(HTML5Backend)(ReorderableListComponent)
