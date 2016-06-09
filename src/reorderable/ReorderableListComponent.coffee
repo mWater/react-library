@@ -81,24 +81,20 @@ class ReorderableListComponent extends React.Component
       return 0
 
   render: ->
-    style=
-      paddingLeft: 20
-
     items = @props.items.slice()
     @fixOrder(items, @state.order)
 
-    H.div {style: style},
+    H.div null,
       _.map items, (item, index) =>
-        params =
+        R ReorderableListItemComponent, 
+          key: @props.getItemId(item)
           item: item
           index: index
           renderItem: @props.renderItem
-          key: @props.getItemId(item)
           constrainTo: @state.listId
           getItemId: @props.getItemId
           onPutAfter: @handlePutAfter
           onPutBefore: @handlePutBefore
           onEndDrag: @handleEndDrag
-        R ReorderableListItemComponent, params
 
 module.exports = NestableDragDropContext(HTML5Backend)(ReorderableListComponent)
