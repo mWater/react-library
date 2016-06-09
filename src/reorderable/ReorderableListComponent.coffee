@@ -63,7 +63,10 @@ class ReorderableListComponent extends React.Component
       @setState(order: order)
 
   handleEndDrag: =>
-    order = @state.order.slice(0)
+    if not @state.order
+      return
+
+    order = @state.order.slice()
     @setState(order: null)
     @props.onReorder(@fixOrder(@props.items, order))
 
