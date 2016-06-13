@@ -58,7 +58,7 @@ module.exports = class NumberInputComponent extends React.Component
     style = _.clone(@props.style or {})
 
     if not style.width
-      style.width = "12em"
+      style.width = "8em"
 
     if not @isValid()
       style.borderColor = "#a94442"
