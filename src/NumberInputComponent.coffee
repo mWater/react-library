@@ -19,6 +19,7 @@ module.exports = class NumberInputComponent extends React.Component
 
     style: React.PropTypes.object     # Will be merged with style of input box
     small: React.PropTypes.bool       # True to render with input-sm
+    placeholder: React.PropTypes.string # Placeholder text
 
   @defaultProps:
     decimal: true
@@ -68,6 +69,7 @@ module.exports = class NumberInputComponent extends React.Component
       ref: 'input'
       type: if @props.decimal then "number" else "tel"
       className: "form-control #{if @props.small then "input-sm" else ""}"
+      placeholder: @props.placeholder
       style: style
       value: @state.inputText
       onChange: (ev) => @setState(inputText: ev.target.value)
