@@ -4,14 +4,6 @@ H = React.DOM
 
 # Number input component that handles parsing and maintains state when number is invalid
 module.exports = class NumberInputComponent extends React.Component
-  constructor: (props) ->
-    super(props)
-
-    # Parsing happens on blur
-    @state = {
-      inputText: if @props.value? then "" + @props.value else ""
-    }
-
   @propTypes:
     decimal: React.PropTypes.bool
     value: React.PropTypes.number
@@ -23,6 +15,14 @@ module.exports = class NumberInputComponent extends React.Component
 
   @defaultProps:
     decimal: true
+
+  constructor: (props) ->
+    super(props)
+
+    # Parsing happens on blur
+    @state = {
+      inputText: if @props.value? then "" + @props.value else ""
+    }
 
   componentWillReceiveProps: (nextProps) ->
     # If different, override text
