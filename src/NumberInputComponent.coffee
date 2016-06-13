@@ -68,6 +68,7 @@ module.exports = class NumberInputComponent extends React.Component
     H.input
       ref: 'input'
       type: if @props.decimal then "number" else "tel"
+      step: if @props.decimal then "any" else "1"
       className: "form-control #{if @props.small then "input-sm" else ""}"
       placeholder: @props.placeholder
       style: style
