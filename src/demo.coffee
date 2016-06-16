@@ -50,6 +50,12 @@ class ModalSample extends React.Component
       #     R ModalSample
 
 class SortableSampleItem extends React.Component
+  constructor: ->
+    super
+    @state = {
+      value: Math.floor(Math.random() * 1000) + "!"
+    }
+
   render: ->
     id = uuid.v4()
     itemStyle =
@@ -67,6 +73,7 @@ class SortableSampleItem extends React.Component
       @props.connectDragSource(H.span {style: handleStyle})
       H.span null,
         @props.item.id
+        @state.value
       R ReorderableListComponent, {items: @props.item.children, onReorder: @props.updateOrder, getItemId: @props.getItemId, renderItem: @props.renderItem}
 
 class SortableSample extends React.Component
