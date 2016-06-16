@@ -8,6 +8,8 @@ DragDropContext = require('react-dnd').DragDropContext
 # module.exports = NestableDragDropContext(HTML5Backend)(component)
 module.exports = (backend) ->
   (component) ->
+    contextClass = DragDropContext(backend)(component)
+
     class NestableDragDropContextContainer extends React.Component
       @contextTypes:
         dragDropManager: React.PropTypes.object
@@ -16,7 +18,7 @@ module.exports = (backend) ->
         if @context.dragDropManager
           return React.createElement(component, @props)
         else
-          return React.createElement(DragDropContext(backend)(component), @props)
+          return React.createElement(contextClass, @props)
 
 
 
