@@ -92,20 +92,7 @@ class ReorderableListItemComponent extends React.Component
     constrainTo: React.PropTypes.string.isRequired # the ID of the list where reordering is constrained to
     getItemId: React.PropTypes.func.isRequired # function to return the identifier of the current item
 
-  renderItem: (connectDragSource) ->
-    style = {}
-
-    if @props.isDragging
-      # style.border = "dashed 1px #ccc"
-      style.opacity = 0.6
-
-    H.div style: style,
-      @props.renderItem(@props.item, @props.index, connectDragSource)
-
   render: ->
-    connectDropTarget = @props.connectDropTarget
-    connectDragPreview = @props.connectDragPreview
-    connectDragSource = @props.connectDragSource
-    connectDragPreview(connectDropTarget(@renderItem(connectDragSource)))
+    @props.renderItem(@props.item, @props.index, @props.connectDragSource, @props.connectDragPreview, @props.connectDropTarget)
 
 module.exports = _.flow(DragSource("form-item", itemSource, collectSource), DropTarget("form-item", itemTarget, collectTarget))(ReorderableListItemComponent)
