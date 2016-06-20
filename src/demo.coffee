@@ -69,12 +69,24 @@ class SortableSampleItem extends React.Component
       marginRight: 10
       display: "inline-block"
       cursor: "move"
-    H.div {style: itemStyle},
-      @props.connectDragSource(H.span {style: handleStyle})
-      H.span null,
-        @props.item.id
-        @state.value
-      R ReorderableListComponent, {items: @props.item.children, onReorder: @props.updateOrder, getItemId: @props.getItemId, renderItem: @props.renderItem}
+
+    @props.connectDragPreview(@props.connectDropTarget(H.tr null,
+      H.td {style: itemStyle},
+        @props.connectDragSource(H.span {style: handleStyle})
+        H.span null,
+          @props.item.id
+          @state.value
+        H.div null,
+          H.table null,
+            R ReorderableListComponent, {
+              items: @props.item.children
+              onReorder: @props.updateOrder
+              getItemId: @props.getItemId
+              renderItem: @props.renderItem
+              element: H.tbody style: { background: 'red'}
+            }
+      )
+    )
 
 class SortableSample extends React.Component
   constructor: ->
@@ -133,9 +145,17 @@ class SortableSample extends React.Component
         parent: null
       ]
 
-  renderItem: (item, index, connectDragSource ) =>
-    H.div null,
-      R SortableSampleItem, {item: item, index: index, connectDragSource:connectDragSource, updateOrder: @updateOrder, renderItem: @renderItem, getItemId: @getItemId}
+  renderItem: (item, index, connectDragSource, connectDragPreview, connectDropTarget ) =>
+    R SortableSampleItem, {
+      item: item
+      index: index
+      connectDragSource: connectDragSource
+      connectDragPreview: connectDragPreview
+      connectDropTarget: connectDropTarget
+      updateOrder: @updateOrder
+      renderItem: @renderItem
+      getItemId: @getItemId
+    }
 
   updateOrder: (reorderedList) =>
     item = reorderedList[0]
@@ -179,7 +199,19 @@ class SortableSample extends React.Component
     H.div {style: style},
       H.button onClick: @addNewItem,
         "Add new item"
-      R ReorderableListComponent, {items: @state.items, onReorder: @updateOrder, renderItem: @renderItem, getItemId: @getItemId}
+      H.table null,
+        H.thead null,
+          H.tr null,
+            H.th null, "Item Name"
+
+        #H.tbody null,
+        R ReorderableListComponent, {
+          items: @state.items
+          onReorder: @updateOrder
+          renderItem: @renderItem
+          getItemId: @getItemId
+          element: H.tbody style: { background: '#afafaf'}
+        }
 # Wait for DOM to load
 $ ->
   # elem = R VerticalTreeLayoutComponent,
@@ -191,11 +223,12 @@ $ ->
   #   R(Block)
   #   R(Block)
   
-  # ModalPopupComponent.show((onClose) =>
-  #   return React.createElement(ModalPopupComponent, {
-  #     footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
-  #     }, "TEST")
-  #   )
+   #ModalPopupComponent.show((onClose) =>
+   #  return React.createElement(ModalPopupComponent, {
+   #    footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
+   #    header: "This is a test modal"
+   #    }, _.map(_.range(1, 100), (x) -> H.div null, "#{x}"))
+   #  )
   # elem = H.div null,
   #    React.createElement(SampleComponent)
   #    H.br()
