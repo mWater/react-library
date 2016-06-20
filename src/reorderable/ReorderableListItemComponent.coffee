@@ -93,10 +93,6 @@ class ReorderableListItemComponent extends React.Component
     getItemId: React.PropTypes.func.isRequired # function to return the identifier of the current item
 
   render: ->
-    connectDropTarget = @props.connectDropTarget
-    connectDragPreview = @props.connectDragPreview
-    connectDragSource = @props.connectDragSource
-
-    @props.renderItem(@props.item, @props.index, connectDragSource, connectDragPreview, connectDropTarget)
+    @props.renderItem(@props.item, @props.index, @props.connectDragSource, @props.connectDragPreview, @props.connectDropTarget)
 
 module.exports = _.flow(DragSource("form-item", itemSource, collectSource), DropTarget("form-item", itemTarget, collectTarget))(ReorderableListItemComponent)
