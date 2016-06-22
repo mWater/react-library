@@ -74,7 +74,7 @@ class ReorderableListComponent extends React.Component
 
     order = @state.order.slice()
     @setState(order: null)
-    @props.onReorder(@fixOrder(@props.items, order))
+    @props.onReorder(@fixOrder(@props.items.slice(), order))
 
   # Re-arrange items to match the order of order (list of ids)
   # If order is null, return list
