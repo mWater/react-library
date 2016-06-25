@@ -4,6 +4,7 @@ H = React.DOM
 _ = require 'lodash'
 Modal = require 'react-overlays/lib/Modal'
 className = require "classnames"
+toPX = require('to-px')
 
 # Modal popup
 module.exports = class ModalPopupComponent extends React.Component
@@ -91,18 +92,38 @@ class ModalComponentContent extends React.Component
     showCloseX: React.PropTypes.bool # True to show close 'x' at top right
     onClose: React.PropTypes.func # callback function to be called when close is requested
 
+  componentDidUpdate: (prevProps, prevState) ->
+    @calculateModalBodyHeight()
+
+  componentDidMount: ->
+    @calculateModalBodyHeight()
+
+  calculateModalBodyHeight: ->
+    header = $(@refs.modalHeader)
+    footer = $(@refs.modalFooter)
+
+    scale = toPX("vh")
+    console.log scale
+    maxHeight = 98 * scale - (header?.outerHeight() + footer?.outerHeight() + 60)
+
+    css =
+      maxHeight: "#{maxHeight}px"
+      overFlowY: "auto"
+
+    $(@refs.modalBody).css(css)
+
   render: ->
     H.div className: "modal-content",
       if @props.header
-        H.div className: "modal-header",
+        H.div className: "modal-header", ref: "modalHeader",
           if @props.showCloseX
             H.button className: "close",
               H.span onClick: @props.onClose, "\u00d7"
           H.h4 className: "modal-title",
             @props.header
-      H.div className: "modal-body",
+      H.div className: "modal-body", style: { maxHeight: "90vh", overflowY: "auto"}, ref: "modalBody",
         @props.children
       if @props.footer
-        H.div className: "modal-footer",
+        H.div className: "modal-footer", ref: "modalFooter",
           @props.footer
 

@@ -10,6 +10,7 @@ ModalPopupComponent = require './ModalPopupComponent'
 ModalWindowComponent = require './ModalWindowComponent'
 VerticalTreeLayoutComponent = require './VerticalTreeLayoutComponent'
 ReorderableListComponent = require "./reorderable/ReorderableListComponent"
+ReorderableListItemComponent = require "./reorderable/ReorderableListItemComponent"
 
 class Block extends React.Component
   render: ->
@@ -223,12 +224,13 @@ $ ->
   #   R(Block)
   #   R(Block)
   
-   #ModalPopupComponent.show((onClose) =>
-   #  return React.createElement(ModalPopupComponent, {
-   #    footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
-   #    header: "This is a test modal"
-   #    }, _.map(_.range(1, 100), (x) -> H.div null, "#{x}"))
-   #  )
+   ModalPopupComponent.show((onClose) =>
+     return React.createElement(ModalPopupComponent, {
+       footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
+       header: "This is a test modal"
+       }, _.map(_.range(1, 100), (x) -> H.div null, "#{x}"))
+     )
+
   # elem = H.div null,
   #    React.createElement(SampleComponent)
   #    H.br()
@@ -241,7 +243,7 @@ $ ->
 #        R ModalPopupComponent, { header: "INNER-2", size: "large", trigger: H.a(null, "Open Modal") },
 #          "The last modal"
 
-  elem = R SortableSample
+#  elem = R ModalSample
 
 
-  ReactDOM.render(elem, document.getElementById("main"))
+#  ReactDOM.render(elem, document.getElementById("main"))
