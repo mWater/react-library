@@ -4,6 +4,7 @@ H = React.DOM
 _ = require 'lodash'
 Modal = require 'react-overlays/lib/Modal'
 className = require "classnames"
+toPX = require('to-px')
 
 # Modal popup
 module.exports = class ModalPopupComponent extends React.Component
@@ -101,8 +102,12 @@ class ModalComponentContent extends React.Component
     header = $(@refs.modalHeader)
     footer = $(@refs.modalFooter)
 
+    scale = toPX("vh")
+    console.log scale
+    maxHeight = 98 * scale - (header?.outerHeight() + footer?.outerHeight() + 60)
+
     css =
-      maxHeight: "calc(98vh - #{header?.outerHeight() + footer?.outerHeight() + 60}px)"
+      maxHeight: "#{maxHeight}px"
       overFlowY: "auto"
 
     $(@refs.modalBody).css(css)

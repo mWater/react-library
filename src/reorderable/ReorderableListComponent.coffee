@@ -14,9 +14,12 @@ class ReorderableListComponent extends React.Component
   @propTypes:
     items: React.PropTypes.array.isRequired # items to be reordered
     onReorder: React.PropTypes.func.isRequired # callback function, called when an item is dropped, gets passed the reordered item list
-    renderItem: React.PropTypes.func.isRequired # function which renders the item, gets passed the current item
+    # function which renders the item, gets passed the current item and react dnd connectors
+    # signature: function(item, index, connectDragSource, connectDragPreview, connectDropTarget)
+    renderItem: React.PropTypes.func.isRequired
     listId: React.PropTypes.string # a uniqid for the list
     getItemId: React.PropTypes.func.isRequired # function which should return the identifier of the current item, gets passed the current item
+    element: React.PropTypes.object # the element to render this component as
 
   constructor: ->
     super
@@ -25,6 +28,9 @@ class ReorderableListComponent extends React.Component
       order: null   # Ordered list of ids. Only present when dragging
       listId: if @props.listId then @props.listId else uuid.v4()
     }
+
+  @defaultProps:
+    element: H.div null
 
   componentWillReceiveProps: (nextProps) ->
     newOrder = _.map nextProps.items, (item) => @props.getItemId(item)
@@ -68,7 +74,7 @@ class ReorderableListComponent extends React.Component
 
     order = @state.order.slice()
     @setState(order: null)
-    @props.onReorder(@fixOrder(@props.items, order))
+    @props.onReorder(@fixOrder(@props.items.slice(), order))
 
   # Re-arrange items to match the order of order (list of ids)
   # If order is null, return list
@@ -87,7 +93,9 @@ class ReorderableListComponent extends React.Component
     items = @props.items.slice()
     @fixOrder(items, @state.order)
 
-    H.div null,
+    React.cloneElement(
+      @props.element
+      null
       _.map items, (item, index) =>
         R ReorderableListItemComponent, 
           key: @props.getItemId(item)
@@ -99,5 +107,6 @@ class ReorderableListComponent extends React.Component
           onPutAfter: @handlePutAfter
           onPutBefore: @handlePutBefore
           onEndDrag: @handleEndDrag
+    )
 
 module.exports = NestableDragDropContext(HTML5Backend)(ReorderableListComponent)
