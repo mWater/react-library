@@ -213,6 +213,69 @@ class SortableSample extends React.Component
           getItemId: @getItemId
           element: H.tbody style: { background: '#afafaf'}
         }
+
+
+class BlocksComponent extends React.Component
+  constructor: (props) ->
+    super 
+    @state = {
+      items: [
+        { id: "1", type: "title" }
+        { id: "2", type: "image" }
+        { id: "3", type: "text" }
+      ]
+    }
+
+  renderItem: (item, index, connectDragSource, connectDragPreview, connectDropTarget) ->
+    wrapBorder = (e, inline=false) ->
+      return H.div style: { 
+          margin: 5
+          border: "solid 1px #DDD"
+          borderRadius: 5
+          padding: 5
+          position: "relative"
+          display: if inline then "inline-block"
+        }, 
+        connectDragSource(H.div style: { position: "absolute", left: "50%", top: -8, border: "solid 1px #DDF", backgroundColor: "white" },
+          H.span className: "glyphicon glyphicon-move"
+        )
+        e
+    
+
+    switch item.type
+      when "title"
+        elem = H.h2 null, "Title"
+        elem = wrapBorder(elem)
+      when "image"
+        elem = H.img 
+          src: "http://image.shutterstock.com/display_pic_with_logo/359716/161613653/stock-photo-orange-fruit-isolated-on-white-161613653.jpg"
+          style: {
+            width: "33%"
+            className: "img-thumbnail"
+            border: "solid 1px #DDD"
+            float: "right"
+          }
+      when "text"
+        elem = H.div null, '''
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        '''
+        elem = wrapBorder(elem)
+
+
+
+    return connectDragPreview(connectDropTarget(elem))
+
+  render: ->
+    H.div null,
+      "Start"
+      R ReorderableListComponent, {
+        items: @state.items
+        onReorder: (items) => @setState(items: items)
+        renderItem: @renderItem
+        getItemId: (item) -> item.id
+      }
+      "End"
+
 # Wait for DOM to load
 $ ->
   # elem = R VerticalTreeLayoutComponent,
@@ -224,16 +287,23 @@ $ ->
   #   R(Block)
   #   R(Block)
   
-   ModalPopupComponent.show((onClose) =>
-     return React.createElement(ModalPopupComponent, {
-       footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
-       header: "This is a test modal"
-       }, _.map(_.range(1, 100), (x) -> H.div null, "#{x}"))
-     )
+   # ModalPopupComponent.show((onClose) =>
+   #   return React.createElement(ModalPopupComponent, {
+   #     footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
+   #     header: "This is a test modal"
+   #     }, _.map(_.range(1, 100), (x) -> H.div null, "#{x}"))
+   #   )
+
 
   # elem = H.div null,
   #    React.createElement(SampleComponent)
   #    H.br()
+
+  elem = H.div null,
+    React.createElement(BlocksComponent)
+    H.br()
+
+  ReactDOM.render(elem, document.getElementById("main"))
 
 
 
@@ -246,4 +316,3 @@ $ ->
 #  elem = R ModalSample
 
 
-#  ReactDOM.render(elem, document.getElementById("main"))
