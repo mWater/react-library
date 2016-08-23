@@ -1,7 +1,5 @@
-
 React = require 'react'
 ReactDOM = require 'react-dom'
-Resizable = require 'react-component-resizable'
 H = React.DOM
 R = React.createElement
 
