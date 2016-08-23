@@ -1,8 +1,8 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
-Resizable = require 'react-component-resizable/dist/react-component-resizable'
 H = React.DOM
 R = React.createElement
+Resizable = require './react-component-resizable'
 
 # Automatically injects the width or height of the DOM element into the
 # child component, updating as window resizes. 
@@ -51,3 +51,4 @@ module.exports = class AutoSizeComponent extends React.Component
       style.height = "100%"
 
     return R Resizable, {style: style, onResize: @updateSize}, innerElem
+
