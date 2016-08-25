@@ -14,6 +14,10 @@ module.exports = class ModalPopupComponent extends React.Component
     size: React.PropTypes.string # "large" for large,  "small" for small and none for standard
     onClose: React.PropTypes.func # callback function to be called when close is requested
     showCloseX: React.PropTypes.bool # True to show close 'x' at top right
+    scrollEnabled: React.PropTypes.bool.isRequired # Is content scrolling enabled see https://github.com/mWater/react-library/issues/31
+
+  @defaultProps:
+    scrollEnabled: true
 
   close: =>
     @props.onClose?()
@@ -91,19 +95,21 @@ class ModalComponentContent extends React.Component
     size: React.PropTypes.string # "large" for large
     showCloseX: React.PropTypes.bool # True to show close 'x' at top right
     onClose: React.PropTypes.func # callback function to be called when close is requested
+    scrollEnabled: React.PropTypes.bool.isRequired # Is content scrolling enabled see https://github.com/mWater/react-library/issues/31
 
   componentDidUpdate: (prevProps, prevState) ->
-    @calculateModalBodyHeight()
+    if @props.scrollEnabled
+      @calculateModalBodyHeight()
 
   componentDidMount: ->
-    @calculateModalBodyHeight()
+    if @props.scrollEnabled
+      @calculateModalBodyHeight()
 
   calculateModalBodyHeight: ->
     header = $(@refs.modalHeader)
     footer = $(@refs.modalFooter)
 
     scale = toPX("vh")
-    console.log scale
     maxHeight = 98 * scale - (header?.outerHeight() + footer?.outerHeight() + 60)
 
     css =
@@ -113,6 +119,7 @@ class ModalComponentContent extends React.Component
     $(@refs.modalBody).css(css)
 
   render: ->
+    style = if @props.scrollEnabled then {maxHeight: "90vh", overflowY: "auto"} else {}
     H.div className: "modal-content",
       if @props.header
         H.div className: "modal-header", ref: "modalHeader",
@@ -121,7 +128,7 @@ class ModalComponentContent extends React.Component
               H.span onClick: @props.onClose, "\u00d7"
           H.h4 className: "modal-title",
             @props.header
-      H.div className: "modal-body", style: { maxHeight: "90vh", overflowY: "auto"}, ref: "modalBody",
+      H.div className: "modal-body", style: style, ref: "modalBody",
         @props.children
       if @props.footer
         H.div className: "modal-footer", ref: "modalFooter",
