@@ -14,6 +14,7 @@ module.exports = class ModalPopupComponent extends React.Component
     size: React.PropTypes.string # "large" for large,  "small" for small and none for standard
     onClose: React.PropTypes.func # callback function to be called when close is requested
     showCloseX: React.PropTypes.bool # True to show close 'x' at top right
+    scrollDisabled: React.PropTypes.bool # Force disable content scrolling see https://github.com/mWater/react-library/issues/31
 
   close: =>
     @props.onClose?()
@@ -91,6 +92,7 @@ class ModalComponentContent extends React.Component
     size: React.PropTypes.string # "large" for large
     showCloseX: React.PropTypes.bool # True to show close 'x' at top right
     onClose: React.PropTypes.func # callback function to be called when close is requested
+    scrollDisabled: React.PropTypes.bool # Force content scrolling disable see https://github.com/mWater/react-library/issues/31
 
   componentDidUpdate: (prevProps, prevState) ->
     @calculateModalBodyHeight()
@@ -101,18 +103,17 @@ class ModalComponentContent extends React.Component
   calculateModalBodyHeight: ->
     header = $(@refs.modalHeader)
     footer = $(@refs.modalFooter)
+    content = $(@refs.modalBody)
 
-    scale = toPX("vh")
-    console.log scale
-    maxHeight = 98 * scale - (header?.outerHeight() + footer?.outerHeight() + 60)
+    if $(window).height() < $(content).height() and not @props.scrollDisabled
 
-    css =
-      maxHeight: "#{maxHeight}px"
-      overFlowY: "auto"
+      scale = toPX("vh")
+      maxHeight = 98 * scale - (header?.outerHeight() + footer?.outerHeight() + 60)
 
-    $(@refs.modalBody).css(css)
+      content.css(maxHeight: "#{maxHeight}px", overflowY: "auto")
 
   render: ->
+    style = if not @props.scrollDisabled then {} else {}
     H.div className: "modal-content",
       if @props.header
         H.div className: "modal-header", ref: "modalHeader",
@@ -121,7 +122,7 @@ class ModalComponentContent extends React.Component
               H.span onClick: @props.onClose, "\u00d7"
           H.h4 className: "modal-title",
             @props.header
-      H.div className: "modal-body", style: { maxHeight: "90vh", overflowY: "auto"}, ref: "modalBody",
+      H.div className: "modal-body", style: style, ref: "modalBody",
         @props.children
       if @props.footer
         H.div className: "modal-footer", ref: "modalFooter",

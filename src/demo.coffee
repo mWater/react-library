@@ -287,12 +287,13 @@ $ ->
   #   R(Block)
   #   R(Block)
   
-   # ModalPopupComponent.show((onClose) =>
-   #   return React.createElement(ModalPopupComponent, {
-   #     footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
-   #     header: "This is a test modal"
-   #     }, _.map(_.range(1, 100), (x) -> H.div null, "#{x}"))
-   #   )
+  ModalPopupComponent.show((onClose) =>
+    return React.createElement(ModalPopupComponent, {
+      footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
+      scrollDisabled: true
+      header: "This is a test modal"
+      }, _.map(_.range(1, 100), (x) -> H.div null, "#{x}"))
+    )
 
 
   # elem = H.div null,
