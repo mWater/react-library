@@ -290,8 +290,8 @@ $ ->
   ModalPopupComponent.show((onClose) =>
     return React.createElement(ModalPopupComponent, {
       footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
+      scrollDisabled: true
       header: "This is a test modal"
-      scrollEnabled: false
       }, _.map(_.range(1, 100), (x) -> H.div null, "#{x}"))
     )
 

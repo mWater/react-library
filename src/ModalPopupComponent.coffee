@@ -14,10 +14,7 @@ module.exports = class ModalPopupComponent extends React.Component
     size: React.PropTypes.string # "large" for large,  "small" for small and none for standard
     onClose: React.PropTypes.func # callback function to be called when close is requested
     showCloseX: React.PropTypes.bool # True to show close 'x' at top right
-    scrollEnabled: React.PropTypes.bool.isRequired # Is content scrolling enabled see https://github.com/mWater/react-library/issues/31
-
-  @defaultProps:
-    scrollEnabled: true
+    scrollDisabled: React.PropTypes.bool # Force disable content scrolling see https://github.com/mWater/react-library/issues/31
 
   close: =>
     @props.onClose?()
@@ -95,31 +92,28 @@ class ModalComponentContent extends React.Component
     size: React.PropTypes.string # "large" for large
     showCloseX: React.PropTypes.bool # True to show close 'x' at top right
     onClose: React.PropTypes.func # callback function to be called when close is requested
-    scrollEnabled: React.PropTypes.bool.isRequired # Is content scrolling enabled see https://github.com/mWater/react-library/issues/31
+    scrollDisabled: React.PropTypes.bool # Force content scrolling disable see https://github.com/mWater/react-library/issues/31
 
   componentDidUpdate: (prevProps, prevState) ->
-    if @props.scrollEnabled
-      @calculateModalBodyHeight()
+    @calculateModalBodyHeight()
 
   componentDidMount: ->
-    if @props.scrollEnabled
-      @calculateModalBodyHeight()
+    @calculateModalBodyHeight()
 
   calculateModalBodyHeight: ->
     header = $(@refs.modalHeader)
     footer = $(@refs.modalFooter)
+    content = $(@refs.modalBody)
 
-    scale = toPX("vh")
-    maxHeight = 98 * scale - (header?.outerHeight() + footer?.outerHeight() + 60)
+    if $(window).height() < $(content).height() and not @props.scrollDisabled
 
-    css =
-      maxHeight: "#{maxHeight}px"
-      overFlowY: "auto"
+      scale = toPX("vh")
+      maxHeight = 98 * scale - (header?.outerHeight() + footer?.outerHeight() + 60)
 
-    $(@refs.modalBody).css(css)
+      content.css(maxHeight: "#{maxHeight}px", overflowY: "auto")
 
   render: ->
-    style = if @props.scrollEnabled then {maxHeight: "90vh", overflowY: "auto"} else {}
+    style = if not @props.scrollDisabled then {} else {}
     H.div className: "modal-content",
       if @props.header
         H.div className: "modal-header", ref: "modalHeader",
