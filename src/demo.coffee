@@ -11,6 +11,12 @@ ModalWindowComponent = require './ModalWindowComponent'
 VerticalTreeLayoutComponent = require './VerticalTreeLayoutComponent'
 ReorderableListComponent = require "./reorderable/ReorderableListComponent"
 ReorderableListItemComponent = require "./reorderable/ReorderableListItemComponent"
+PopoverHelpComponent = require './PopoverHelpComponent'
+
+class PopoverHelpSample extends React.Component
+  render: ->
+    R PopoverHelpComponent, null,
+      "This is a test"
 
 class Block extends React.Component
   render: ->
@@ -287,21 +293,22 @@ $ ->
   #   R(Block)
   #   R(Block)
   
-  ModalPopupComponent.show((onClose) =>
-    return React.createElement(ModalPopupComponent, {
-      footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
-      scrollDisabled: true
-      header: "This is a test modal"
-      }, _.map(_.range(1, 100), (x) -> H.div null, "#{x}"))
-    )
+  # ModalPopupComponent.show((onClose) =>
+  #   return React.createElement(ModalPopupComponent, {
+  #     footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
+  #     scrollDisabled: true
+  #     header: "This is a test modal"
+  #     }, _.map(_.range(1, 100), (x) -> H.div null, "#{x}"))
+  #   )
 
 
   # elem = H.div null,
   #    React.createElement(SampleComponent)
   #    H.br()
 
-  elem = H.div null,
-    React.createElement(BlocksComponent)
+  elem = H.div style: { padding: 20 },
+    "Lorem ipsum est"
+    React.createElement(PopoverHelpSample)
     H.br()
 
   ReactDOM.render(elem, document.getElementById("main"))
