@@ -122,6 +122,10 @@ class ModalComponentContent extends React.Component
               H.span onClick: @props.onClose, "\u00d7"
           H.h4 className: "modal-title",
             @props.header
+      else if @props.showCloseX
+        H.button className: "close", style: { position: "absolute", right: 10, top: 10 },
+          H.span onClick: @props.onClose, "\u00d7"
+
       H.div className: "modal-body", style: style, ref: "modalBody",
         @props.children
       if @props.footer

@@ -26,7 +26,7 @@ class Block2 extends React.Component
   render: ->
     H.div style: { height: 300, width: 200, border: "solid 2px blue" }, " "
 
-class ModalSample extends React.Component
+class ModalWindowSample extends React.Component
   constructor: ->
     super
     @state = {
@@ -50,6 +50,34 @@ class ModalSample extends React.Component
       # H.a onClick: @startEditing,
       #   "Edit me"
       R ModalWindowComponent, { isOpen: true },
+        H.div null,
+          _.map(_.range(1, 100), (x) -> H.div null, "#{x}")
+      # if @state.editing 
+      #   R ModalWindowComponent, { isOpen: true, onRequestClose: @handleModalClose },
+      #     R ModalSample
+
+class ModalPopupSample extends React.Component
+  constructor: ->
+    super
+    @state = {
+      editing: false
+    }
+
+  startEditing:=>
+    @setState(editing: true)
+
+  finishEditing:=>
+    @setState(editing: false)
+
+  handleModalClose: =>
+    @finishEditing()
+    console.log "editing finished"
+
+  render: ->
+    H.div null,
+      # H.a onClick: @startEditing,
+      #   "Edit me"
+      R ModalPopupComponent, onClose: @handleModalClose, showCloseX: true,
         H.div null,
           _.map(_.range(1, 100), (x) -> H.div null, "#{x}")
       # if @state.editing 
@@ -310,6 +338,12 @@ $ ->
     "Lorem ipsum est"
     React.createElement(PopoverHelpSample)
     H.br()
+
+  ModalPopupComponent.show((onClose) =>
+    return React.createElement(ModalPopupComponent, {
+      showCloseX: true
+      }, _.map(_.range(1, 10), (x) -> H.div null, "#{x}"))
+    )
 
   ReactDOM.render(elem, document.getElementById("main"))
 
