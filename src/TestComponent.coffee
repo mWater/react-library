@@ -42,7 +42,7 @@ module.exports = class TestComponent
     return @findDOMNodesByText(pattern)[0]
 
   # Find a subcomponent by a pattern (deprecated)
-  findComponentByText: (pattern) -> return findDOMNodesByText(pattern)
+  findComponentByText: (pattern) -> return @findDOMNodesByText(pattern)
 
   # Find input field
   findInput: ->
