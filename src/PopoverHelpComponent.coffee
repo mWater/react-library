@@ -9,9 +9,12 @@ OverlayTrigger = require 'react-bootstrap/lib/OverlayTrigger'
 # Shows a popover when help icon is clicked. Needs bootstrap
 module.exports = class PopoverHelpComponent extends React.Component
   @propTypes:
-    placeholder: React.PropTypes.string # Placeholder text
+    placement: React.PropTypes.string # "top", "right", "bottom", "left"
+
+  @defaultProps:
+    placement: "top"
 
   render: ->
-    R OverlayTrigger, trigger: "click", placement: "bottom", overlay: R(Popover, null, @props.children),
+    R OverlayTrigger, trigger: "click", placement: @props.placement, overlay: R(Popover, null, @props.children),
       H.span className: "text-muted", style: { cursor: "pointer" },
         H.span className: "glyphicon glyphicon-question-sign"

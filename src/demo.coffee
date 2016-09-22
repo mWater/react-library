@@ -321,31 +321,40 @@ $ ->
   #   R(Block)
   #   R(Block)
   
-  # ModalPopupComponent.show((onClose) =>
-  #   return React.createElement(ModalPopupComponent, {
-  #     footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
-  #     scrollDisabled: true
-  #     header: "This is a test modal"
-  #     }, _.map(_.range(1, 100), (x) -> H.div null, "#{x}"))
-  #   )
+  showModal = (n) ->
+    ModalPopupComponent.show((onClose) =>
+      return R ModalPopupComponent, 
+        showCloseX: true
+        onClose: onClose
+        size: "large"
+        footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
+        header: "This is a test modal", 
+          _.map(_.range(1, n), (x) -> H.div null, "#{x}")
+          H.button type: "button", onClick: (-> showModal(10)), "SHOW"
+      )
+
+  elem = H.div style: { paddingLeft: 30 },
+    _.map(_.range(1, 100), (x) -> H.div null, "#{x}")
+    H.button type: "button", onClick: (-> showModal(100)), "SHOW"
+
 
 
   # elem = H.div null,
   #    React.createElement(SampleComponent)
   #    H.br()
 
-  elem = H.div style: { padding: 20 },
-    "Lorem ipsum est"
-    React.createElement(PopoverHelpSample)
-    H.br()
+  # elem = H.div style: { padding: 20, textAlign: "right" },
+  #   "Lorem ipsum est"
+  #   React.createElement(PopoverHelpSample)
+  #   H.br()
 
-  ModalPopupComponent.show((onClose) =>
-    return React.createElement(ModalPopupComponent, {
-      showCloseX: true
-      }, _.map(_.range(1, 10), (x) -> H.div null, "#{x}"))
-    )
+  # ModalPopupComponent.show((onClose) =>
+  #   return React.createElement(ModalPopupComponent, {
+  #     showCloseX: true
+  #     }, _.map(_.range(1, 10), (x) -> H.div null, "#{x}"))
+  #   )
 
-  ReactDOM.render(elem, document.getElementById("main"))
+  ReactDOM.render(elem, document.getElementById("main"), => showModal(100))
 
 
 
