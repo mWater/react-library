@@ -99,9 +99,6 @@ class InnerModalComponent extends React.Component
                   H.span onClick: @props.onClose, "\u00d7"
               H.h4 className: "modal-title",
                 @props.header
-          else if @props.showCloseX
-            H.button className: "close", style: { position: "absolute", right: 10, top: 10 },
-              H.span onClick: @props.onClose, "\u00d7"
 
           H.div className: "modal-body", style: { maxHeight: window.innerHeight - 56 - 65 - 30 - 30, overflowY: "auto" }, 
             @props.children
@@ -109,3 +106,6 @@ class InnerModalComponent extends React.Component
             H.div className: "modal-footer", 
               @props.footer
 
+          if not @props.header and @props.showCloseX
+            H.button className: "close", style: { position: "absolute", right: 10, top: 10 },  # Put above body
+              H.span onClick: @props.onClose, "\u00d7"
