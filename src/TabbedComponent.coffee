@@ -4,7 +4,7 @@ H = React.DOM
 # Simple bootstrap tabbed component
 module.exports = class TabbedComponent extends React.Component
   @propTypes:
-    tabs: React.PropTypes.array.isRequired # Array of { id, label, elem }
+    tabs: React.PropTypes.array.isRequired # Array of { id, label, elem, onRemove (optional) }
     initialTabId: React.PropTypes.string # Initially selected id of tab
     tabId: React.PropTypes.string # Selected id of tab
     onAddTab: React.PropTypes.func    # Set to have a plus to add a tab
@@ -20,6 +20,10 @@ module.exports = class TabbedComponent extends React.Component
     else
       @setState(tabId: tabId)
 
+  handleRemove: (tab, ev) =>
+    ev.preventDefault()
+    tab.onRemove()
+
   renderTab: (tab) =>
     if @props.tabId?
       tabId = @props.tabId
@@ -28,6 +32,9 @@ module.exports = class TabbedComponent extends React.Component
     H.li key: tab.id, className: (if tabId == tab.id then "active"),
       H.a onClick: @handleClick.bind(null, tab.id),
         tab.label
+        if tab.onRemove
+          H.button type: "button", className: "btn btn-xs btn-link", onClick: @handleRemove.bind(null, tab),
+            H.span className: "fa fa-times"
 
   render: ->
     if @props.tabId?
