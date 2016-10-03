@@ -21,7 +21,7 @@ module.exports = class TabbedComponent extends React.Component
       @setState(tabId: tabId)
 
   handleRemove: (tab, ev) =>
-    ev.preventDefault()
+    ev.stopPropagation()
     tab.onRemove()
 
   renderTab: (tab) =>
