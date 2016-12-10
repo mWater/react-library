@@ -3,7 +3,7 @@ ReactDOM = require 'react-dom'
 H = React.DOM
 _ = require 'lodash'
 
-# Modal window that fills screen
+# Modal popup based on react
 module.exports = class ModalPopupComponent extends React.Component
   @propTypes: 
     header: React.PropTypes.node # Header of modal. Any react element
