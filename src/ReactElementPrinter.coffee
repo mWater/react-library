@@ -1,3 +1,4 @@
+_ = require 'lodash'
 $ = require 'jquery'
 ReactDOM = require 'react-dom'
 
