@@ -12,6 +12,7 @@ VerticalTreeLayoutComponent = require './VerticalTreeLayoutComponent'
 ReorderableListComponent = require "./reorderable/ReorderableListComponent"
 ReorderableListItemComponent = require "./reorderable/ReorderableListItemComponent"
 PopoverHelpComponent = require './PopoverHelpComponent'
+FillDownwardComponent = require './FillDownwardComponent'
 
 class PopoverHelpSample extends React.Component
   render: ->
@@ -321,23 +322,26 @@ $ ->
   #   R(Block)
   #   R(Block)
   
-  showModal = (n) ->
-    ModalPopupComponent.show((onClose) =>
-      return R ModalPopupComponent, 
-        showCloseX: true
-        onClose: onClose
-        size: "large"
-        footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
-        header: "This is a test modal", 
-          _.map(_.range(1, n), (x) -> H.div null, "#{x}")
-          H.button type: "button", onClick: (-> showModal(10)), "SHOW"
-      )
+  # showModal = (n) ->
+  #   ModalPopupComponent.show((onClose) =>
+  #     return R ModalPopupComponent, 
+  #       showCloseX: true
+  #       onClose: onClose
+  #       size: "large"
+  #       footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
+  #       header: "This is a test modal", 
+  #         _.map(_.range(1, n), (x) -> H.div null, "#{x}")
+  #         H.button type: "button", onClick: (-> showModal(10)), "SHOW"
+  #     )
 
-  elem = H.div style: { paddingLeft: 30 },
-    _.map(_.range(1, 100), (x) -> H.div null, "#{x}")
-    H.button type: "button", onClick: (-> showModal(100)), "SHOW"
+  # elem = H.div style: { paddingLeft: 30 },
+  #   _.map(_.range(1, 100), (x) -> H.div null, "#{x}")
+  #   H.button type: "button", onClick: (-> showModal(100)), "SHOW"
 
-
+  elem = H.div null,
+    H.div style: { height: 300, backgroundColor: "red" }
+    R FillDownwardComponent, null,
+      H.div style: { height: "100%", backgroundColor: "green" }
 
   # elem = H.div null,
   #    React.createElement(SampleComponent)
