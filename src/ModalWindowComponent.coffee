@@ -9,6 +9,8 @@ module.exports = class ModalWindowComponent extends React.Component
     isOpen: React.PropTypes.bool.isRequired
     onRequestClose: React.PropTypes.func
     backgroundColor: React.PropTypes.string
+    outerPadding: React.PropTypes.number  # Outer padding default 40
+    innerPadding: React.PropTypes.number  # Inner padding default 20
 
   componentDidMount: ->
     # Add special region to body
