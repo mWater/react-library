@@ -11,6 +11,7 @@ ModalWindowComponent = require './ModalWindowComponent'
 VerticalTreeLayoutComponent = require './VerticalTreeLayoutComponent'
 ReorderableListComponent = require "./reorderable/ReorderableListComponent"
 ReorderableListItemComponent = require "./reorderable/ReorderableListItemComponent"
+NestedReorderableListComponent = require "./reorderable/NestedReorderableListComponent"
 PopoverHelpComponent = require './PopoverHelpComponent'
 FillDownwardComponent = require './FillDownwardComponent'
 
@@ -97,7 +98,6 @@ class SortableSampleItem extends React.Component
     itemStyle =
       border: "1px solid #aeaeae"
       padding: "8px"
-
     handleStyle =
       height: 10
       width: 10
@@ -106,22 +106,13 @@ class SortableSampleItem extends React.Component
       display: "inline-block"
       cursor: "move"
 
-    @props.connectDragPreview(@props.connectDropTarget(H.tr null,
-      H.td {style: itemStyle},
+    @props.connectDragPreview(@props.connectDropTarget(H.div null,
+      H.div style: itemStyle,
         @props.connectDragSource(H.span {style: handleStyle})
-        H.span null,
-          @props.item.id
-          @state.value
-        H.div null,
-          H.table null,
-            R ReorderableListComponent, {
-              items: @props.item.children
-              onReorder: @props.updateOrder
-              getItemId: @props.getItemId
-              renderItem: @props.renderItem
-              element: H.tbody style: { background: 'red'}
-            }
-      )
+        H.span null , "#{@props.item.id} :: #{@state.value}"
+      H.div style: {marginLeft: 40},
+        @props.children
+    )
     )
 
 class SortableSample extends React.Component
@@ -131,19 +122,15 @@ class SortableSample extends React.Component
       items: [
         id: "red"
         children: []
-        parent: null
       ,
         id: "green"
-        parent: null
         children:
           [
             id: "leaves"
             children: []
-            parent: "green"
           ,
             id: "plants"
             children: []
-            parent: "green"
           ,
             id: "hulk"
             children:
@@ -153,35 +140,28 @@ class SortableSample extends React.Component
                   [
                     id: "hulk-blue-white"
                     children: []
-                    parent: "hulk-blue"
                   ,
                     id: "hulk-blue-black"
                     children: []
-                    parent: "hulk-blue"
                   ]
                 parent: "hulk"
               ,
                 id: "hulk-white"
                 children: []
-                parent: "hulk"
               ]
-            parent: "green"
           ]
       ,
         id: "blue"
         children: []
-        parent: null
       ,
         id: "white"
         children: []
-        parent: null
       ,
         id: "black"
         children: []
-        parent: null
       ]
 
-  renderItem: (item, index, connectDragSource, connectDragPreview, connectDropTarget ) =>
+  renderItem: (item, index, connectDragSource, connectDragPreview, connectDropTarget, children ) =>
     R SortableSampleItem, {
       item: item
       index: index
@@ -191,18 +171,19 @@ class SortableSample extends React.Component
       updateOrder: @updateOrder
       renderItem: @renderItem
       getItemId: @getItemId
+      children: children
     }
 
   updateOrder: (reorderedList) =>
-    item = reorderedList[0]
-
-    if item.parent == null
-      @setState(items: reorderedList)
-    else
-      items = @state.items.splice(0)
-      node = @findNodeById(items, item.parent)
-      node.children = reorderedList
-      @setState(items: items)
+    # item = reorderedList[0]
+    # 
+    # if item.parent == null
+    #   @setState(items: reorderedList)
+    # else
+    #   items = @state.items.splice(0)
+    #   node = @findNodeById(items, item.parent)
+    #   node.children = reorderedList
+    @setState(items: reorderedList)
 
   findNodeById: (items, id) ->
     for value, index in items
@@ -224,7 +205,6 @@ class SortableSample extends React.Component
     items.push({
       id: id,
       children: [],
-      parent: null
     })
     @setState(items: items)
 
@@ -235,18 +215,14 @@ class SortableSample extends React.Component
     H.div {style: style},
       H.button onClick: @addNewItem,
         "Add new item"
-      H.table null,
-        H.thead null,
-          H.tr null,
-            H.th null, "Item Name"
-
+      H.div null,
         #H.tbody null,
-        R ReorderableListComponent, {
+        R NestedReorderableListComponent, {
           items: @state.items
           onReorder: @updateOrder
           renderItem: @renderItem
           getItemId: @getItemId
-          element: H.tbody style: { background: '#afafaf'}
+          element: H.div null
         }
 
 
@@ -343,6 +319,8 @@ $ ->
     R FillDownwardComponent, null,
       H.div style: { height: "100%", backgroundColor: "green" }
 
+  elem = R SortableSample, null
+
   # elem = H.div null,
   #    React.createElement(SampleComponent)
   #    H.br()
@@ -369,5 +347,3 @@ $ ->
 #          "The last modal"
 
 #  elem = R ModalSample
-
-
