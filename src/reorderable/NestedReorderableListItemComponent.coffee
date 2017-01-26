@@ -17,7 +17,12 @@ itemTarget =
     sourceList = monitor.getItem().listId
     targetList = props.listId
     
-    targetBoundingRect = ReactDOM.findDOMNode(component).getBoundingClientRect()
+    if not ReactDOM.findDOMNode(component)
+      return
+    
+    # console.log ReactDOM.findDOMNode(component).firstChild
+    
+    targetBoundingRect = ReactDOM.findDOMNode(component).firstChild.getBoundingClientRect()
 
     hoverMiddleY = (targetBoundingRect.bottom - targetBoundingRect.top) / 2
     clientOffset = monitor.getClientOffset()
@@ -25,27 +30,33 @@ itemTarget =
     # Get position within hovered item
     hoverClientY = clientOffset.y - targetBoundingRect.top
 
+    # a weired thing allow to drop over itself when state is refreshed with new list but drag is not released
+    # causing dragged items to disappear
+    if hoveringId == targetList
+      return
+
     # Hovering over self does nothing
     if hoveringId == myId
-      if clientOffset.x > targetBoundingRect.left + 40 
-        console.log "Make child of previous sibling"
-        props.onIndent(sourceList, myId)
-      # todo: if hovering over itself and indents to an extent, make self a child of the previous sibling
       return
       
+      # todo: this introduces lots of weiredness, disable for now
+      # if clientOffset.x > targetBoundingRect.left + 40 
+      #   console.log "Make child of previous sibling"
+      #   props.onIndent(sourceList, myId)
+      #   return
+      # return
+      
+    # If its not hovering over this component, may be hovering over a child  
+    if not monitor.isOver(shallow: true)
+      return
     
     # If is at the right than the far left then add to its children instead
     # To add an item to empty children
-    # If its hovering wayy far from left, ignore, its probably in child item's area
-    console.log "My Id :: ", myId
-    # console.log ReactDOM.findDOMNode(component)
     if clientOffset.x > targetBoundingRect.left + 40 
-      if _.isEmpty props.item.children 
-        console.log "Put indented", sourceList, myId ,hoveringId
-        props.onPutAfter(sourceList, myId ,hoveringId, null)
-        return
-      else
-        return
+      # if _.isEmpty props.item.children 
+      console.log "Put indented", sourceList, myId ,hoveringId
+      props.onPutAfter(sourceList, myId ,hoveringId, null)
+      return
 
     # If is in top half, and is within the height of the dragged item
     if (hoverClientY < hoverMiddleY) and (hoverClientY < monitor.getItem().height)

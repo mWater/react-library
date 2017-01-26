@@ -94,24 +94,28 @@ NestedHelper = (WrappedComponent) ->
       pasteIndex = _.findIndex value, { id: targetId }
       
       # If dragging and dropping in same list, ignore if both items are siblings
-      if sourceList == targetList 
+      if sourceList == targetList and pasteIndex > -1 and cutIndex > -1
         if before and pasteIndex - cutIndex == 1
           return
         if not before and cutIndex - pasteIndex == 1
           return  
         
+      didCut = false
+      didPaste = false
       # Actually performing drop replace now
       console.log "handlePut :: ", sourceList, targetList ,sourceId, targetId, before
       draggedItem = @findItemById(sourceList, sourceId)
       
       if cutIndex > -1
         _.pullAt value, cutIndex
+        didCut = true
       else 
         cut = (listId, itemId, items) => 
           for item in items
             if item.id == listId
               cutIndex = _.findIndex item.children, { id: sourceId }
               _.pullAt item.children, cutIndex
+              didCut = true
             else 
               cut(listId, itemId, item.children)
         cut(sourceList, sourceId, value)
@@ -122,6 +126,7 @@ NestedHelper = (WrappedComponent) ->
         if not before
           pasteIndex = pasteIndex + 1
         value.splice(pasteIndex, 0, draggedItem)
+        didPaste = true
       else
         paste = (listId, itemId, items) =>
           for item in items
@@ -135,12 +140,13 @@ NestedHelper = (WrappedComponent) ->
                   pasteIndex = pasteIndex + 1
                   
                 item.children.splice(pasteIndex, 0, draggedItem)
+              didPaste = true
             else 
               paste(listId, itemId, item.children)
         paste(targetList, targetId, value)
       
-      
-      @setState(items: value, lastOperation: operation)
+      if didPaste and didCut
+        @setState(items: value, lastOperation: operation)
       
     handleEndDrag: =>
       @props.onReorder(@state.items)
@@ -180,9 +186,10 @@ class NestedReorderableListComponent extends React.Component
     handlePutBefore: React.PropTypes.func #supplied by the helper
     handleEndDrag: React.PropTypes.func #supplied by the helper
     handleIndent: React.PropTypes.func #supplied by the helper
-
+  
   @defaultProps:
     element: H.div null
+    heirarchyLevel: 0
 
   render: ->
     React.cloneElement(
