@@ -75,7 +75,7 @@ class InnerModalComponent extends React.Component
       right: 0
       top: 0
       bottom: 0
-      zIndex: 1030 # Below bootstrap modals
+      zIndex: 1040 # Same as bootstrap modals
     }
 
     overlayStyle = {

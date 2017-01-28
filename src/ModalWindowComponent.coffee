@@ -77,7 +77,7 @@ class InnerModalComponent extends React.Component
       right: 0
       top: 0
       bottom: 0
-      zIndex: 1030 # Below bootstrap modals
+      zIndex: 1040 # Same as bootstrap modals
       backgroundColor: "rgba(0, 0, 0, 0.7)"
     }
 
@@ -87,7 +87,7 @@ class InnerModalComponent extends React.Component
       right: @props.outerPadding
       top: @props.outerPadding
       bottom: @props.outerPadding
-      zIndex: 1030 # Below bootstrap modals
+      zIndex: 1040 # Same as bootstrap modals
       backgroundColor: @props.backgroundColor
       borderRadius: 10
       border: "solid 1px #AAA"
