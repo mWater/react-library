@@ -1,6 +1,6 @@
 _ = require 'lodash'
 React = require 'react'
-uuid = require 'node-uuid'
+uuid = require 'uuid'
 H = React.DOM
 R = React.createElement
 DragDropContext = require('react-dnd').DragDropContext
@@ -26,7 +26,7 @@ class ReorderableListComponent extends React.Component
 
     @state = {
       order: null   # Ordered list of ids. Only present when dragging
-      listId: if @props.listId then @props.listId else uuid.v4()
+      listId: if @props.listId then @props.listId else uuid()
     }
 
   @defaultProps:
@@ -40,7 +40,7 @@ class ReorderableListComponent extends React.Component
     if not _.isEqual(newOrder, oldOrder)
       @setState(order: null)
       
-    @setState(listId: if nextProps.listId then nextProps.listId else uuid.v4())
+    @setState(listId: if nextProps.listId then nextProps.listId else uuid())
 
   # Put beforeId right before id
   handlePutBefore: (id, beforeId) =>

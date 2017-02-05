@@ -3,7 +3,7 @@ ReactDOM = require 'react-dom'
 H = React.DOM
 R = React.createElement
 _ = require 'lodash'
-uuid = require 'node-uuid'
+uuid = require 'uuid'
 
 SampleComponent = require './SampleComponent'
 ModalPopupComponent = require './ModalPopupComponent'
@@ -93,7 +93,7 @@ class SortableSampleItem extends React.Component
     }
 
   render: ->
-    id = uuid.v4()
+    id = uuid()
     itemStyle =
       border: "1px solid #aeaeae"
       padding: "8px"
@@ -220,7 +220,7 @@ class SortableSample extends React.Component
 
   addNewItem: =>
     items = @state.items.splice(0)
-    id = uuid.v4()
+    id = uuid()
     items.push({
       id: id,
       children: [],
@@ -229,7 +229,7 @@ class SortableSample extends React.Component
     @setState(items: items)
 
   render: ->
-    id = uuid.v4()
+    id = uuid()
     style=
       padding: 10
     H.div {style: style},
