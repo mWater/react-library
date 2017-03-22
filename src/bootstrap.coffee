@@ -48,7 +48,7 @@ exports.FormGroup = class FormGroup extends React.Component
       H.label key: "label", 
         @props.label
         if @props.hint
-          H.span className: "text-muted",
+          H.span className: "text-muted", style: { fontWeight: if @props.label then "normal" },
             if @props.label
               " - "
             @props.hint
