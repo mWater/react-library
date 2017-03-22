@@ -52,7 +52,7 @@ exports.FormGroup = class FormGroup extends React.Component
         H.p key: "help", className: "help-block", style: { marginLeft: 5 },
           @props.help
 
-exports.Check = class Check extends React.Component
+exports.Checkbox = class Checkbox extends React.Component
   @propTypes:
     value: React.PropTypes.bool
     onChange: React.PropTypes.func
