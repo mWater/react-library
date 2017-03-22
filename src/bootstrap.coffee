@@ -39,13 +39,20 @@ exports.Icon = class Icon extends React.Component
 # Indented form group with a label, optional help text. Label and indented contents
 exports.FormGroup = class FormGroup extends React.Component
   @propTypes:
-    label: React.PropTypes.node
-    help: React.PropTypes.node
+    label: React.PropTypes.node  # Label to display
+    hint: React.PropTypes.node # Hint to append to label. Makes label faded if only hint presented
+    help: React.PropTypes.node # Help block at bottom
 
   render: ->
     H.div className: "form-group",
       H.label key: "label", 
         @props.label
+        if @props.hint
+          H.span className: "text-muted",
+            if @props.label
+              " - "
+            @props.hint
+
       H.div key: "contents", style: { marginLeft: 5 }, 
         @props.children
       if @props.help
