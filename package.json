@@ -20,6 +20,7 @@
     "classnames": "^2.2.1",
     "lodash": "^3.10.1",
     "object-assign": "^4.1.0",
+    "object-path-immutable": "^0.5.1",
     "react": "^15.0.1",
     "react-bootstrap": "^0.30.3",
     "react-dnd": "^2.1.4",
