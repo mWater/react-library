@@ -36,7 +36,7 @@ exports.Icon = class Icon extends React.Component
     else
       return null
 
-# Indented form group with a label, optional help text. Faded label and indented contents
+# Indented form group with a label, optional help text. Label and indented contents
 exports.FormGroup = class FormGroup extends React.Component
   @propTypes:
     label: React.PropTypes.node
@@ -44,7 +44,7 @@ exports.FormGroup = class FormGroup extends React.Component
 
   render: ->
     H.div className: "form-group",
-      H.label key: "label", className: "text-muted", 
+      H.label key: "label", 
         @props.label
       H.div key: "contents", style: { marginLeft: 5 }, 
         @props.children
