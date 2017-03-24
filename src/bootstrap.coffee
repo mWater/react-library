@@ -15,12 +15,13 @@ exports.Button = class Button extends React.Component
     onClick: React.PropTypes.func
     disabled: React.PropTypes.bool
     active: React.PropTypes.bool
+    size: React.PropTypes.string # e.g. "sm", "xs"
 
   @defaultProps:
     type: "default"
 
   render: ->
-    H.button type: "button", className: classnames("btn", "btn-#{@props.type}", { active: @props.active }), onClick: @props.onClick, disabled: @props.disabled,
+    H.button type: "button", className: classnames("btn", "btn-#{@props.type}", { active: @props.active }, { "btn-#{@props.size}": @props.size? }), onClick: @props.onClick, disabled: @props.disabled,
       @props.children
 
 # Icon, either font-awesome or glyphicon
