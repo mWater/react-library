@@ -87,7 +87,11 @@ exports.Radio = class Radio extends React.Component
   render: ->
     return H.div className: (if @props.inline then "radio-inline" else "radio"),
       H.label null,
-        H.input type: "radio", checked: @props.value == @props.radioValue, onClick: (ev) => @props.onChange(@props.radioValue)
+        H.input 
+          type: "radio"
+          checked: @props.value == @props.radioValue
+          onChange: ->  # Do nothing
+          onClick: (ev) => @props.onChange(@props.radioValue)
         @props.children
 
 # Select dropdown
