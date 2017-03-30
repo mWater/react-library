@@ -41,18 +41,18 @@ exports.Icon = class Icon extends React.Component
 exports.FormGroup = class FormGroup extends React.Component
   @propTypes:
     label: React.PropTypes.node  # Label to display
-    mutedLabel: React.PropTypes.bool  # True to mute label
+    labelMuted: React.PropTypes.bool  # True to mute label
     hint: React.PropTypes.node # Hint to append to label. Makes label faded if only hint presented
     help: React.PropTypes.node # Help block at bottom
 
   render: ->
     H.div className: "form-group",
       H.label key: "label", 
-        if @props.mutedLabel
+        if @props.labelMuted
           H.span className: "text-muted", @props.label
         else
           @props.label
-          
+
         if @props.hint
           H.span className: "text-muted", style: { fontWeight: if @props.label then "normal" },
             if @props.label
