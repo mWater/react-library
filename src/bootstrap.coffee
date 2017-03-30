@@ -41,13 +41,18 @@ exports.Icon = class Icon extends React.Component
 exports.FormGroup = class FormGroup extends React.Component
   @propTypes:
     label: React.PropTypes.node  # Label to display
+    mutedLabel: React.PropTypes.bool  # True to mute label
     hint: React.PropTypes.node # Hint to append to label. Makes label faded if only hint presented
     help: React.PropTypes.node # Help block at bottom
 
   render: ->
     H.div className: "form-group",
       H.label key: "label", 
-        @props.label
+        if @props.mutedLabel
+          H.span className: "text-muted", @props.label
+        else
+          @props.label
+          
         if @props.hint
           H.span className: "text-muted", style: { fontWeight: if @props.label then "normal" },
             if @props.label
@@ -94,13 +99,14 @@ exports.Radio = class Radio extends React.Component
           onClick: (ev) => @props.onChange(@props.radioValue)
         @props.children
 
-# Select dropdown
+# Select dropdown. Note: stringifies the value of the option so that null, strings, numbers, booleans etc.
+# all work as possible options.
 exports.Select = class Select extends React.Component
   @propTypes:
     value: React.PropTypes.any
     onChange: React.PropTypes.func
     options: React.PropTypes.arrayOf(React.PropTypes.shape({
-      value: React.PropTypes.any
+      value: React.PropTypes.any # Can be any JS type that has a consistent stringification (boolean, null, string, number)
       label: React.PropTypes.string
       }))
     size: React.PropTypes.string # "sm" or "lg"
