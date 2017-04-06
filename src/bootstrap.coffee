@@ -219,7 +219,7 @@ exports.NumberInput = class NumberInput extends React.Component
       style.backgroundColor = "rgba(132, 53, 52, 0.12)" # Faded red
 
     H.input
-      ref: (c) -> @input = c
+      ref: (c) => @input = c
       type: if @props.decimal then "number" else "tel"
       className: "form-control #{if @props.size then "input-#{@props.size}" else ""}"
       lang: "en"
