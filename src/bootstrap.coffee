@@ -179,11 +179,11 @@ exports.NumberInput = class NumberInput extends React.Component
 
   handleKeyDown: (ev) =>
     # When pressing ENTER or TAB
-    if ev.keyCode == 13
+    if @props.onEnter and ev.keyCode == 13
       @props.onEnter(ev)
       ev.preventDefault()
 
-    if ev.keyCode == 9 and @props.onTab
+    if @props.onTab and ev.keyCode == 9 and @props.onTab
       @props.onTab(ev)
       # It's important to prevent the default behavior when handling tabs (or else the tab is applied after the focus change)
       ev.preventDefault()
