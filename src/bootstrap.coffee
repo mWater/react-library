@@ -251,10 +251,10 @@ exports.CollapsibleSection = class CollapsibleSection extends React.Component
     H.div className: "form-group",
       H.label key: "label", onClick: @handleToggle, style: { cursor: "pointer" },
         if @state.open
-          H.i className: "fa fa-fw fa-caret-down"
+          H.i className: "fa fa-fw fa-caret-down #{if @props.labelMuted then "text-muted"}"
         else
-          H.i className: "fa fa-fw fa-caret-right"
-        " "
+          H.i className: "fa fa-fw fa-caret-right #{if @props.labelMuted then "text-muted"}"
+            
         if @props.labelMuted
           H.span className: "text-muted", @props.label
         else
