@@ -134,6 +134,7 @@ exports.TextInput = class TextInput extends React.Component
     placeholder: React.PropTypes.string
     size: React.PropTypes.string # "sm" or "lg"
     emptyNull: React.PropTypes.bool  # True to make empty null
+    style: React.PropTypes.object     # Will be merged with style of input box
 
   handleChange: (ev) =>
     value = ev.target.value
@@ -147,6 +148,7 @@ exports.TextInput = class TextInput extends React.Component
       type: "text"
       className: classnames("form-control", { "input-sm": @props.size == "sm" }, { "input-lg": @props.size == "lg" })
       value: @props.value or ""
+      style: @props.style
       onChange: @handleChange 
       placeholder: @props.placeholder
 
@@ -254,7 +256,7 @@ exports.CollapsibleSection = class CollapsibleSection extends React.Component
           H.i className: "fa fa-fw fa-caret-down #{if @props.labelMuted then "text-muted"}"
         else
           H.i className: "fa fa-fw fa-caret-right #{if @props.labelMuted then "text-muted"}"
-            
+
         if @props.labelMuted
           H.span className: "text-muted", @props.label
         else
