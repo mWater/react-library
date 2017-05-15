@@ -74,12 +74,12 @@ exports.Checkbox = class Checkbox extends React.Component
   render: ->
     if @props.inline
       return H.label className: "checkbox-inline",
-        H.input type: "checkbox", checked: @props.value or false, onChange: (ev) => @props.onChange(ev.target.checked)
+        H.input type: "checkbox", checked: @props.value or false, onChange: if @props.onChange then (ev) => @props.onChange(ev.target.checked)
         @props.children
     else
       return H.div className: "checkbox",
         H.label null,
-          H.input type: "checkbox", checked: @props.value or false, onChange: (ev) => @props.onChange(ev.target.checked)
+          H.input type: "checkbox", checked: @props.value or false, onChange: if @props.onChange then (ev) => @props.onChange(ev.target.checked)
           @props.children
 
 exports.Radio = class Radio extends React.Component
@@ -96,7 +96,7 @@ exports.Radio = class Radio extends React.Component
           type: "radio"
           checked: @props.value == @props.radioValue
           onChange: ->  # Do nothing
-          onClick: (ev) => @props.onChange(@props.radioValue)
+          onClick: if @props.onChange then (ev) => @props.onChange(@props.radioValue)
         @props.children
 
 # Select dropdown. Note: stringifies the value of the option so that null, strings, numbers, booleans etc.
@@ -124,7 +124,7 @@ exports.Select = class Select extends React.Component
     return H.select
       className: classnames("form-control", { "input-sm": @props.size == "sm" }, { "input-lg": @props.size == "lg" })
       value: JSON.stringify(if @props.value? then @props.value else null)
-      onChange: @handleChange,
+      onChange: (if @props.onChange then @handleChange),
         _.map(options, (option) => H.option key: JSON.stringify(option.value), value: JSON.stringify(option.value), option.label)
 
 exports.TextInput = class TextInput extends React.Component
@@ -149,7 +149,7 @@ exports.TextInput = class TextInput extends React.Component
       className: classnames("form-control", { "input-sm": @props.size == "sm" }, { "input-lg": @props.size == "lg" })
       value: @props.value or ""
       style: @props.style
-      onChange: @handleChange 
+      onChange: if @props.onChange then @handleChange 
       placeholder: @props.placeholder
 
 
@@ -227,7 +227,7 @@ exports.NumberInput = class NumberInput extends React.Component
       lang: "en"
       style: style
       value: @state.inputText
-      onChange: (ev) => @setState(inputText: ev.target.value)
+      onChange: if @props.onChange then (ev) => @setState(inputText: ev.target.value)
       onBlur: @handleBlur
       onKeyDown: @handleKeyDown
 
