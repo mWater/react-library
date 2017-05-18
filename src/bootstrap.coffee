@@ -56,7 +56,7 @@ exports.FormGroup = class FormGroup extends React.Component
       "has-success": @props.hasSuccess
     }
     
-    H.div className: classNames(classes),
+    H.div className: classnames(classes),
       H.label key: "label", 
         if @props.labelMuted
           H.span className: "text-muted", @props.label
