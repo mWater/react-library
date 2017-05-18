@@ -44,9 +44,19 @@ exports.FormGroup = class FormGroup extends React.Component
     labelMuted: React.PropTypes.bool  # True to mute label
     hint: React.PropTypes.node # Hint to append to label. Makes label faded if only hint presented
     help: React.PropTypes.node # Help block at bottom
+    hasSuccess: React.PropTypes.bool # True to display as success
+    hasWarning: React.PropTypes.bool # True to display as warning
+    hasError: React.PropTypes.bool # True to display as error
 
   render: ->
-    H.div className: "form-group",
+    classes = {
+      "form-group": true
+      "has-error": @props.hasErrors
+      "has-warning": @props.hasWarnings
+      "has-success": @props.hasSuccess
+    }
+    
+    H.div className: classNames(classes),
       H.label key: "label", 
         if @props.labelMuted
           H.span className: "text-muted", @props.label
