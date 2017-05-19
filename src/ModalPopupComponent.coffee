@@ -8,7 +8,7 @@ module.exports = class ModalPopupComponent extends React.Component
   @propTypes: 
     header: React.PropTypes.node # Header of modal. Any react element
     footer: React.PropTypes.node # Footer of modal. Any react element
-    size: React.PropTypes.string # "large" for large
+    size: React.PropTypes.string # "large" for large, "full" for full-width
     showCloseX: React.PropTypes.bool # True to show close 'x' at top right
     onClose: React.PropTypes.func # callback function to be called when close is requested
 
@@ -58,7 +58,7 @@ class InnerModalComponent extends React.Component
   @propTypes: 
     header: React.PropTypes.node # Header of modal. Any react element
     footer: React.PropTypes.node # Footer of modal. Any react element
-    size: React.PropTypes.string # "large" for large
+    size: React.PropTypes.string # "large" for large, "full" for full-width
     showCloseX: React.PropTypes.bool # True to show close 'x' at top right
     onClose: React.PropTypes.func # callback function to be called when close is requested
 
@@ -68,6 +68,8 @@ class InnerModalComponent extends React.Component
       dialogClass += " modal-lg"
     if @props.size == "small"
       dialogClass += " modal-sm"
+    if @props.size == "full"
+      dialogStyle = { width: "95%" }
 
     rootStyle = {
       position: "fixed"
@@ -90,7 +92,7 @@ class InnerModalComponent extends React.Component
     H.div style: rootStyle,
       H.style null, '''body { overflow-y: hidden }'''
       H.div style: overlayStyle, onClick: @props.onClose
-      H.div className: dialogClass,
+      H.div className: dialogClass, style: dialogStyle,
         H.div className: "modal-content",
           if @props.header
             H.div className: "modal-header", 

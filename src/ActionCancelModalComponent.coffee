@@ -12,7 +12,7 @@ module.exports = class ActionCancelModalComponent extends React.Component
     onCancel: React.PropTypes.func # Called when cancel is clicked
     onDelete: React.PropTypes.func # Big red destuctive action in footer. Not present if null
     deleteLabel: React.PropTypes.node # Label of delete button. Default "Delete"
-    size: React.PropTypes.string # "large" for large
+    size: React.PropTypes.string # "large" for large, "full" for full width
 
   render: ->
     React.createElement(ModalPopupComponent,
