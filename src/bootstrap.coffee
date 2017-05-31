@@ -121,6 +121,7 @@ exports.Select = class Select extends React.Component
       }))
     size: React.PropTypes.string # "sm" or "lg"
     nullLabel: React.PropTypes.string  # True to make extra option of null with the label. Can be ""
+    style: React.PropTypes.object     # Will be merged with style of select box
 
   handleChange: (ev) =>
     value = JSON.parse(ev.target.value)
@@ -132,6 +133,7 @@ exports.Select = class Select extends React.Component
       options.unshift({ value: null, label: @props.nullLabel })
 
     return H.select
+      style: @props.style
       className: classnames("form-control", { "input-sm": @props.size == "sm" }, { "input-lg": @props.size == "lg" })
       value: JSON.stringify(if @props.value? then @props.value else null)
       onChange: (if @props.onChange then @handleChange),
@@ -282,3 +284,22 @@ exports.CollapsibleSection = class CollapsibleSection extends React.Component
         H.div key: "contents", style: { marginLeft: 5 }, 
           @props.children
     
+# Displays bootstrap pills with one active    
+exports.NavPills = class NavPills extends React.Component
+  @propTypes:
+    pills: React.PropTypes.arrayOf(React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired  # Id of the tab
+      label: React.PropTypes.node.isRequired  # Label of the tab
+      href: React.PropTypes.string           # href optional
+      }))
+
+    activePill: React.PropTypes.string
+    onPillClick: React.PropTypes.func        # Called with id
+
+  render: ->
+    H.ul className: "nav nav-pills", 
+      _.map @props.pills, (pill) =>
+        H.li key: pill.id, className: (if pill.id == @props.activePill then "active" else ""),
+          H.a href: pill.href, onClick: (=> @props.onPillClick?(pill.id)),
+            pill.label
+
