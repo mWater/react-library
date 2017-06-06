@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 #
 # SplitPane component
 # 
@@ -21,17 +22,17 @@ module.exports = class SplitPane extends React.Component
   
   @propTypes = {
     # The split type "vertical" or "horizontal"
-    split: React.PropTypes.oneOf(['vertical', 'horizontal'])
+    split: PropTypes.oneOf(['vertical', 'horizontal'])
 
     # Size of the first pane. Takes a string with percentage value ("20%") or a number in pixels (300)
-    firstPaneSize: React.PropTypes.oneOfType([React.PropTypes.string,React.PropTypes.number])
+    firstPaneSize: PropTypes.oneOfType([PropTypes.string,PropTypes.number])
 
     # Minimum size of the first pane. The first pane cannot be resized past this size. Takes a number in pixels
-    minFirstPaneSize: React.PropTypes.number
+    minFirstPaneSize: PropTypes.number
 
     # Callback function that will be called when the resizing is done. 
     # The current size of the firstpane is passed as first argument
-    onResize: React.PropTypes.func
+    onResize: PropTypes.func
   }
 
   constructor: ->

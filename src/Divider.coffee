@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 #
 # Divider
 # 
@@ -13,7 +14,7 @@ H = React.DOM
 module.exports = class Divider extends React.Component
   
   @propTypes: {
-    split: React.PropTypes.oneOf(['vertical', 'horizontal'])
+    split: PropTypes.oneOf(['vertical', 'horizontal'])
   }
 
   @defaultProps: ->

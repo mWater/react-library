@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 _ = require 'lodash'
 React = require 'react'
 ReactDOM = require 'react-dom'
@@ -9,9 +10,9 @@ CrossComponent = require './CrossComponent'
 # Makes a vertical tree component with lines between
 module.exports = class VerticalTreeLayoutComponent extends React.Component
   @propTypes:
-    headElem: React.PropTypes.node
-    height: React.PropTypes.number # e.g. 50
-    line: React.PropTypes.string.isRequired # e.g. "solid 1px gray"
+    headElem: PropTypes.node
+    height: PropTypes.number # e.g. 50
+    line: PropTypes.string.isRequired # e.g. "solid 1px gray"
 
   renderChildren: ->
     len = React.Children.count(@props.children)

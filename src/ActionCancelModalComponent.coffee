@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 React = require 'react'
 H = React.DOM
 _ = require 'lodash'
@@ -6,13 +7,13 @@ ModalPopupComponent = require('./ModalPopupComponent')
 # Modal with action and cancel buttons
 module.exports = class ActionCancelModalComponent extends React.Component
   @propTypes: 
-    title: React.PropTypes.node # Title of modal. Any react element
-    actionLabel: React.PropTypes.node # Action button. Defaults to "Save"
-    onAction: React.PropTypes.func # Called when action button is clicked
-    onCancel: React.PropTypes.func # Called when cancel is clicked
-    onDelete: React.PropTypes.func # Big red destuctive action in footer. Not present if null
-    deleteLabel: React.PropTypes.node # Label of delete button. Default "Delete"
-    size: React.PropTypes.string # "large" for large, "full" for full width
+    title: PropTypes.node # Title of modal. Any react element
+    actionLabel: PropTypes.node # Action button. Defaults to "Save"
+    onAction: PropTypes.func # Called when action button is clicked
+    onCancel: PropTypes.func # Called when cancel is clicked
+    onDelete: PropTypes.func # Big red destuctive action in footer. Not present if null
+    deleteLabel: PropTypes.node # Label of delete button. Default "Delete"
+    size: PropTypes.string # "large" for large, "full" for full width
 
   render: ->
     React.createElement(ModalPopupComponent,

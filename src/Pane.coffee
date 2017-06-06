@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 # Pane
 # 
 # Internally used by SplitPane to create the resizable panes
@@ -13,8 +14,8 @@ H = React.DOM
 module.exports = class Pane extends React.Component
   
   @propTypes: {
-    split: React.PropTypes.oneOf(['vertical', 'horizontal'])
-    width: React.PropTypes.oneOfType([React.PropTypes.string,React.PropTypes.number])
+    split: PropTypes.oneOf(['vertical', 'horizontal'])
+    width: PropTypes.oneOfType([PropTypes.string,PropTypes.number])
   }
 
   @defaultProps: ->

@@ -1,12 +1,13 @@
+PropTypes = require('prop-types')
 React = require 'react'
 H = React.DOM
 
 # Displays a spinner with loading in the center
 module.exports = class LoadingComponent extends React.Component
   @propTypes:
-    width: React.PropTypes.any # Defaults to 100%
-    height: React.PropTypes.any # Defaults to 100%
-    label: React.PropTypes.node # Defaults to Loading...
+    width: PropTypes.any # Defaults to 100%
+    height: PropTypes.any # Defaults to 100%
+    label: PropTypes.node # Defaults to Loading...
 
   @defaultProps:
     width: "100%"
