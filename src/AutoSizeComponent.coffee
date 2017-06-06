@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 React = require 'react'
 ReactDOM = require 'react-dom'
 H = React.DOM
@@ -9,8 +10,8 @@ Resizable = require './react-component-resizable'
 # If children is a function, calls with with { width:,  height: } depending on injectHeight or injectWidth
 module.exports = class AutoSizeComponent extends React.Component
   @propTypes:
-    injectWidth: React.PropTypes.bool # True to inject width
-    injectHeight: React.PropTypes.bool # True to inject height
+    injectWidth: PropTypes.bool # True to inject width
+    injectHeight: PropTypes.bool # True to inject height
 
   constructor: ->
     @state = { width: null, height: null }

@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 classnames = require 'classnames'
 React = require 'react'
 H = React.DOM
@@ -11,11 +12,11 @@ exports.Spinner = () -> H.i className: "fa fa-spinner fa-spin"
 # Standard button
 exports.Button = class Button extends React.Component
   @propTypes:
-    type: React.PropTypes.string # e.g. "primary"
-    onClick: React.PropTypes.func
-    disabled: React.PropTypes.bool
-    active: React.PropTypes.bool
-    size: React.PropTypes.string # e.g. "sm", "xs"
+    type: PropTypes.string # e.g. "primary"
+    onClick: PropTypes.func
+    disabled: PropTypes.bool
+    active: PropTypes.bool
+    size: PropTypes.string # e.g. "sm", "xs"
 
   @defaultProps:
     type: "default"
@@ -27,7 +28,7 @@ exports.Button = class Button extends React.Component
 # Icon, either font-awesome or glyphicon
 exports.Icon = class Icon extends React.Component
   @propTypes:
-    id: React.PropTypes.string.isRequired # e.g. "fa-check", 'glyphicon-ok', 'fa-check fa-fw'
+    id: PropTypes.string.isRequired # e.g. "fa-check", 'glyphicon-ok', 'fa-check fa-fw'
 
   render: ->
     if @props.id.match(/^fa-/)
@@ -40,13 +41,13 @@ exports.Icon = class Icon extends React.Component
 # Indented form group with a label, optional help text. Label and indented contents
 exports.FormGroup = class FormGroup extends React.Component
   @propTypes:
-    label: React.PropTypes.node  # Label to display
-    labelMuted: React.PropTypes.bool  # True to mute label
-    hint: React.PropTypes.node # Hint to append to label. Makes label faded if only hint presented
-    help: React.PropTypes.node # Help block at bottom
-    hasSuccess: React.PropTypes.bool # True to display as success
-    hasWarning: React.PropTypes.bool # True to display as warning
-    hasError: React.PropTypes.bool # True to display as error
+    label: PropTypes.node  # Label to display
+    labelMuted: PropTypes.bool  # True to mute label
+    hint: PropTypes.node # Hint to append to label. Makes label faded if only hint presented
+    help: PropTypes.node # Help block at bottom
+    hasSuccess: PropTypes.bool # True to display as success
+    hasWarning: PropTypes.bool # True to display as warning
+    hasError: PropTypes.bool # True to display as error
 
   render: ->
     classes = {
@@ -77,9 +78,9 @@ exports.FormGroup = class FormGroup extends React.Component
 
 exports.Checkbox = class Checkbox extends React.Component
   @propTypes:
-    value: React.PropTypes.bool
-    onChange: React.PropTypes.func
-    inline: React.PropTypes.bool    # Makes horizontal
+    value: PropTypes.bool
+    onChange: PropTypes.func
+    inline: PropTypes.bool    # Makes horizontal
 
   render: ->
     if @props.inline
@@ -94,10 +95,10 @@ exports.Checkbox = class Checkbox extends React.Component
 
 exports.Radio = class Radio extends React.Component
   @propTypes:
-    value: React.PropTypes.any       # Value to display
-    radioValue: React.PropTypes.any  # Value that radio button represents. If equal to value, button is checked
-    onChange: React.PropTypes.func   # Called with radio value
-    inline: React.PropTypes.bool    # Makes horizontal
+    value: PropTypes.any       # Value to display
+    radioValue: PropTypes.any  # Value that radio button represents. If equal to value, button is checked
+    onChange: PropTypes.func   # Called with radio value
+    inline: PropTypes.bool    # Makes horizontal
 
   render: ->
     return H.div className: (if @props.inline then "radio-inline" else "radio"),
@@ -113,15 +114,15 @@ exports.Radio = class Radio extends React.Component
 # all work as possible options.
 exports.Select = class Select extends React.Component
   @propTypes:
-    value: React.PropTypes.any
-    onChange: React.PropTypes.func
-    options: React.PropTypes.arrayOf(React.PropTypes.shape({
-      value: React.PropTypes.any # Can be any JS type that has a consistent stringification (boolean, null, string, number)
-      label: React.PropTypes.string
+    value: PropTypes.any
+    onChange: PropTypes.func
+    options: PropTypes.arrayOf(PropTypes.shape({
+      value: PropTypes.any # Can be any JS type that has a consistent stringification (boolean, null, string, number)
+      label: PropTypes.string
       }))
-    size: React.PropTypes.string # "sm" or "lg"
-    nullLabel: React.PropTypes.string  # True to make extra option of null with the label. Can be ""
-    style: React.PropTypes.object     # Will be merged with style of select box
+    size: PropTypes.string # "sm" or "lg"
+    nullLabel: PropTypes.string  # True to make extra option of null with the label. Can be ""
+    style: PropTypes.object     # Will be merged with style of select box
 
   handleChange: (ev) =>
     value = JSON.parse(ev.target.value)
@@ -141,12 +142,12 @@ exports.Select = class Select extends React.Component
 
 exports.TextInput = class TextInput extends React.Component
   @propTypes:
-    value: React.PropTypes.string
-    onChange: React.PropTypes.func
-    placeholder: React.PropTypes.string
-    size: React.PropTypes.string # "sm" or "lg"
-    emptyNull: React.PropTypes.bool  # True to make empty null
-    style: React.PropTypes.object     # Will be merged with style of input box
+    value: PropTypes.string
+    onChange: PropTypes.func
+    placeholder: PropTypes.string
+    size: PropTypes.string # "sm" or "lg"
+    emptyNull: PropTypes.bool  # True to make empty null
+    style: PropTypes.object     # Will be merged with style of input box
 
   handleChange: (ev) =>
     value = ev.target.value
@@ -168,13 +169,13 @@ exports.TextInput = class TextInput extends React.Component
 # Number input component that handles parsing and maintains state when number is invalid
 exports.NumberInput = class NumberInput extends React.Component
   @propTypes:
-    decimal: React.PropTypes.bool.isRequired
-    value: React.PropTypes.number
-    onChange: React.PropTypes.func.isRequired
-    style: React.PropTypes.object     # Will be merged with style of input box
-    size: React.PropTypes.string      # "sm", "lg"
-    onTab: React.PropTypes.func
-    onEnter: React.PropTypes.func
+    decimal: PropTypes.bool.isRequired
+    value: PropTypes.number
+    onChange: PropTypes.func.isRequired
+    style: PropTypes.object     # Will be merged with style of input box
+    size: PropTypes.string      # "sm", "lg"
+    onTab: PropTypes.func
+    onEnter: PropTypes.func
 
   constructor: (props) ->
     super
@@ -246,10 +247,10 @@ exports.NumberInput = class NumberInput extends React.Component
 # Indented section than can be opened and closed. Defaults closed
 exports.CollapsibleSection = class CollapsibleSection extends React.Component
   @propTypes:
-    initiallyOpen: React.PropTypes.bool
-    label: React.PropTypes.node  # Label to display
-    labelMuted: React.PropTypes.bool  # True to mute label
-    hint: React.PropTypes.node # Hint to append to label. Makes label faded if only hint presented
+    initiallyOpen: PropTypes.bool
+    label: PropTypes.node  # Label to display
+    labelMuted: PropTypes.bool  # True to mute label
+    hint: PropTypes.node # Hint to append to label. Makes label faded if only hint presented
 
   constructor: (props) ->
     super(props)
@@ -287,14 +288,14 @@ exports.CollapsibleSection = class CollapsibleSection extends React.Component
 # Displays bootstrap pills with one active    
 exports.NavPills = class NavPills extends React.Component
   @propTypes:
-    pills: React.PropTypes.arrayOf(React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired  # Id of the tab
-      label: React.PropTypes.node.isRequired  # Label of the tab
-      href: React.PropTypes.string           # href optional
+    pills: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired  # Id of the tab
+      label: PropTypes.node.isRequired  # Label of the tab
+      href: PropTypes.string           # href optional
       }))
 
-    activePill: React.PropTypes.string
-    onPillClick: React.PropTypes.func        # Called with id
+    activePill: PropTypes.string
+    onPillClick: PropTypes.func        # Called with id
 
   render: ->
     H.ul className: "nav nav-pills", 

@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 _ = require 'lodash'
 React = require 'react'
 H = React.DOM
@@ -5,13 +6,13 @@ H = React.DOM
 # Number input component that handles parsing and maintains state when number is invalid
 module.exports = class NumberInputComponent extends React.Component
   @propTypes:
-    decimal: React.PropTypes.bool
-    value: React.PropTypes.number
-    onChange: React.PropTypes.func.isRequired
+    decimal: PropTypes.bool
+    value: PropTypes.number
+    onChange: PropTypes.func.isRequired
 
-    style: React.PropTypes.object     # Will be merged with style of input box
-    small: React.PropTypes.bool       # True to render with input-sm
-    placeholder: React.PropTypes.string # Placeholder text
+    style: PropTypes.object     # Will be merged with style of input box
+    small: PropTypes.bool       # True to render with input-sm
+    placeholder: PropTypes.string # Placeholder text
 
   @defaultProps:
     decimal: true

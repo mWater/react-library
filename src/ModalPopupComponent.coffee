@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 React = require 'react'
 ReactDOM = require 'react-dom'
 H = React.DOM
@@ -6,11 +7,11 @@ _ = require 'lodash'
 # Modal popup based on react
 module.exports = class ModalPopupComponent extends React.Component
   @propTypes: 
-    header: React.PropTypes.node # Header of modal. Any react element
-    footer: React.PropTypes.node # Footer of modal. Any react element
-    size: React.PropTypes.string # "large" for large, "full" for full-width
-    showCloseX: React.PropTypes.bool # True to show close 'x' at top right
-    onClose: React.PropTypes.func # callback function to be called when close is requested
+    header: PropTypes.node # Header of modal. Any react element
+    footer: PropTypes.node # Footer of modal. Any react element
+    size: PropTypes.string # "large" for large, "full" for full-width
+    showCloseX: PropTypes.bool # True to show close 'x' at top right
+    onClose: PropTypes.func # callback function to be called when close is requested
 
   componentDidMount: ->
     # Add special region to body
@@ -56,11 +57,11 @@ module.exports = class ModalPopupComponent extends React.Component
 # Content must be rendered at body level to prevent weird behaviour, so this is the inner component
 class InnerModalComponent extends React.Component
   @propTypes: 
-    header: React.PropTypes.node # Header of modal. Any react element
-    footer: React.PropTypes.node # Footer of modal. Any react element
-    size: React.PropTypes.string # "large" for large, "full" for full-width
-    showCloseX: React.PropTypes.bool # True to show close 'x' at top right
-    onClose: React.PropTypes.func # callback function to be called when close is requested
+    header: PropTypes.node # Header of modal. Any react element
+    footer: PropTypes.node # Footer of modal. Any react element
+    size: PropTypes.string # "large" for large, "full" for full-width
+    showCloseX: PropTypes.bool # True to show close 'x' at top right
+    onClose: PropTypes.func # callback function to be called when close is requested
 
   render: ->
     dialogClass = "modal-dialog"

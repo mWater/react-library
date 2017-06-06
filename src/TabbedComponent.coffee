@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 _ = require 'lodash'
 React = require 'react'
 H = React.DOM
@@ -5,11 +6,11 @@ H = React.DOM
 # Simple bootstrap tabbed component
 module.exports = class TabbedComponent extends React.Component
   @propTypes:
-    tabs: React.PropTypes.array.isRequired # Array of { id, label, elem, onRemove (optional) }
-    initialTabId: React.PropTypes.string # Initially selected id of tab
-    tabId: React.PropTypes.string # Selected id of tab
-    onAddTab: React.PropTypes.func    # Set to have a plus to add a tab
-    onTabClick: React.PropTypes.func    # Set to be called back when a tab is clicked (tabId) instead of setting internal state
+    tabs: PropTypes.array.isRequired # Array of { id, label, elem, onRemove (optional) }
+    initialTabId: PropTypes.string # Initially selected id of tab
+    tabId: PropTypes.string # Selected id of tab
+    onAddTab: PropTypes.func    # Set to have a plus to add a tab
+    onTabClick: PropTypes.func    # Set to be called back when a tab is clicked (tabId) instead of setting internal state
 
   constructor: ->
     super
