@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 _ = require 'lodash'
 React = require 'react'
 uuid = require 'uuid'
@@ -12,14 +13,14 @@ NestableDragDropContext = require "../NestableDragDropContext"
 # Currently supports reordering within the same list
 class ReorderableListComponent extends React.Component
   @propTypes:
-    items: React.PropTypes.array.isRequired # items to be reordered
-    onReorder: React.PropTypes.func.isRequired # callback function, called when an item is dropped, gets passed the reordered item list
+    items: PropTypes.array.isRequired # items to be reordered
+    onReorder: PropTypes.func.isRequired # callback function, called when an item is dropped, gets passed the reordered item list
     # function which renders the item, gets passed the current item and react dnd connectors
     # signature: function(item, index, connectDragSource, connectDragPreview, connectDropTarget)
-    renderItem: React.PropTypes.func.isRequired
-    listId: React.PropTypes.string # a uniqid for the list
-    getItemId: React.PropTypes.func.isRequired # function which should return the identifier of the current item, gets passed the current item
-    element: React.PropTypes.object # the element to render this component as
+    renderItem: PropTypes.func.isRequired
+    listId: PropTypes.string # a uniqid for the list
+    getItemId: PropTypes.func.isRequired # function which should return the identifier of the current item, gets passed the current item
+    element: PropTypes.object # the element to render this component as
 
   constructor: ->
     super
