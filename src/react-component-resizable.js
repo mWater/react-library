@@ -31,6 +31,8 @@ ES6 compiled
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
+var PropTypes = require('prop-types')
+
 var React = global.React || require('react');
 var objectAssign = require('object-assign');
 
@@ -44,11 +46,11 @@ var Resizable = React.createClass({
   },
 
   propTypes: {
-    triggersClass: React.PropTypes.string,
-    expandClass: React.PropTypes.string,
-    contractClass: React.PropTypes.string,
-    embedCss: React.PropTypes.bool,
-    onResize: React.PropTypes.func.isRequired
+    triggersClass: PropTypes.string,
+    expandClass: PropTypes.string,
+    contractClass: PropTypes.string,
+    embedCss: PropTypes.bool,
+    onResize: PropTypes.func.isRequired
   },
 
   getDefaultProps: function getDefaultProps() {
