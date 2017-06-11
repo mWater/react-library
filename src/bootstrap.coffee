@@ -171,7 +171,7 @@ exports.NumberInput = class NumberInput extends React.Component
   @propTypes:
     decimal: PropTypes.bool.isRequired
     value: PropTypes.number
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func
     style: PropTypes.object     # Will be merged with style of input box
     size: PropTypes.string      # "sm", "lg"
     onTab: PropTypes.func
@@ -208,11 +208,11 @@ exports.NumberInput = class NumberInput extends React.Component
     if @isValid()
       val = if @props.decimal then parseFloat(@state.inputText) else parseInt(@state.inputText)
       if isNaN(val)
-        @props.onChange(null)
+        @props.onChange?(null)
       else
-        @props.onChange(val)
+        @props.onChange?(val)
     else
-      @props.onChange(@props.value)
+      @props.onChange?(@props.value)
 
   # Check regex matching of numbers
   isValid: ->
