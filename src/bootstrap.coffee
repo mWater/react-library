@@ -81,16 +81,23 @@ exports.Checkbox = class Checkbox extends React.Component
     value: PropTypes.bool
     onChange: PropTypes.func
     inline: PropTypes.bool    # Makes horizontal
+    nullForFalse: PropTypes.bool # Uses null for false
+
+  handleChange: (ev) =>
+    if @props.nullForFalse
+      @props.onChange(ev.target.checked or null)
+    else
+      @props.onChange(ev.target.checked)
 
   render: ->
     if @props.inline
       return H.label className: "checkbox-inline",
-        H.input type: "checkbox", checked: @props.value or false, onChange: if @props.onChange then (ev) => @props.onChange(ev.target.checked)
+        H.input type: "checkbox", checked: @props.value or false, onChange: if @props.onChange then @handleChange
         @props.children
     else
       return H.div className: "checkbox",
         H.label null,
-          H.input type: "checkbox", checked: @props.value or false, onChange: if @props.onChange then (ev) => @props.onChange(ev.target.checked)
+          H.input type: "checkbox", checked: @props.value or false, onChange: if @props.onChange then @handleChange
           @props.children
 
 exports.Radio = class Radio extends React.Component
