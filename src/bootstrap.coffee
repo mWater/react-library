@@ -247,7 +247,7 @@ exports.NumberInput = class NumberInput extends React.Component
       lang: "en"
       style: style
       value: @state.inputText
-      onChange: if @props.onChange then (ev) => @setState(inputText: ev.target.value)
+      onChange: if @props.onChange then (ev) => @setState(inputText: ev.target.value) else (->)
       onBlur: @handleBlur
       onKeyDown: @handleKeyDown
 
