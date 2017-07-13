@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 React = require 'react'
 DragDropContext = require('react-dnd').DragDropContext
 
@@ -12,7 +13,7 @@ module.exports = (backend) ->
 
     class NestableDragDropContextContainer extends React.Component
       @contextTypes:
-        dragDropManager: React.PropTypes.object
+        dragDropManager: PropTypes.object
 
       render: ->
         if @context.dragDropManager

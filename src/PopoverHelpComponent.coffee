@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 _ = require 'lodash'
 React = require 'react'
 H = React.DOM
@@ -9,7 +10,7 @@ OverlayTrigger = require 'react-bootstrap/lib/OverlayTrigger'
 # Shows a popover when help icon is clicked. Needs bootstrap
 module.exports = class PopoverHelpComponent extends React.Component
   @propTypes:
-    placement: React.PropTypes.string # "top", "right", "bottom", "left"
+    placement: PropTypes.string # "top", "right", "bottom", "left"
 
   @defaultProps:
     placement: "top"

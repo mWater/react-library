@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 React = require 'react'
 ReactDOM = require 'react-dom'
 H = React.DOM
@@ -6,11 +7,11 @@ _ = require 'lodash'
 # Modal window that fills screen
 module.exports = class ModalWindowComponent extends React.Component
   @propTypes: 
-    isOpen: React.PropTypes.bool.isRequired
-    onRequestClose: React.PropTypes.func
-    backgroundColor: React.PropTypes.string
-    outerPadding: React.PropTypes.number  # Outer padding default 40
-    innerPadding: React.PropTypes.number  # Inner padding default 20
+    isOpen: PropTypes.bool.isRequired
+    onRequestClose: PropTypes.func
+    backgroundColor: PropTypes.string
+    outerPadding: PropTypes.number  # Outer padding default 40
+    innerPadding: PropTypes.number  # Inner padding default 20
 
   componentDidMount: ->
     # Add special region to body
@@ -56,11 +57,11 @@ module.exports = class ModalWindowComponent extends React.Component
 # Content must be rendered at body level to prevent weird behaviour, so this is the inner component
 class InnerModalComponent extends React.Component
   @propTypes: 
-    isOpen: React.PropTypes.bool.isRequired
-    onRequestClose: React.PropTypes.func
-    outerPadding: React.PropTypes.number  # Outer padding default 40
-    innerPadding: React.PropTypes.number  # Inner padding default 20
-    backgroundColor: React.PropTypes.string
+    isOpen: PropTypes.bool.isRequired
+    onRequestClose: PropTypes.func
+    outerPadding: PropTypes.number  # Outer padding default 40
+    innerPadding: PropTypes.number  # Inner padding default 20
+    backgroundColor: PropTypes.string
 
   @defaultProps:
     outerPadding: 40

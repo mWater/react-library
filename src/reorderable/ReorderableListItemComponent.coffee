@@ -1,3 +1,4 @@
+PropTypes = require('prop-types')
 _ = require 'lodash'
 React = require 'react'
 H = React.DOM
@@ -76,21 +77,21 @@ collectSource = (connect, monitor) ->
 
 class ReorderableListItemComponent extends React.Component
   @propTypes:
-    item: React.PropTypes.object.isRequired # the item from reorderable list
-    isDragging: React.PropTypes.bool.isRequired # internally used for tracking if an item is being dragged
-    isOver: React.PropTypes.bool.isRequired # internally used to check if an item is over the current component
-    canDrop: React.PropTypes.bool.isRequired # internally used as a flag it the item being dragged can be dropped in place of the item it is over
-    connectDragSource: React.PropTypes.func.isRequired # the drag source connector, supplied by React DND
-    connectDropTarget: React.PropTypes.func.isRequired # the drop target connector, supplied by React DND
-    connectDragPreview: React.PropTypes.func.isRequired # the drag preview connector, supplied by React DND
-    onPutBefore: React.PropTypes.func.isRequired # Call with (id, beforeId)
-    onPutAfter: React.PropTypes.func.isRequired # Call with (id, afterId)
-    onEndDrag: React.PropTypes.func.isRequired  # Called when drag is complete
-    index: React.PropTypes.number.isRequired # index of the current item
+    item: PropTypes.object.isRequired # the item from reorderable list
+    isDragging: PropTypes.bool.isRequired # internally used for tracking if an item is being dragged
+    isOver: PropTypes.bool.isRequired # internally used to check if an item is over the current component
+    canDrop: PropTypes.bool.isRequired # internally used as a flag it the item being dragged can be dropped in place of the item it is over
+    connectDragSource: PropTypes.func.isRequired # the drag source connector, supplied by React DND
+    connectDropTarget: PropTypes.func.isRequired # the drop target connector, supplied by React DND
+    connectDragPreview: PropTypes.func.isRequired # the drag preview connector, supplied by React DND
+    onPutBefore: PropTypes.func.isRequired # Call with (id, beforeId)
+    onPutAfter: PropTypes.func.isRequired # Call with (id, afterId)
+    onEndDrag: PropTypes.func.isRequired  # Called when drag is complete
+    index: PropTypes.number.isRequired # index of the current item
 
-    renderItem: React.PropTypes.func.isRequired # function to render the current item, passed by ReorderableListComponent
-    constrainTo: React.PropTypes.string.isRequired # the ID of the list where reordering is constrained to
-    getItemId: React.PropTypes.func.isRequired # function to return the identifier of the current item
+    renderItem: PropTypes.func.isRequired # function to render the current item, passed by ReorderableListComponent
+    constrainTo: PropTypes.string.isRequired # the ID of the list where reordering is constrained to
+    getItemId: PropTypes.func.isRequired # function to return the identifier of the current item
 
   render: ->
     @props.renderItem(@props.item, @props.index, @props.connectDragSource, @props.connectDragPreview, @props.connectDropTarget)
