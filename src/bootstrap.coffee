@@ -328,6 +328,6 @@ exports.Toggle = class Toggle extends React.Component
         option.label
 
   render: ->
-    H.div className: "btn-group #{if @props.size then "btn-#{size}" else ""}",
+    H.div className: "btn-group #{if @props.size then "btn-#{@props.size}" else ""}",
       _.map @props.options, @renderOption
 
