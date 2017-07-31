@@ -12,7 +12,7 @@ exports.Spinner = () -> H.i className: "fa fa-spinner fa-spin"
 # Standard button
 exports.Button = class Button extends React.Component
   @propTypes:
-    type: PropTypes.string # e.g. "primary"
+    type: PropTypes.string.isRequired # e.g. "primary"
     onClick: PropTypes.func
     disabled: PropTypes.bool
     active: PropTypes.bool
@@ -310,4 +310,24 @@ exports.NavPills = class NavPills extends React.Component
         H.li key: pill.id, className: (if pill.id == @props.activePill then "active" else ""),
           H.a href: pill.href, onClick: (=> @props.onPillClick?(pill.id)),
             pill.label
+
+# Button toggle component
+exports.Toggle = class Toggle extends React.Component
+  @propTypes:
+    value: PropTypes.any
+    options: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.any, label: PropTypes.node.isRequired })).isRequired
+    onChange: PropTypes.func
+    size: PropTypes.string  # "xs", "sm"
+
+  renderOption: (option, index) =>
+    if @props.value == option.value
+      H.button key: index, type: "button", className: "btn btn-primary active", 
+        option.label
+    else
+      H.button key: index, type: "button", className: "btn btn-default", onClick: (if @props.onChange then @props.onChange.bind(null, option.value) else null),
+        option.label
+
+  render: ->
+    H.div className: "btn-group #{if @props.size then "btn-#{size}" else ""}",
+      _.map @props.options, @renderOption
 
