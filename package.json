@@ -5,7 +5,9 @@
   "repository": "git@github.com:mWater/react-library.git",
   "main": "lib/index.js",
   "scripts": {
-    "test": "karma start"
+    "test": "karma start",
+    "storybook": "start-storybook -s . -p 6006",
+    "build-storybook": "build-storybook"
   },
   "browserify": {
     "transform": [
@@ -28,10 +30,13 @@
     "react-dnd-html5-backend": "^2.1.2",
     "react-dom": "^15.5.1",
     "react-overlays": "^0.5.4",
+    "react-select": "1.0.0-rc.5",
     "to-px": "^1.0.1",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.1.9",
+    "@storybook/react": "^3.1.9",
     "brfs": "^1.4.1",
     "browser-sync": "^2.10.0",
     "browserify": "^12.0.1",
@@ -52,12 +57,12 @@
     "mocha": "^2.3.2",
     "mocha-loader": "^1.1.1",
     "react-addons-test-utils": "^15.5.1",
+    "react-test-renderer": "^15.5.4",
     "rework-npm": "^1.0.0",
     "sinon": "^2.1.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.6.0",
     "webpack": "^2.3.1",
-    "webpack-dev-server": "^2.4.2",
-    "react-test-renderer": "^15.5.4"
+    "webpack-dev-server": "^2.4.2"
   }
 }
