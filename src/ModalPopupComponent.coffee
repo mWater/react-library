@@ -98,8 +98,8 @@ class InnerModalComponent extends React.Component
           if @props.header
             H.div className: "modal-header", 
               if @props.showCloseX
-                H.button className: "close",
-                  H.span onClick: @props.onClose, "\u00d7"
+                H.button className: "close", onClick: @props.onClose, 
+                  H.span null, "\u00d7"
               H.h4 className: "modal-title",
                 @props.header
 
