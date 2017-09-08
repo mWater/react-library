@@ -183,18 +183,36 @@ exports.NumberInput = class NumberInput extends React.Component
     size: PropTypes.string      # "sm", "lg"
     onTab: PropTypes.func
     onEnter: PropTypes.func
+    decimalPlaces: PropTypes.number # Force an exact number of decimal places, rounding value as necessary
 
   constructor: (props) ->
     super
+
     # Parsing happens on blur
     @state = {
-      inputText: if @props.value? then "" + @props.value else ""
+      inputText: @formatInput(props)
     }
 
   componentWillReceiveProps: (nextProps) ->
     # If different, override text
     if nextProps.value != @props.value
-      @setState(inputText: if nextProps.value? then "" + nextProps.value else "")
+      @setState(inputText: @formatInput(nextProps))
+
+  # Format the input based on props
+  formatInput: (props) ->
+    # Blank
+    if not props.value?
+      return ""
+
+    # Integer
+    if not props.decimal
+      return "" + Math.floor(props.value)
+
+    # Decimal
+    if props.decimalPlaces?
+      return props.value.toFixed(props.decimalPlaces)
+
+    return "" + props.value
 
   focus: () ->
     @input?.focus()
@@ -217,6 +235,10 @@ exports.NumberInput = class NumberInput extends React.Component
       if isNaN(val)
         @props.onChange?(null)
       else
+        # Round if necessary
+        if @props.decimalPlaces?
+          val = parseFloat(val.toFixed(@props.decimalPlaces))
+
         @props.onChange?(val)
     else
       @props.onChange?(@props.value)

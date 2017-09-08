@@ -43,4 +43,18 @@ describe "bootstrap", ->
 
       assert.equal wrapper.find("input").props().value, "2.3"
 
+    describe "decimalPlaces", ->
+      it "adds decimals", ->
+        wrapper = enzyme.shallow(R(bootstrap.NumberInput, decimal: true, value: 2.3, decimalPlaces: 3, onChange: ->))
+
+        assert.equal wrapper.find("input").props().value, "2.300"
+
+      it "rounds decimals", ->
+        onChange = sinon.spy()
+        wrapper = enzyme.shallow(R(bootstrap.NumberInput, decimal: true, value: 2.3, decimalPlaces: 3, onChange: onChange))
+
+        wrapper.find("input").props().onChange({ target: { value: "2.3456"}})
+        wrapper.find("input").props().onBlur()
+        assert onChange.calledWith(2.346), "" + onChange.args[0]
+
 
