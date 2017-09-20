@@ -13,6 +13,7 @@ ReorderableListComponent = require "./reorderable/ReorderableListComponent"
 ReorderableListItemComponent = require "./reorderable/ReorderableListItemComponent"
 PopoverHelpComponent = require './PopoverHelpComponent'
 FillDownwardComponent = require './FillDownwardComponent'
+AutoSizeComponent = require './AutoSizeComponent'
 
 class PopoverHelpSample extends React.Component
   render: ->
@@ -311,6 +312,12 @@ class BlocksComponent extends React.Component
       }
       "End"
 
+class AutoSizeTestComponent extends React.Component
+  render: ->
+    R AutoSizeComponent, injectHeight: true,
+      (size) =>
+        H.div style: { height: size.height + 1, backgroundColor: "#FDF" }, JSON.stringify(size)
+
 # Wait for DOM to load
 $ ->
   # elem = R VerticalTreeLayoutComponent,
@@ -338,10 +345,12 @@ $ ->
   #   _.map(_.range(1, 100), (x) -> H.div null, "#{x}")
   #   H.button type: "button", onClick: (-> showModal(100)), "SHOW"
 
-  elem = H.div null,
-    H.div style: { height: 300, backgroundColor: "red" }
-    R FillDownwardComponent, null,
-      H.div style: { height: "100%", backgroundColor: "green" }
+  # elem = H.div null,
+  #   H.div style: { height: 300, backgroundColor: "red" }
+  #   R FillDownwardComponent, null,
+  #     H.div style: { height: "100%", backgroundColor: "green" }
+
+  elem = R AutoSizeTestComponent
 
   # elem = H.div null,
   #    React.createElement(SampleComponent)

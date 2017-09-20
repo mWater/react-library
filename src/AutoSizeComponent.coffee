@@ -45,7 +45,9 @@ module.exports = class AutoSizeComponent extends React.Component
       else
         innerElem = React.cloneElement(React.Children.only(@props.children), overrides)
 
-    style = {}
+    style = {
+      overflow: "hidden" # Attempt to resolve jittering bug
+    }
     if @props.injectWidth
       style.width = "100%"
     if @props.injectHeight
