@@ -233,15 +233,18 @@ exports.NumberInput = class NumberInput extends React.Component
     if @isValid()
       val = if @props.decimal then parseFloat(@state.inputText) else parseInt(@state.inputText)
       if isNaN(val)
-        @props.onChange?(null)
+        if @props.value != null
+          @props.onChange?(null)
       else
         # Round if necessary
         if @props.decimalPlaces?
           val = parseFloat(val.toFixed(@props.decimalPlaces))
 
-        @props.onChange?(val)
+        if val != @props.value
+          @props.onChange?(val)
     else
-      @props.onChange?(@props.value)
+      # Reset
+      @setState(inputText: @formatInput(nextProps))
 
   # Check regex matching of numbers
   isValid: ->

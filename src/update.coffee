@@ -5,7 +5,8 @@ immutable = require 'object-path-immutable'
 # Creates an update function for a React component
 # The resulting function can be called three ways:
 #  1) updt({ a: 5, b: 6 }) <- merges into value
-#  2) updt("propname") <- creates a function that 
+#  2) updt("propname") <- creates a function that updates the property with the value when called
+#  3) updt("propname", value) <- Updates propname with value
 module.exports = (value, onChange, args) ->
   # If key is object, merge into value
   if _.isObject(args[0])
