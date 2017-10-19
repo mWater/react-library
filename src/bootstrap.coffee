@@ -265,9 +265,15 @@ exports.NumberInput = class NumberInput extends React.Component
       style.boxShadow = "inset 0 1px 1px rgba(0,0,0,.075)"
       style.backgroundColor = "rgba(132, 53, 52, 0.12)" # Faded red
 
+    inputType = if @props.decimal then "number" else "tel"
+
+    # Special problem with Galaxy Tab 3V (SM-T116NU) missing decimal place
+    if @props.decimal and navigator.userAgent.match(/SM-T116NU/)
+      inputType = "text"
+
     H.input
       ref: (c) => @input = c
-      type: if @props.decimal then "number" else "tel"
+      type: inputType
       className: "form-control #{if @props.size then "input-#{@props.size}" else ""}"
       lang: "en"
       style: style
