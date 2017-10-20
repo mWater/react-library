@@ -229,7 +229,7 @@ exports.NumberInput = class NumberInput extends React.Component
       ev.preventDefault()
 
   handleBlur: =>
-    # Parse and set value
+    # Parse and set value if valid
     if @isValid()
       val = if @props.decimal then parseFloat(@state.inputText) else parseInt(@state.inputText)
       if isNaN(val)
@@ -242,9 +242,6 @@ exports.NumberInput = class NumberInput extends React.Component
 
         if val != @props.value
           @props.onChange?(val)
-    else
-      # Reset
-      @setState(inputText: @formatInput(nextProps))
 
   # Check regex matching of numbers
   isValid: ->
