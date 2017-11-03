@@ -9,7 +9,7 @@ immutable = require 'object-path-immutable'
 #  3) updt("propname", value) <- Updates propname with value
 module.exports = (value, onChange, args) ->
   # If key is object, merge into value
-  if _.isObject(args[0])
+  if _.isObject(args[0]) and not _.isArray(args[0])
     newValue = _.extend({}, value, args[0])
     return onChange(newValue)
 
