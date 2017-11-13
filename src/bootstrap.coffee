@@ -184,6 +184,7 @@ exports.NumberInput = class NumberInput extends React.Component
     onTab: PropTypes.func
     onEnter: PropTypes.func
     decimalPlaces: PropTypes.number # Force an exact number of decimal places, rounding value as necessary
+    placeholder: PropTypes.string  
 
   constructor: (props) ->
     super
@@ -278,6 +279,7 @@ exports.NumberInput = class NumberInput extends React.Component
       onChange: if @props.onChange then (ev) => @setState(inputText: ev.target.value) else (->)
       onBlur: @handleBlur
       onKeyDown: @handleKeyDown
+      placeholder: @props.placeholder
 
 # Indented section than can be opened and closed. Defaults closed
 exports.CollapsibleSection = class CollapsibleSection extends React.Component
