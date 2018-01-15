@@ -142,9 +142,10 @@ exports.Select = class Select extends React.Component
 
     return H.select
       style: @props.style
+      disabled: not @props.onChange?
       className: classnames("form-control", { "input-sm": @props.size == "sm" }, { "input-lg": @props.size == "lg" })
       value: JSON.stringify(if @props.value? then @props.value else null)
-      onChange: (if @props.onChange then @handleChange),
+      onChange: (if @props.onChange then @handleChange else (->)),
         _.map(options, (option) => H.option key: JSON.stringify(option.value), value: JSON.stringify(option.value), option.label)
 
 exports.TextInput = class TextInput extends React.Component
