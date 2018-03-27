@@ -108,14 +108,23 @@ exports.Radio = class Radio extends React.Component
     inline: PropTypes.bool    # Makes horizontal
 
   render: ->
-    return H.div className: (if @props.inline then "radio-inline" else "radio"),
-      H.label null,
+    if @props.inline
+      return H.label className: "radio-inline",
         H.input 
           type: "radio"
           checked: @props.value == @props.radioValue
           onChange: ->  # Do nothing
           onClick: if @props.onChange then (ev) => @props.onChange(@props.radioValue)
-        @props.children
+        @props.children      
+    else
+      return H.div className: "radio",
+        H.label null,
+          H.input 
+            type: "radio"
+            checked: @props.value == @props.radioValue
+            onChange: ->  # Do nothing
+            onClick: if @props.onChange then (ev) => @props.onChange(@props.radioValue)
+          @props.children
 
 # Select dropdown. Note: stringifies the value of the option so that null, strings, numbers, booleans etc.
 # all work as possible options.
