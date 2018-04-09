@@ -14,6 +14,7 @@ ReorderableListItemComponent = require "./reorderable/ReorderableListItemCompone
 PopoverHelpComponent = require './PopoverHelpComponent'
 FillDownwardComponent = require './FillDownwardComponent'
 AutoSizeComponent = require './AutoSizeComponent'
+ui = require './bootstrap'
 
 class PopoverHelpSample extends React.Component
   render: ->
@@ -318,6 +319,24 @@ class AutoSizeTestComponent extends React.Component
       (size) =>
         H.div style: { height: size.height + 1, backgroundColor: "#FDF" }, JSON.stringify(size)
 
+class ToggleTestComponent extends React.Component
+  constructor: ->
+    super()
+    @state = {
+      action: 'keep'
+    }
+  render: ->
+    R ui.Toggle,
+      value: @state.action
+      options: [{value: 'keep', label: 'Keep'}, {value: 'merge', label: 'Merge'}, {value: 'nd', label: 'Not duplicate'}, {value: 'ignore', label: 'Ignore'}]
+      onChange: ((action) => 
+        console.log action
+        @setState(action: action)
+      )
+      size: 'xs'
+      # allowReset: true
+
+
 # Wait for DOM to load
 $ ->
   # elem = R VerticalTreeLayoutComponent,
@@ -350,7 +369,9 @@ $ ->
   #   R FillDownwardComponent, null,
   #     H.div style: { height: "100%", backgroundColor: "green" }
 
-  elem = R AutoSizeTestComponent
+  # elem = R AutoSizeTestComponent
+
+  elem = R ToggleTestComponent
 
   # elem = H.div null,
   #    React.createElement(SampleComponent)

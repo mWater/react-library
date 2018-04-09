@@ -3,6 +3,7 @@ classnames = require 'classnames'
 React = require 'react'
 H = React.DOM
 R = React.createElement
+_ = require 'lodash'
 
 # Bootstrap components
 
@@ -358,14 +359,26 @@ exports.Toggle = class Toggle extends React.Component
     options: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.any, label: PropTypes.node.isRequired })).isRequired
     onChange: PropTypes.func
     size: PropTypes.string  # "xs", "sm"
+    allowReset: PropTypes.bool
 
   renderOption: (option, index) =>
-    if @props.value == option.value
-      H.button key: index, type: "button", className: "btn btn-primary active", 
-        option.label
-    else
-      H.button key: index, type: "button", className: "btn btn-default", onClick: (if @props.onChange then @props.onChange.bind(null, option.value) else null),
-        option.label
+    value = if ((@props.value == option.value) and @props.allowReset) then null else option.value
+    btnClasses = classnames("btn", {
+      "btn-default": not (@props.value == option.value),
+      "btn-primary": (@props.value == option.value),
+      active: (@props.value == option.value)
+    })
+
+    props = 
+      key: index
+      type: "button"
+      className: btnClasses
+    
+    if not (@props.value == option.value) or @props.allowReset
+      props['onClick'] = (if @props.onChange then @props.onChange.bind(null, value) else null)
+
+    H.button props,
+      option.label
 
   render: ->
     H.div className: "btn-group #{if @props.size then "btn-group-#{@props.size}" else ""}",
