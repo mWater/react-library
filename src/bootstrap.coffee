@@ -182,6 +182,7 @@ exports.TextInput = class TextInput extends React.Component
       style: @props.style
       onChange: if @props.onChange then @handleChange 
       placeholder: @props.placeholder
+      disabled: not @props.onChange?
 
 
 # Number input component that handles parsing and maintains state when number is invalid
@@ -291,6 +292,7 @@ exports.NumberInput = class NumberInput extends React.Component
       onBlur: @handleBlur
       onKeyDown: @handleKeyDown
       placeholder: @props.placeholder
+      disabled: not @props.onChange?
 
 # Indented section than can be opened and closed. Defaults closed
 exports.CollapsibleSection = class CollapsibleSection extends React.Component
