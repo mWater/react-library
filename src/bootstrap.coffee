@@ -140,6 +140,7 @@ exports.Select = class Select extends React.Component
     size: PropTypes.string # "sm" or "lg"
     nullLabel: PropTypes.string  # True to make extra option of null with the label. Can be ""
     style: PropTypes.object     # Will be merged with style of select box
+    inline: PropTypes.bool  # True to make auto-width, inline
 
   handleChange: (ev) =>
     value = JSON.parse(ev.target.value)
@@ -150,8 +151,13 @@ exports.Select = class Select extends React.Component
     if @props.nullLabel?
       options.unshift({ value: null, label: @props.nullLabel })
 
+    style = {}
+    if @props.inline
+      style = { width: "auto", display: "inline-block" }
+    _.extend(style, @props.style or {})
+
     return H.select
-      style: @props.style
+      style: style
       disabled: not @props.onChange?
       className: classnames("form-control", { "input-sm": @props.size == "sm" }, { "input-lg": @props.size == "lg" })
       value: JSON.stringify(if @props.value? then @props.value else null)
