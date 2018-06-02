@@ -32,7 +32,7 @@ module.exports = class TabbedComponent extends React.Component
     else
       tabId =  @state.tabId
     H.li key: tab.id, className: (if tabId == tab.id then "active"),
-      H.a onClick: @handleClick.bind(null, tab.id),
+      H.a onClick: @handleClick.bind(null, tab.id), style: { cursor: "pointer" },
         tab.label
         if tab.onRemove
           H.button type: "button", className: "btn btn-xs btn-link", onClick: @handleRemove.bind(null, tab),
@@ -50,7 +50,7 @@ module.exports = class TabbedComponent extends React.Component
         _.map(@props.tabs, @renderTab)
         if @props.onAddTab
           H.li key: "_add", 
-            H.a onClick: @props.onAddTab,
+            H.a onClick: @props.onAddTab, style: { cursor: "pointer" },
               H.span className: "glyphicon glyphicon-plus"
 
       H.div key: "currentTab", 
