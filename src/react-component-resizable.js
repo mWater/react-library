@@ -35,8 +35,9 @@ var PropTypes = require('prop-types')
 
 var React = global.React || require('react');
 var objectAssign = require('object-assign');
+var createReactClass = require('create-react-class');
 
-var Resizable = React.createClass({
+var Resizable = createReactClass({
   displayName: 'Resizable',
 
 

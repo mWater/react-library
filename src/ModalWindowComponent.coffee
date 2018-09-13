@@ -13,25 +13,18 @@ module.exports = class ModalWindowComponent extends React.Component
     outerPadding: PropTypes.number  # Outer padding default 40
     innerPadding: PropTypes.number  # Inner padding default 20
 
-  componentDidMount: ->
+  constructor: (props) ->
+    super(props)
+
     # Add special region to body
     @modalNode = $('<div></div>').get(0)
     $("body").append(@modalNode)
 
-    @update(@props)
-
-  componentWillReceiveProps: (nextProps) ->
-    @update(nextProps)
-
-  update: (props) ->
-    elem = React.createElement(InnerModalComponent, props)
-    ReactDOM.unstable_renderSubtreeIntoContainer(this, elem, @modalNode)
-    
   componentWillUnmount: ->
-    ReactDOM.unmountComponentAtNode(@modalNode)
     $(@modalNode).remove()
 
-  render: -> null
+  render: -> 
+    ReactDOM.createPortal(R(InnerModalComponent, @props), @modalNode)
     
   # Static version that displays a modal until the onClose is called.
   # modalFunc takes close function as a single parameter and returns a ModalWindowComponent

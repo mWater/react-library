@@ -49,14 +49,12 @@ class ModalWindowSample extends React.Component
     sizes = ["large", "small", ""]
 
     R 'div', null,
-      # R 'a', onClick: @startEditing,
-      #   "Edit me"
-      R ModalWindowComponent, { isOpen: true },
-        R 'div', null,
-          _.map(_.range(1, 100), (x) -> R 'div', null, "#{x}")
-      # if @state.editing 
-      #   R ModalWindowComponent, { isOpen: true, onRequestClose: @handleModalClose },
-      #     R ModalSample
+      R 'a', onClick: @startEditing,
+        "Edit me"
+      if @state.editing
+        R ModalWindowComponent, { isOpen: @state.editing, onRequestClose: @finishEditing },
+          R 'div', null,
+            _.map(_.range(1, 100), (x) -> R 'div', null, "#{x}")
 
 class ModalPopupSample extends React.Component
   constructor: ->
@@ -77,14 +75,12 @@ class ModalPopupSample extends React.Component
 
   render: ->
     R 'div', null,
-      # R 'a', onClick: @startEditing,
-      #   "Edit me"
-      R ModalPopupComponent, onClose: @handleModalClose, showCloseX: true,
-        R 'div', null,
-          _.map(_.range(1, 100), (x) -> R 'div', null, "#{x}")
-      # if @state.editing 
-      #   R ModalWindowComponent, { isOpen: true, onRequestClose: @handleModalClose },
-      #     R ModalSample
+      R 'a', onClick: @startEditing,
+        "Edit me"
+      if @state.editing
+        R ModalPopupComponent, onClose: @handleModalClose, showCloseX: true,
+          R 'div', null,
+            _.map(_.range(1, 100), (x) -> R 'div', null, "#{x}")
 
 class SortableSampleItem extends React.Component
   constructor: ->
@@ -370,7 +366,7 @@ $ ->
 
   # elem = R AutoSizeTestComponent
 
-  elem = R ToggleTestComponent
+  elem = R ModalWindowSample
 
   # elem = R 'div', null,
   #    React.createElement(SampleComponent)

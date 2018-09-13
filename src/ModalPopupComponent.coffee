@@ -13,25 +13,18 @@ module.exports = class ModalPopupComponent extends React.Component
     showCloseX: PropTypes.bool # True to show close 'x' at top right
     onClose: PropTypes.func # callback function to be called when close is requested
 
-  componentDidMount: ->
+  constructor: (props) ->
+    super(props)
+
     # Add special region to body
     @modalNode = $('<div></div>').get(0)
     $("body").append(@modalNode)
 
-    @update(@props)
-
-  componentWillReceiveProps: (nextProps) ->
-    @update(nextProps)
-
-  update: (props) ->
-    elem = React.createElement(InnerModalComponent, props)
-    ReactDOM.unstable_renderSubtreeIntoContainer(this, elem, @modalNode)
-    
   componentWillUnmount: ->
-    ReactDOM.unmountComponentAtNode(@modalNode)
     $(@modalNode).remove()
 
-  render: -> null
+  render: -> 
+    ReactDOM.createPortal(R(InnerModalComponent, @props), @modalNode)
     
   # Static version that displays a modal until the onClose is called.
   # modalFunc takes close function as a single parameter and returns a ModalWindowComponent
