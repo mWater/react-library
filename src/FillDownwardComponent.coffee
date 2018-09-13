@@ -19,7 +19,7 @@ module.exports = class FillDownwardComponent extends React.Component
     $(window).off('resize', @updateSize)
 
   updateSize: =>
-    self = @refs.self
+    self = @self
     if not self
       return
 
@@ -35,9 +35,9 @@ module.exports = class FillDownwardComponent extends React.Component
   render: ->
     # If height is not known, render placeholder
     if not @state.height
-      return H.div style: { height: 100 }, ref: "self"
+      return H.div style: { height: 100 }, ref: (c) => @self = c
 
     # Render with correct height
-    return H.div style: { height: @state.height }, ref: "self",
+    return H.div style: { height: @state.height }, ref: ((c) => @self = c),
       @props.children
 

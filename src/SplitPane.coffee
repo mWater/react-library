@@ -57,10 +57,10 @@ module.exports = class SplitPane extends React.Component
   onMouseMove: (event) =>
     if @state.resizing
       if @props.split == "vertical"
-        firstPaneSize = ReactDOM.findDOMNode(@refs.firstPane).offsetWidth
+        firstPaneSize = ReactDOM.findDOMNode(@firstPane).offsetWidth
         currentPosition = event.clientX
       else
-        firstPaneSize = ReactDOM.findDOMNode(@refs.firstPane).offsetHeight
+        firstPaneSize = ReactDOM.findDOMNode(@firstPane).offsetHeight
         currentPosition = event.clientY
 
       newSize = firstPaneSize - (@state.dragStartAt - currentPosition)
@@ -92,6 +92,6 @@ module.exports = class SplitPane extends React.Component
       classNames.push('vertical')
 
     H.div {style: style, className: classNames.join(" "), onMouseMove: @onMouseMove, onMouseUp: @onMouseUp},
-      React.createElement(Pane,  {split: @props.split, width: @state.firstPaneSize , ref: "firstPane"}, @props.children[0]),
+      React.createElement(Pane,  {split: @props.split, width: @state.firstPaneSize , ref: ((c) => @firstPane = c)}, @props.children[0]),
       React.createElement(Divider, {ref: "divider", split: @props.split, onMouseDown: @onMouseDown }),
       React.createElement(Pane,  {split: @props.split, ref:"rightPane"}, @props.children[1])

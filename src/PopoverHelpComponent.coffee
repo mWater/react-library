@@ -16,6 +16,6 @@ module.exports = class PopoverHelpComponent extends React.Component
     placement: "top"
 
   render: ->
-    R OverlayTrigger, ref: "overlay", trigger: ["hover", "focus"], placement: @props.placement, overlay: R(Popover, null, @props.children),
+    R OverlayTrigger, trigger: ["hover", "focus"], placement: @props.placement, overlay: R(Popover, null, @props.children),
       H.span className: "text-muted", style: { cursor: "pointer" },
         H.span className: "glyphicon glyphicon-question-sign"

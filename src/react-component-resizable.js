@@ -86,9 +86,9 @@ var Resizable = React.createClass({
   },
 
   resetTriggers: function resetTriggers() {
-    var contract = this.refs.contract;
-    var expandChild = this.refs.expandChild;
-    var expand = this.refs.expand;
+    var contract = this.contract;
+    var expandChild = this.expandChild;
+    var expand = this.expand;
 
     contract.scrollLeft = contract.scrollWidth;
     contract.scrollTop = contract.scrollHeight;
@@ -116,7 +116,7 @@ var Resizable = React.createClass({
   },
 
   getDimensions: function getDimensions() {
-    var el = this.refs.resizable;
+    var el = this.resizable;
     if (!el) {
       return null;
     }
@@ -141,8 +141,8 @@ var Resizable = React.createClass({
 
     var rest = _objectWithoutProperties(_props, ['triggersClass', 'expandClass', 'contractClass', 'embedCss', 'onResize']);
 
-    var props = objectAssign({}, rest, { onScroll: this.onScroll, ref: 'resizable' });
-    return React.createElement('div', props, [this.props.children, React.createElement('div', { className: triggersClass, key: 'trigger' }, [React.createElement('div', { className: expandClass, ref: 'expand', key: 'expand' }, React.createElement('div', { ref: 'expandChild' })), React.createElement('div', { className: contractClass, ref: 'contract', key: 'contract' })]), embedCss ? React.createElement('style', { key: 'embededCss', dangerouslySetInnerHTML: { __html: '.resize-triggers { visibility: hidden; } .resize-triggers, .resize-triggers > div, .contract-trigger:before { content: \" \"; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers > div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }' } }) : null]);
+    var props = objectAssign({}, rest, { onScroll: this.onScroll, ref: ((c) => this.resizable = c) });
+    return React.createElement('div', props, [this.props.children, React.createElement('div', { className: triggersClass, key: 'trigger' }, [React.createElement('div', { className: expandClass, ref: ((c) => this.expand = c), key: 'expand' }, React.createElement('div', { ref: ((c) => this.expandChild = c) })), React.createElement('div', { className: contractClass, ref: ((c) => this.contract = c), key: 'contract' })]), embedCss ? React.createElement('style', { key: 'embededCss', dangerouslySetInnerHTML: { __html: '.resize-triggers { visibility: hidden; } .resize-triggers, .resize-triggers > div, .contract-trigger:before { content: \" \"; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers > div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }' } }) : null]);
   }
 
 });
