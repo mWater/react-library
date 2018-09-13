@@ -1,6 +1,5 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
-H = React.DOM
 R = React.createElement
 
 # React component that asynchronously loads something into state from the props

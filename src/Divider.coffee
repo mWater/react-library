@@ -9,7 +9,7 @@ PropTypes = require('prop-types')
 
 
 React = require 'react'
-H = React.DOM
+R = React.createElement
 
 module.exports = class Divider extends React.Component
   
@@ -31,4 +31,4 @@ module.exports = class Divider extends React.Component
     if @props.split is "horizontal"
       classNames.push("horizontal")
       
-    H.div {className: classNames.join(" "), onMouseDown: @onMouseDown}
+    R 'div', {className: classNames.join(" "), onMouseDown: @onMouseDown}

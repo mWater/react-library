@@ -2,7 +2,6 @@ PropTypes = require('prop-types')
 _ = require 'lodash'
 React = require 'react'
 ReactDOM = require 'react-dom'
-H = React.DOM
 R = React.createElement
 
 CrossComponent = require './CrossComponent'
@@ -41,7 +40,7 @@ module.exports = class VerticalTreeLayoutComponent extends React.Component
         # It sets {flexShrink: 0} because without it the boxes where overlapping (on iPad at least)
         #   Note: that fix is based on that article: https://philipwalton.com/articles/normalizing-cross-browser-flexbox-bugs/
         #         (It contains many other interesting fixes for flexBox)
-        children.push(H.div key: i, className: "flexBox", style: { flexFlow: "column nowrap", justifyContent: "flex-start", flexShrink: 0 },
+        children.push(R 'div', key: i, className: "flexBox", style: { flexFlow: "column nowrap", justifyContent: "flex-start", flexShrink: 0 },
           React.createElement(CrossComponent, 
             collapseTop: true, 
             n: (if isCenter then @props.line)
@@ -56,11 +55,11 @@ module.exports = class VerticalTreeLayoutComponent extends React.Component
     
   # Make sure to always use className flexBox and not style: {display: 'flex'} (or else it won't work on all browsers)
   render: ->
-    H.div className: "flexBox", style: { flexFlow: "column nowrap", alignItems: "center" },
+    R 'div', className: "flexBox", style: { flexFlow: "column nowrap", alignItems: "center" },
       # Center head
       @props.headElem
       if React.Children.count(@props.children) > 0
         R(CrossComponent, collapseTop: true, height: @props.height, s: @props.line)
         # Put children
-      H.div key: "children", className: "flexBox", style: { flexFlow: "row nowrap", justifyContent: "flex-start", width: "100%" },
+      R 'div', key: "children", className: "flexBox", style: { flexFlow: "row nowrap", justifyContent: "flex-start", width: "100%" },
         @renderChildren()

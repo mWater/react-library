@@ -5,15 +5,15 @@ PropTypes = require('prop-types')
 # Create a resizable split pane with a draggable divider
 # 
 # React.createElement(SplitPane, {split: "vertical", firstPaneSize: "20%", minFirstPaneSize: 200}, [
-#   H.div null
-#   H.div null
+#   R 'div', null
+#   R 'div', null
 # ]) 
 #
 # Vertical splitpane gets the classes "splitpane vertical"
 # Horizontal splitpane divider gets the classes "splitpane horizontal"
 
 React = require 'react'
-H = React.DOM
+R = React.createElement
 Pane = require './Pane'
 Divider = require './Divider'
 ReactDOM = require 'react-dom'
@@ -91,7 +91,7 @@ module.exports = class SplitPane extends React.Component
       style.flexDirection = "row"
       classNames.push('vertical')
 
-    H.div {style: style, className: classNames.join(" "), onMouseMove: @onMouseMove, onMouseUp: @onMouseUp},
+    R 'div', {style: style, className: classNames.join(" "), onMouseMove: @onMouseMove, onMouseUp: @onMouseUp},
       React.createElement(Pane,  {split: @props.split, width: @state.firstPaneSize , ref: ((c) => @firstPane = c)}, @props.children[0]),
       React.createElement(Divider, {ref: "divider", split: @props.split, onMouseDown: @onMouseDown }),
       React.createElement(Pane,  {split: @props.split, ref:"rightPane"}, @props.children[1])

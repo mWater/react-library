@@ -1,7 +1,6 @@
 PropTypes = require('prop-types')
 _ = require 'lodash'
 React = require 'react'
-H = React.DOM
 R = React.createElement
 
 Popover = require 'react-bootstrap/lib/Popover'
@@ -17,5 +16,5 @@ module.exports = class PopoverHelpComponent extends React.Component
 
   render: ->
     R OverlayTrigger, trigger: ["hover", "focus"], placement: @props.placement, overlay: R(Popover, null, @props.children),
-      H.span className: "text-muted", style: { cursor: "pointer" },
-        H.span className: "glyphicon glyphicon-question-sign"
+      R 'span', className: "text-muted", style: { cursor: "pointer" },
+        R 'span', className: "glyphicon glyphicon-question-sign"

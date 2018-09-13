@@ -1,7 +1,7 @@
 PropTypes = require('prop-types')
 React = require 'react'
 ReactDOM = require 'react-dom'
-H = React.DOM
+R = React.createElement
 _ = require 'lodash'
 
 # Modal window that fills screen
@@ -110,12 +110,12 @@ class InnerModalComponent extends React.Component
       color: "#888"
     }
 
-    H.div className: "modal-window-component",
-      H.style null, '''body { overflow-y: hidden }'''
-      H.div style: overlayStyle, onClick: @props.onRequestClose, className: "modal-window-component-overlay"
-      H.div style: windowStyle, className: "modal-window-component-window",
+    R 'div', className: "modal-window-component",
+      R 'style', null, '''body { overflow-y: hidden }'''
+      R 'div', style: overlayStyle, onClick: @props.onRequestClose, className: "modal-window-component-overlay"
+      R 'div', style: windowStyle, className: "modal-window-component-window",
         if @props.onRequestClose
-          H.div style: closeStyle,
-            H.span className: "glyphicon glyphicon-remove", onClick: @props.onRequestClose
-        H.div style: contentStyle,
+          R 'div', style: closeStyle,
+            R 'span', className: "glyphicon glyphicon-remove", onClick: @props.onRequestClose
+        R 'div', style: contentStyle,
           @props.children

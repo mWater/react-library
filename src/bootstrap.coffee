@@ -1,14 +1,13 @@
 PropTypes = require('prop-types')
 classnames = require 'classnames'
 React = require 'react'
-H = React.DOM
 R = React.createElement
 _ = require 'lodash'
 
 # Bootstrap components
 
 # Simple spinner
-exports.Spinner = () -> H.i className: "fa fa-spinner fa-spin"
+exports.Spinner = () -> R 'i', className: "fa fa-spinner fa-spin"
 
 # Standard button
 exports.Button = class Button extends React.Component
@@ -23,7 +22,7 @@ exports.Button = class Button extends React.Component
     type: "default"
 
   render: ->
-    H.button type: "button", className: classnames("btn", "btn-#{@props.type}", { active: @props.active }, { "btn-#{@props.size}": @props.size? }), onClick: @props.onClick, disabled: @props.disabled,
+    R 'button', type: "button", className: classnames("btn", "btn-#{@props.type}", { active: @props.active }, { "btn-#{@props.size}": @props.size? }), onClick: @props.onClick, disabled: @props.disabled,
       @props.children
 
 # Icon, either font-awesome or glyphicon
@@ -33,9 +32,9 @@ exports.Icon = class Icon extends React.Component
 
   render: ->
     if @props.id.match(/^fa-/)
-      return H.i className: "fa #{@props.id}"
+      return R 'i', className: "fa #{@props.id}"
     else if @props.id.match(/^glyphicon-/)
-      return H.i className: "glyphicon #{@props.id}"
+      return R 'i', className: "glyphicon #{@props.id}"
     else
       return null
 
@@ -58,23 +57,23 @@ exports.FormGroup = class FormGroup extends React.Component
       "has-success": @props.hasSuccess
     }
     
-    H.div className: classnames(classes),
-      H.label key: "label", 
+    R 'div', className: classnames(classes),
+      R 'label', key: "label", 
         if @props.labelMuted
-          H.span className: "text-muted", @props.label
+          R 'span', className: "text-muted", @props.label
         else
           @props.label
 
         if @props.hint
-          H.span className: "text-muted", style: { fontWeight: if @props.label then "normal" },
+          R 'span', className: "text-muted", style: { fontWeight: if @props.label then "normal" },
             if @props.label
               " - "
             @props.hint
 
-      H.div key: "contents", style: { marginLeft: 5 }, 
+      R 'div', key: "contents", style: { marginLeft: 5 }, 
         @props.children
       if @props.help
-        H.p key: "help", className: "help-block", style: { marginLeft: 5 },
+        R 'p', key: "help", className: "help-block", style: { marginLeft: 5 },
           @props.help
 
 exports.Checkbox = class Checkbox extends React.Component
@@ -92,13 +91,13 @@ exports.Checkbox = class Checkbox extends React.Component
 
   render: ->
     if @props.inline
-      return H.label className: "checkbox-inline",
-        H.input type: "checkbox", checked: @props.value or false, onChange: if @props.onChange then @handleChange
+      return R 'label', className: "checkbox-inline",
+        R 'input', type: "checkbox", checked: @props.value or false, onChange: if @props.onChange then @handleChange
         @props.children
     else
-      return H.div className: "checkbox",
-        H.label null,
-          H.input type: "checkbox", checked: @props.value or false, onChange: if @props.onChange then @handleChange
+      return R 'div', className: "checkbox",
+        R 'label', null,
+          R 'input', type: "checkbox", checked: @props.value or false, onChange: if @props.onChange then @handleChange
           @props.children
 
 exports.Radio = class Radio extends React.Component
@@ -110,17 +109,17 @@ exports.Radio = class Radio extends React.Component
 
   render: ->
     if @props.inline
-      return H.label className: "radio-inline",
-        H.input 
+      return R 'label', className: "radio-inline",
+        R 'input', 
           type: "radio"
           checked: @props.value == @props.radioValue
           onChange: ->  # Do nothing
           onClick: if @props.onChange then (ev) => @props.onChange(@props.radioValue)
         @props.children      
     else
-      return H.div className: "radio",
-        H.label null,
-          H.input 
+      return R 'div', className: "radio",
+        R 'label', null,
+          R 'input', 
             type: "radio"
             checked: @props.value == @props.radioValue
             onChange: ->  # Do nothing
@@ -162,7 +161,7 @@ exports.Select = class Select extends React.Component
       className: classnames("form-control", { "input-sm": @props.size == "sm" }, { "input-lg": @props.size == "lg" })
       value: JSON.stringify(if @props.value? then @props.value else null)
       onChange: (if @props.onChange then @handleChange else (->)),
-        _.map(options, (option) => H.option key: JSON.stringify(option.value), value: JSON.stringify(option.value), option.label)
+        _.map(options, (option) => R 'option', key: JSON.stringify(option.value), value: JSON.stringify(option.value), option.label)
 
 exports.TextInput = class TextInput extends React.Component
   @propTypes:
@@ -181,7 +180,7 @@ exports.TextInput = class TextInput extends React.Component
     @props.onChange(value)
 
   render: ->
-    return H.input 
+    return R 'input', 
       type: "text"
       className: classnames("form-control", { "input-sm": @props.size == "sm" }, { "input-lg": @props.size == "lg" })
       value: @props.value or ""
@@ -319,26 +318,26 @@ exports.CollapsibleSection = class CollapsibleSection extends React.Component
     @setState(open: not @state.open)
 
   render: ->
-    H.div className: "form-group",
-      H.label key: "label", onClick: @handleToggle, style: { cursor: "pointer" },
+    R 'div', className: "form-group",
+      R 'label', key: "label", onClick: @handleToggle, style: { cursor: "pointer" },
         if @state.open
-          H.i className: "fa fa-fw fa-caret-down #{if @props.labelMuted then "text-muted"}"
+          R 'i', className: "fa fa-fw fa-caret-down #{if @props.labelMuted then "text-muted"}"
         else
-          H.i className: "fa fa-fw fa-caret-right #{if @props.labelMuted then "text-muted"}"
+          R 'i', className: "fa fa-fw fa-caret-right #{if @props.labelMuted then "text-muted"}"
 
         if @props.labelMuted
-          H.span className: "text-muted", @props.label
+          R 'span', className: "text-muted", @props.label
         else
           @props.label
 
         if @props.hint
-          H.span className: "text-muted", style: { fontWeight: if @props.label then "normal" },
+          R 'span', className: "text-muted", style: { fontWeight: if @props.label then "normal" },
             if @props.label
               " - "
             @props.hint
 
       if @state.open
-        H.div key: "contents", style: { marginLeft: 5 }, 
+        R 'div', key: "contents", style: { marginLeft: 5 }, 
           @props.children
     
 # Displays bootstrap pills with one active    
@@ -354,10 +353,10 @@ exports.NavPills = class NavPills extends React.Component
     onPillClick: PropTypes.func        # Called with id
 
   render: ->
-    H.ul className: "nav nav-pills", 
+    R 'ul', className: "nav nav-pills", 
       _.map @props.pills, (pill) =>
-        H.li key: pill.id, className: (if pill.id == @props.activePill then "active" else ""),
-          H.a href: pill.href, onClick: (=> @props.onPillClick?(pill.id)),
+        R 'li', key: pill.id, className: (if pill.id == @props.activePill then "active" else ""),
+          R 'a', href: pill.href, onClick: (=> @props.onPillClick?(pill.id)),
             pill.label
 
 # Button toggle component
@@ -385,10 +384,10 @@ exports.Toggle = class Toggle extends React.Component
     if not (@props.value == option.value) or @props.allowReset
       props['onClick'] = (if @props.onChange then @props.onChange.bind(null, value) else null)
 
-    H.button props,
+    R 'button', props,
       option.label
 
   render: ->
-    H.div className: "btn-group #{if @props.size then "btn-group-#{@props.size}" else ""}",
+    R 'div', className: "btn-group #{if @props.size then "btn-group-#{@props.size}" else ""}",
       _.map @props.options, @renderOption
 

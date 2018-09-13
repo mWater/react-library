@@ -9,7 +9,7 @@ PropTypes = require('prop-types')
 # The first pane gets an added class "first"
 
 React = require 'react'
-H = React.DOM
+R = React.createElement
 
 module.exports = class Pane extends React.Component
   
@@ -43,4 +43,4 @@ module.exports = class Pane extends React.Component
       else
         style.height = "100%"
     
-    H.div {style: style, className: classNames.join(" ")}, @props.children
+    R 'div', {style: style, className: classNames.join(" ")}, @props.children

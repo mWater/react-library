@@ -1,7 +1,7 @@
 PropTypes = require('prop-types')
 React = require 'react'
 ReactDOM = require 'react-dom'
-H = React.DOM
+R = React.createElement
 _ = require 'lodash'
 
 # Modal popup based on react
@@ -90,25 +90,25 @@ class InnerModalComponent extends React.Component
       backgroundColor: "rgba(0, 0, 0, 0.7)"
     }
 
-    H.div style: rootStyle,
-      H.style null, '''body { overflow-y: hidden }'''
-      H.div style: overlayStyle, onClick: @props.onClose
-      H.div className: dialogClass, style: dialogStyle,
-        H.div className: "modal-content",
+    R 'div', style: rootStyle,
+      R 'style', null, '''body { overflow-y: hidden }'''
+      R 'div', style: overlayStyle, onClick: @props.onClose
+      R 'div', className: dialogClass, style: dialogStyle,
+        R 'div', className: "modal-content",
           if @props.header
-            H.div className: "modal-header", 
+            R 'div', className: "modal-header", 
               if @props.showCloseX
-                H.button className: "close", onClick: @props.onClose, 
-                  H.span null, "\u00d7"
-              H.h4 className: "modal-title",
+                R 'button', className: "close", onClick: @props.onClose, 
+                  R 'span', null, "\u00d7"
+              R 'h4', className: "modal-title",
                 @props.header
 
-          H.div className: "modal-body", style: { maxHeight: window.innerHeight - 56 - 65 - 30 - 30, overflowY: "auto" }, 
+          R 'div', className: "modal-body", style: { maxHeight: window.innerHeight - 56 - 65 - 30 - 30, overflowY: "auto" }, 
             @props.children
           if @props.footer
-            H.div className: "modal-footer", 
+            R 'div', className: "modal-footer", 
               @props.footer
 
           if not @props.header and @props.showCloseX
-            H.button className: "close", style: { position: "absolute", right: 10, top: 10 },  # Put above body
-              H.span onClick: @props.onClose, "\u00d7"
+            R 'button', className: "close", style: { position: "absolute", right: 10, top: 10 },  # Put above body
+              R 'span', onClick: @props.onClose, "\u00d7"

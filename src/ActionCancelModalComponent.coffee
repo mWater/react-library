@@ -1,6 +1,6 @@
 PropTypes = require('prop-types')
 React = require 'react'
-H = React.DOM
+R = React.createElement
 _ = require 'lodash'
 ModalPopupComponent = require('./ModalPopupComponent')
 
@@ -20,21 +20,21 @@ module.exports = class ActionCancelModalComponent extends React.Component
       size: @props.size
       header: @props.title
       footer: [
-        H.button 
+        R 'button', 
           key: "cancel"
           type: "button"
           onClick: @props.onCancel
           className: "btn btn-default", 
             if @props.onAction then "Cancel" else "Close"
         if @props.onAction 
-          H.button 
+          R 'button', 
             key: "action"
             type: "button"
             onClick: @props.onAction
             className: "btn btn-primary",
               @props.actionLabel or "Save"
         if @props.onDelete 
-          H.button 
+          R 'button', 
             key: "delete"
             type: "button"
             style: { float: "left" }

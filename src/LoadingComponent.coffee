@@ -1,6 +1,6 @@
 PropTypes = require('prop-types')
 React = require 'react'
-H = React.DOM
+R = React.createElement
 
 # Displays a spinner with loading in the center
 module.exports = class LoadingComponent extends React.Component
@@ -12,12 +12,12 @@ module.exports = class LoadingComponent extends React.Component
   @defaultProps:
     width: "100%"
     height: "100%"
-    label: H.div className: "text-muted", style: { fontSize: 30 },
-      H.i className: "fa fa-spin fa-spinner"
+    label: R 'div', className: "text-muted", style: { fontSize: 30 },
+      R 'i', className: "fa fa-spin fa-spinner"
       " Loading..."
 
   render: ->
-    H.div style: { 
+    R 'div', style: { 
       width: @props.width
       height: @props.height
       display: "flex"

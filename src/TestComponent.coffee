@@ -1,7 +1,7 @@
 React = require('react')
 ReactDOM = require('react-dom')
 ReactTestUtils = require('react-addons-test-utils')
-H = React.DOM
+R = React.createElement
 _ = require 'lodash'
 
 # Test component that can be created, have its element changed, have clicks and other actions simulated

@@ -1,6 +1,5 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
-H = React.DOM
 R = React.createElement
 _ = require 'lodash'
 uuid = require 'uuid'
@@ -23,11 +22,11 @@ class PopoverHelpSample extends React.Component
 
 class Block extends React.Component
   render: ->
-    H.div style: { height: 200, width: 200, border: "solid 2px blue" }, " "
+    R 'div', style: { height: 200, width: 200, border: "solid 2px blue" }, " "
 
 class Block2 extends React.Component
   render: ->
-    H.div style: { height: 300, width: 200, border: "solid 2px blue" }, " "
+    R 'div', style: { height: 300, width: 200, border: "solid 2px blue" }, " "
 
 class ModalWindowSample extends React.Component
   constructor: ->
@@ -49,12 +48,12 @@ class ModalWindowSample extends React.Component
   render: ->
     sizes = ["large", "small", ""]
 
-    H.div null,
-      # H.a onClick: @startEditing,
+    R 'div', null,
+      # R 'a', onClick: @startEditing,
       #   "Edit me"
       R ModalWindowComponent, { isOpen: true },
-        H.div null,
-          _.map(_.range(1, 100), (x) -> H.div null, "#{x}")
+        R 'div', null,
+          _.map(_.range(1, 100), (x) -> R 'div', null, "#{x}")
       # if @state.editing 
       #   R ModalWindowComponent, { isOpen: true, onRequestClose: @handleModalClose },
       #     R ModalSample
@@ -77,12 +76,12 @@ class ModalPopupSample extends React.Component
     console.log "editing finished"
 
   render: ->
-    H.div null,
-      # H.a onClick: @startEditing,
+    R 'div', null,
+      # R 'a', onClick: @startEditing,
       #   "Edit me"
       R ModalPopupComponent, onClose: @handleModalClose, showCloseX: true,
-        H.div null,
-          _.map(_.range(1, 100), (x) -> H.div null, "#{x}")
+        R 'div', null,
+          _.map(_.range(1, 100), (x) -> R 'div', null, "#{x}")
       # if @state.editing 
       #   R ModalWindowComponent, { isOpen: true, onRequestClose: @handleModalClose },
       #     R ModalSample
@@ -108,20 +107,20 @@ class SortableSampleItem extends React.Component
       display: "inline-block"
       cursor: "move"
 
-    @props.connectDragPreview(@props.connectDropTarget(H.tr null,
-      H.td {style: itemStyle},
-        @props.connectDragSource(H.span {style: handleStyle})
-        H.span null,
+    @props.connectDragPreview(@props.connectDropTarget(R 'tr', null,
+      R 'td', {style: itemStyle},
+        @props.connectDragSource(R 'span', {style: handleStyle})
+        R 'span', null,
           @props.item.id
           @state.value
-        H.div null,
-          H.table null,
+        R 'div', null,
+          R 'table', null,
             R ReorderableListComponent, {
               items: @props.item.children
               onReorder: @props.updateOrder
               getItemId: @props.getItemId
               renderItem: @props.renderItem
-              element: H.tbody style: { background: 'red'}
+              element: R 'tbody', style: { background: 'red'}
             }
       )
     )
@@ -234,21 +233,21 @@ class SortableSample extends React.Component
     id = uuid()
     style=
       padding: 10
-    H.div {style: style},
-      H.button onClick: @addNewItem,
+    R 'div', {style: style},
+      R 'button', onClick: @addNewItem,
         "Add new item"
-      H.table null,
-        H.thead null,
-          H.tr null,
-            H.th null, "Item Name"
+      R 'table', null,
+        R 'thead', null,
+          R 'tr', null,
+            R 'th', null, "Item Name"
 
-        #H.tbody null,
+        #R 'tbody', null,
         R ReorderableListComponent, {
           items: @state.items
           onReorder: @updateOrder
           renderItem: @renderItem
           getItemId: @getItemId
-          element: H.tbody style: { background: '#afafaf'}
+          element: R 'tbody', style: { background: '#afafaf'}
         }
 
 
@@ -265,7 +264,7 @@ class BlocksComponent extends React.Component
 
   renderItem: (item, index, connectDragSource, connectDragPreview, connectDropTarget) ->
     wrapBorder = (e, inline=false) ->
-      return H.div style: { 
+      return R 'div', style: { 
           margin: 5
           border: "solid 1px #DDD"
           borderRadius: 5
@@ -273,18 +272,18 @@ class BlocksComponent extends React.Component
           position: "relative"
           display: if inline then "inline-block"
         }, 
-        connectDragSource(H.div style: { position: "absolute", left: "50%", top: -8, border: "solid 1px #DDF", backgroundColor: "white" },
-          H.span className: "glyphicon glyphicon-move"
+        connectDragSource(R 'div', style: { position: "absolute", left: "50%", top: -8, border: "solid 1px #DDF", backgroundColor: "white" },
+          R 'span', className: "glyphicon glyphicon-move"
         )
         e
     
 
     switch item.type
       when "title"
-        elem = H.h2 null, "Title"
+        elem = R 'h2', null, "Title"
         elem = wrapBorder(elem)
       when "image"
-        elem = H.img 
+        elem = R 'img', 
           src: "http://image.shutterstock.com/display_pic_with_logo/359716/161613653/stock-photo-orange-fruit-isolated-on-white-161613653.jpg"
           style: {
             width: "33%"
@@ -293,7 +292,7 @@ class BlocksComponent extends React.Component
             float: "right"
           }
       when "text"
-        elem = H.div null, '''
+        elem = R 'div', null, '''
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         '''
         elem = wrapBorder(elem)
@@ -303,7 +302,7 @@ class BlocksComponent extends React.Component
     return connectDragPreview(connectDropTarget(elem))
 
   render: ->
-    H.div null,
+    R 'div', null,
       "Start"
       R ReorderableListComponent, {
         items: @state.items
@@ -317,7 +316,7 @@ class AutoSizeTestComponent extends React.Component
   render: ->
     R AutoSizeComponent, injectHeight: true,
       (size) =>
-        H.div style: { height: size.height + 1, backgroundColor: "#FDF" }, JSON.stringify(size)
+        R 'div', style: { height: size.height + 1, backgroundColor: "#FDF" }, JSON.stringify(size)
 
 class ToggleTestComponent extends React.Component
   constructor: ->
@@ -354,48 +353,48 @@ $ ->
   #       showCloseX: true
   #       onClose: onClose
   #       size: "large"
-  #       footer: H.button(type: "button", className: "btn btn-default", onClick: onClose, "TEST")
+  #       footer: R('button', type: "button", className: "btn btn-default", onClick: onClose, "TEST")
   #       header: "This is a test modal", 
-  #         _.map(_.range(1, n), (x) -> H.div null, "#{x}")
-  #         H.button type: "button", onClick: (-> showModal(10)), "SHOW"
+  #         _.map(_.range(1, n), (x) -> R 'div', null, "#{x}")
+  #         R 'button', type: "button", onClick: (-> showModal(10)), "SHOW"
   #     )
 
-  # elem = H.div style: { paddingLeft: 30 },
-  #   _.map(_.range(1, 100), (x) -> H.div null, "#{x}")
-  #   H.button type: "button", onClick: (-> showModal(100)), "SHOW"
+  # elem = R 'div', style: { paddingLeft: 30 },
+  #   _.map(_.range(1, 100), (x) -> R 'div', null, "#{x}")
+  #   R 'button', type: "button", onClick: (-> showModal(100)), "SHOW"
 
-  # elem = H.div null,
-  #   H.div style: { height: 300, backgroundColor: "red" }
+  # elem = R 'div', null,
+  #   R 'div', style: { height: 300, backgroundColor: "red" }
   #   R FillDownwardComponent, null,
-  #     H.div style: { height: "100%", backgroundColor: "green" }
+  #     R 'div', style: { height: "100%", backgroundColor: "green" }
 
   # elem = R AutoSizeTestComponent
 
   elem = R ToggleTestComponent
 
-  # elem = H.div null,
+  # elem = R 'div', null,
   #    React.createElement(SampleComponent)
-  #    H.br()
+  #    R('br')
 
-  # elem = H.div style: { padding: 20, textAlign: "right" },
+  # elem = R 'div', style: { padding: 20, textAlign: "right" },
   #   "Lorem ipsum est"
   #   React.createElement(PopoverHelpSample)
-  #   H.br()
+  #   R('br')
 
   # ModalPopupComponent.show((onClose) =>
   #   return React.createElement(ModalPopupComponent, {
   #     showCloseX: true
-  #     }, _.map(_.range(1, 10), (x) -> H.div null, "#{x}"))
+  #     }, _.map(_.range(1, 10), (x) -> R 'div', null, "#{x}"))
   #   )
 
   ReactDOM.render(elem, document.getElementById("main"))
 
 
 
-#  elem = R ModalPopupComponent, { header: "OUTER", size: "large", trigger: H.button(null, "Open Modal") },
-#    R ModalPopupComponent, { header: "INNER", trigger: H.a(null, "Open Modal") },
-#      R ModalPopupComponent, { header: "INNER-1" , size: "small", trigger: H.button(null, "Open Modal")},
-#        R ModalPopupComponent, { header: "INNER-2", size: "large", trigger: H.a(null, "Open Modal") },
+#  elem = R ModalPopupComponent, { header: "OUTER", size: "large", trigger: R('button', null, "Open Modal") },
+#    R ModalPopupComponent, { header: "INNER", trigger: R('a', null, "Open Modal") },
+#      R ModalPopupComponent, { header: "INNER-1" , size: "small", trigger: R('button', null, "Open Modal")},
+#        R ModalPopupComponent, { header: "INNER-2", size: "large", trigger: R('a', null, "Open Modal") },
 #          "The last modal"
 
 #  elem = R ModalSample

@@ -1,6 +1,6 @@
 PropTypes = require('prop-types')
 React = require 'react'
-H = React.DOM
+R = React.createElement
 
 # Displays a box with a cross in it with any segments optionally drawn
 module.exports = class CrossComponent extends React.Component
@@ -20,10 +20,10 @@ module.exports = class CrossComponent extends React.Component
   # Make sure to always use className flexBox and not style: {display: 'flex'} (or else it won't work on all browsers)
   render: ->
     # Make horizontal two boxes
-    H.div className: "flexBox", style: { display: "flex", flexDirection: "column", width: @props.width, height: @props.height },
-      H.div className: "flexBox", style: { display: "flex", flex: (if @props.collapseTop then "0 1 0px" else "1 1 0px") },
-        H.div className: "flexBox", style: { flex: "1 1 0px", borderRight: @props.n, borderBottom: @props.w }
-        H.div className: "flexBox", style: { flex: "1 1 0px", borderBottom: @props.e }
-      H.div className: "flexBox", style: { display: "flex", flex: "1 1 0px" },
-        H.div className: "flexBox", style: { flex: "1 1 0px", borderRight: @props.s }
-        H.div className: "flexBox", style: { flex: "1 1 0px" }
+    R 'div', className: "flexBox", style: { display: "flex", flexDirection: "column", width: @props.width, height: @props.height },
+      R 'div', className: "flexBox", style: { display: "flex", flex: (if @props.collapseTop then "0 1 0px" else "1 1 0px") },
+        R 'div', className: "flexBox", style: { flex: "1 1 0px", borderRight: @props.n, borderBottom: @props.w }
+        R 'div', className: "flexBox", style: { flex: "1 1 0px", borderBottom: @props.e }
+      R 'div', className: "flexBox", style: { display: "flex", flex: "1 1 0px" },
+        R 'div', className: "flexBox", style: { flex: "1 1 0px", borderRight: @props.s }
+        R 'div', className: "flexBox", style: { flex: "1 1 0px" }

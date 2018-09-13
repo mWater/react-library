@@ -1,7 +1,7 @@
 PropTypes = require('prop-types')
 _ = require 'lodash'
 React = require 'react'
-H = React.DOM
+R = React.createElement
 
 # Simple bootstrap tabbed component
 module.exports = class TabbedComponent extends React.Component
@@ -31,12 +31,12 @@ module.exports = class TabbedComponent extends React.Component
       tabId = @props.tabId
     else
       tabId =  @state.tabId
-    H.li key: tab.id, className: (if tabId == tab.id then "active"),
-      H.a onClick: @handleClick.bind(null, tab.id), style: { cursor: "pointer" },
+    R 'li', key: tab.id, className: (if tabId == tab.id then "active"),
+      R 'a', onClick: @handleClick.bind(null, tab.id), style: { cursor: "pointer" },
         tab.label
         if tab.onRemove
-          H.button type: "button", className: "btn btn-xs btn-link", onClick: @handleRemove.bind(null, tab),
-            H.span className: "fa fa-times"
+          R 'button', type: "button", className: "btn btn-xs btn-link", onClick: @handleRemove.bind(null, tab),
+            R 'span', className: "fa fa-times"
 
   render: ->
     if @props.tabId?
@@ -45,14 +45,14 @@ module.exports = class TabbedComponent extends React.Component
       tabId =  @state.tabId
     currentTab = _.findWhere(@props.tabs, id: tabId)
 
-    H.div null,
-      H.ul key: "tabs", className: "nav nav-tabs", style: { marginBottom: 10 },
+    R 'div', null,
+      R 'ul', key: "tabs", className: "nav nav-tabs", style: { marginBottom: 10 },
         _.map(@props.tabs, @renderTab)
         if @props.onAddTab
-          H.li key: "_add", 
-            H.a onClick: @props.onAddTab, style: { cursor: "pointer" },
-              H.span className: "glyphicon glyphicon-plus"
+          R 'li', key: "_add", 
+            R 'a', onClick: @props.onAddTab, style: { cursor: "pointer" },
+              R 'span', className: "glyphicon glyphicon-plus"
 
-      H.div key: "currentTab", 
+      R 'div', key: "currentTab", 
         if currentTab
           currentTab.elem

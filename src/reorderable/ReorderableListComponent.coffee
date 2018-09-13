@@ -2,7 +2,6 @@ PropTypes = require('prop-types')
 _ = require 'lodash'
 React = require 'react'
 uuid = require 'uuid'
-H = React.DOM
 R = React.createElement
 DragDropContext = require('react-dnd').DragDropContext
 HTML5Backend = require('react-dnd-html5-backend')
@@ -31,7 +30,7 @@ class ReorderableListComponent extends React.Component
     }
 
   @defaultProps:
-    element: H.div null
+    element: R 'div', null
 
   componentWillReceiveProps: (nextProps) ->
     newOrder = _.map nextProps.items, (item) => @props.getItemId(item)

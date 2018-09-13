@@ -1,7 +1,6 @@
 PropTypes = require('prop-types')
 React = require 'react'
 ReactDOM = require 'react-dom'
-H = React.DOM
 R = React.createElement
 Resizable = require './react-component-resizable'
 
