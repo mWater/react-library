@@ -17,12 +17,12 @@ module.exports = class AutoSizeComponent extends React.Component
 
   componentDidMount: ->
     # Listen for changes
-    $(window).on('resize', @updateSize)
+    window.addEventListener('resize', @updateSize)
     @updateSize()
 
   componentWillUnmount: ->
     # Stop listening to resize events
-    $(window).off('resize', @updateSize)
+    window.removeEventListener('resize', @updateSize)
 
   updateSize: =>
     # Get width of self

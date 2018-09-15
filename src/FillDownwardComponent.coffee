@@ -10,12 +10,12 @@ module.exports = class FillDownwardComponent extends React.Component
 
   componentDidMount: ->
     # Listen for changes
-    $(window).on('resize', @updateSize)
+    window.addEventListener('resize', @updateSize)
     @updateSize()
 
   componentWillUnmount: ->
     # Stop listening to resize events
-    $(window).off('resize', @updateSize)
+    window.removeEventListener('resize', @updateSize)
 
   updateSize: =>
     self = @self

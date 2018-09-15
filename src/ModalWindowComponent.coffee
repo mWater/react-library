@@ -17,11 +17,11 @@ module.exports = class ModalWindowComponent extends React.Component
     super(props)
 
     # Add special region to body
-    @modalNode = $('<div></div>').get(0)
-    $("body").append(@modalNode)
+    @modalNode = document.createElement("div")
+    document.body.append(@modalNode)
 
   componentWillUnmount: ->
-    $(@modalNode).remove()
+    @modalNode.remove()
 
   render: -> 
     ReactDOM.createPortal(R(InnerModalComponent, @props), @modalNode)
@@ -30,7 +30,7 @@ module.exports = class ModalWindowComponent extends React.Component
   # modalFunc takes close function as a single parameter and returns a ModalWindowComponent
   @show: (modalFunc, onClose) =>
     # Create temporary div to render into
-    tempDiv = $('<div></div>').get(0)
+    tempDiv = document.createElement("div")
 
     # Create close function
     close = () =>
@@ -38,7 +38,7 @@ module.exports = class ModalWindowComponent extends React.Component
       ReactDOM.unmountComponentAtNode(tempDiv)
 
       # Remove div
-      $(tempDiv).remove()
+      tempDiv.remove()
 
       # Call onClose
       if onClose
