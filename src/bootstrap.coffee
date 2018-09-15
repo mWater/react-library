@@ -155,7 +155,7 @@ exports.Select = class Select extends React.Component
       style = { width: "auto", display: "inline-block" }
     _.extend(style, @props.style or {})
 
-    return H.select
+    return R 'select',
       style: style
       disabled: not @props.onChange?
       className: classnames("form-control", { "input-sm": @props.size == "sm" }, { "input-lg": @props.size == "lg" })
@@ -286,7 +286,7 @@ exports.NumberInput = class NumberInput extends React.Component
     if @props.decimal and navigator.userAgent.match(/SM-T116NU/)
       inputType = "text"
 
-    H.input
+    R 'input',
       ref: (c) => @input = c
       type: inputType
       className: "form-control #{if @props.size then "input-#{@props.size}" else ""}"
