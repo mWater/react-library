@@ -203,6 +203,8 @@ exports.NumberInput = class NumberInput extends React.Component
     onEnter: PropTypes.func
     decimalPlaces: PropTypes.number # Force an exact number of decimal places, rounding value as necessary
     placeholder: PropTypes.string  
+    min: PropTypes.number # The minimum number allowed
+    max: PropTypes.number # The maximum number allowed
 
   constructor: (props) ->
     super
@@ -250,17 +252,21 @@ exports.NumberInput = class NumberInput extends React.Component
   handleBlur: =>
     # Parse and set value if valid
     if @isValid()
-      val = if @props.decimal then parseFloat(@state.inputText) else parseInt(@state.inputText)
-      if isNaN(val)
-        if @props.value != null
-          @props.onChange?(null)
-      else
-        # Round if necessary
-        if @props.decimalPlaces?
-          val = parseFloat(val.toFixed(@props.decimalPlaces))
+      val = @getNumericValue()
+      if val != @props.value
+        @props.onChange?(val)
+        
 
-        if val != @props.value
-          @props.onChange?(val)
+  getNumericValue: =>
+    val = if @props.decimal then parseFloat(@state.inputText) else parseInt(@state.inputText)
+    if isNaN(val)
+      return null
+    else
+      # Round if necessary
+      if @props.decimalPlaces?
+        val = parseFloat(val.toFixed(@props.decimalPlaces))
+    
+    return val
 
   # Check regex matching of numbers
   isValid: ->
@@ -268,9 +274,24 @@ exports.NumberInput = class NumberInput extends React.Component
       return true
 
     if @props.decimal
-      return @state.inputText.match(/^-?[0-9]*\.?[0-9]+$/) and not isNaN(parseFloat(@state.inputText))
+      valid = @state.inputText.match(/^-?[0-9]*\.?[0-9]+$/) and not isNaN(parseFloat(@state.inputText))
+      if not valid
+        return false
     else
-      return @state.inputText.match(/^-?\d+$/)
+      valid = @state.inputText.match(/^-?\d+$/)
+
+      if not valid
+        return false
+    
+    val = @getNumericValue()
+    
+    if val and @props.max? and val > @props.max
+      return false
+    
+    if val and @props.min? and val < @props.min
+      return false
+
+    return true
 
   render: ->
     # Display red border if not valid

@@ -371,7 +371,13 @@ $ ->
 
   # elem = R AutoSizeTestComponent
 
-  elem = R ToggleTestComponent
+  # elem = R ToggleTestComponent
+
+  elem = R ui.NumberInput,
+      onChange: console.log
+      min: 0
+      max: 100
+      decimal: false 
 
   # elem = H.div null,
   #    React.createElement(SampleComponent)
