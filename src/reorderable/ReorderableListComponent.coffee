@@ -4,9 +4,7 @@ React = require 'react'
 uuid = require 'uuid'
 R = React.createElement
 DragDropContext = require('react-dnd').DragDropContext
-HTML5Backend = require('react-dnd-html5-backend')
 ReorderableListItemComponent = require "./ReorderableListItemComponent"
-NestableDragDropContext = require "../NestableDragDropContext"
 
 # Reorderable component for nested items
 # Currently supports reordering within the same list
@@ -109,4 +107,4 @@ class ReorderableListComponent extends React.Component
           onEndDrag: @handleEndDrag
     )
 
-module.exports = NestableDragDropContext(HTML5Backend)(ReorderableListComponent)
+module.exports = ReorderableListComponent
