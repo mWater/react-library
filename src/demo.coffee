@@ -15,6 +15,9 @@ FillDownwardComponent = require './FillDownwardComponent'
 AutoSizeComponent = require './AutoSizeComponent'
 ui = require './bootstrap'
 
+HTML5Backend = require('react-dnd-html5-backend').default
+DragDropContext = require("react-dnd").DragDropContext
+
 class PopoverHelpSample extends React.Component
   render: ->
     R PopoverHelpComponent, null,
@@ -331,6 +334,24 @@ class ToggleTestComponent extends React.Component
       size: 'xs'
       # allowReset: true
 
+class ReorderDemo extends React.Component 
+  constructor: (props) ->
+    super(props)
+    @state = {
+      items: ["red", "green", "blue"]
+    }
+
+  render: -> 
+    R ReorderableListComponent,
+      items: @state.items
+      onReorder: (items) => @setState(items: items)
+      # function which renders the item, gets passed the current item and react dnd connectors
+      # signature: function(item, index, connectDragSource, connectDragPreview, connectDropTarget)
+      renderItem: (item, index, connectDragSource, connectDragPreview, connectDropTarget) =>
+        return connectDragSource(connectDragPreview(connectDropTarget(R("div", null, item))))
+      getItemId: (item) => item
+
+ReorderDemoWrapped = DragDropContext(HTML5Backend)(ReorderDemo)
 
 # Wait for DOM to load
 $ ->
@@ -366,7 +387,8 @@ $ ->
 
   # elem = R AutoSizeTestComponent
 
-  elem = R ModalWindowSample
+  elem = R ReorderDemoWrapped
+  # elem = R ModalWindowSample
 
   # elem = R 'div', null,
   #    React.createElement(SampleComponent)
