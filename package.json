@@ -13,6 +13,7 @@
     ]
   },
   "style": "src/index.css",
+  "types": "index.d.ts",
   "author": "mWater",
   "license": "LGPL-3.0",
   "dependencies": {

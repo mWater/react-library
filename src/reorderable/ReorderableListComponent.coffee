@@ -3,7 +3,6 @@ _ = require 'lodash'
 React = require 'react'
 uuid = require 'uuid'
 R = React.createElement
-DragDropContext = require('react-dnd').DragDropContext
 ReorderableListItemComponent = require "./ReorderableListItemComponent"
 
 # Reorderable component for nested items
