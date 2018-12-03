@@ -387,8 +387,13 @@ $ ->
 
   # elem = R AutoSizeTestComponent
 
-  elem = R ReorderDemoWrapped
-  # elem = R ModalWindowSample
+  # elem = R ToggleTestComponent
+
+  elem = R ui.NumberInput,
+      onChange: console.log
+      min: 0
+      max: 100
+      decimal: false 
 
   # elem = R 'div', null,
   #    React.createElement(SampleComponent)
