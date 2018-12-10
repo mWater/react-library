@@ -18,7 +18,8 @@ module.exports = class ModalWindowComponent extends React.Component
 
     # Add special region to body
     @modalNode = document.createElement("div")
-    document.body.append(@modalNode)
+    # append is not supported everywhere https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append#Browser_compatibility
+    document.body.appendChild(@modalNode)
 
   componentWillUnmount: ->
     @modalNode.remove()
