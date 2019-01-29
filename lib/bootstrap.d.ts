@@ -40,6 +40,21 @@ declare class Checkbox extends React.Component<{
   inline?: boolean
 }> {}
 
+declare class Radio extends React.Component<{
+  /** Value to display */
+  value: any     
+
+  /** Value that radio button represents. If equal to value, button is checked */
+  radioValue: any  
+  
+  /** Called with radio value */
+  onChange: (value: any) => void
+  
+  /** Makes horizontal */
+  inline: boolean
+}> {}
+
+
 declare class Toggle<T> extends React.Component<{
   value: T | null
   onChange?: (value: T | null) => void,
