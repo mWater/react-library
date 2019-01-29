@@ -21,7 +21,7 @@ gulp.task 'coffee', ->
 
 # Copy non-coffeescript files
 gulp.task 'copy', ->
-  gulp.src(['./src/**/*.js', './src/**/*.css', './src/**/*.txt'])
+  gulp.src(['./src/**/*.js', './src/**/*.css', './src/**/*.txt', "./src/**/*.d.ts"])
     .pipe(gulp.dest('./lib/'))
 
 makeBrowserifyBundle = ->
