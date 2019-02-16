@@ -35,8 +35,8 @@ module.exports = class SplitPane extends React.Component
     onResize: PropTypes.func
   }
 
-  constructor: ->
-    super
+  constructor: (props) ->
+    super(props)
     @state = { 
       resizing: false
       firstPaneSize: @props.firstPaneSize
