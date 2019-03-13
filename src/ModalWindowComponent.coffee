@@ -102,14 +102,15 @@ class InnerModalComponent extends React.Component
       right: 8
       top: 8
       color: "#888"
+      cursor: "pointer"
     }
 
     R 'div', className: "modal-window-component",
       R 'style', null, '''body { overflow-y: hidden }'''
       R 'div', style: overlayStyle, onClick: @props.onRequestClose, className: "modal-window-component-overlay"
       R 'div', style: windowStyle, className: "modal-window-component-window",
+        R 'div', style: contentStyle,
+          @props.children
         if @props.onRequestClose
           R 'div', style: closeStyle,
             R 'span', className: "glyphicon glyphicon-remove", onClick: @props.onRequestClose
-        R 'div', style: contentStyle,
-          @props.children
