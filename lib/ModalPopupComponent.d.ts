@@ -5,7 +5,7 @@ declare class ModalPopupComponent extends Component<{
   footer?: React.ReactNode
   size?: "large" | "full"
   showCloseX?: boolean
-  onClose: () => void
+  onClose?: () => void
 }> {}
 
 export default ModalPopupComponent
