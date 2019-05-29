@@ -51,7 +51,7 @@ declare class Radio extends React.Component<{
   onChange: (value: any) => void
   
   /** Makes horizontal */
-  inline: boolean
+  inline?: boolean
 }> {}
 
 
