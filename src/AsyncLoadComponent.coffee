@@ -22,6 +22,8 @@ module.exports = class AsyncLoadComponent extends React.Component
     @_loadSeqStarted = 0
     @_loadSeqCompleted = 0
 
+  isLoading: => @state.loading
+
   # Override to determine if a load is needed. Not called on mounting
   isLoadNeeded: (newProps, oldProps) -> throw new Error("Not implemented")
 

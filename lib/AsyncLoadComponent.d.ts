@@ -17,4 +17,7 @@ export default class AsyncLoadComponent<P, S> extends Component<P, S> {
 
   /** Call to force load */
   forceLoad(): void
+
+  /** Check if mid-loading */
+  isLoading(): boolean
 }
