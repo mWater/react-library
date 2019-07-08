@@ -10,7 +10,9 @@ R = React.createElement
 # Sets state of loading to true/false appropriately
 # DO NOT call @setState or reference @props in load
 module.exports = class AsyncLoadComponent extends React.Component
-  constructor: ->
+  constructor: (props) ->
+    super(props)
+    
     @state = { 
       loading: false
     }

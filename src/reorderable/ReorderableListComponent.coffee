@@ -18,8 +18,8 @@ class ReorderableListComponent extends React.Component
     getItemId: PropTypes.func.isRequired # function which should return the identifier of the current item, gets passed the current item
     element: PropTypes.object # the element to render this component as
 
-  constructor: ->
-    super
+  constructor: (props) ->
+    super(props)
 
     @state = {
       order: null   # Ordered list of ids. Only present when dragging

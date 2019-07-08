@@ -1,16 +1,21 @@
 {
   "name": "react-library",
-  "version": "1.13.4",
+  "version": "2.0.0",
   "description": "React component library",
   "repository": "git@github.com:mWater/react-library.git",
   "main": "lib/index.js",
   "scripts": {
-    "test": "karma start"
+    "test": "node_modules/build-library/test-cli",
+    "test-browser": "node_modules/build-library/test-browser",
+    "watch": "node_modules/build-library/watch",
+    "build": "node_modules/build-library/build",
+    "storybook": "gulp prepare_storybook && start-storybook -s . -p 6009",
+    "build-storybook": "build-storybook"
   },
-  "browserify": {
-    "transform": [
-      "coffeeify"
-    ]
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
   },
   "style": "src/index.css",
   "types": "index.d.ts",
@@ -35,32 +40,13 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "brfs": "^1.4.1",
-    "browser-sync": "^2.10.0",
-    "browserify": "^12.0.1",
+    "@types/react": "^16.8.23",
+    "build-library": "github:mWater/build-library",
     "canonical-json": "0.0.4",
     "chai": "^3.4.0",
-    "coffee-loader": "^0.7.3",
-    "coffeeify": "^1.1.0",
     "enzyme": "^2.8.0",
-    "gulp": "git://github.com/gulpjs/gulp.git#6d71a658c61edb3090221579d8f97dbe086ba2ed",
-    "gulp-coffee": "^2.3.5",
-    "gulp-concat": "^2.6.0",
-    "gulp-rework": "^1.0.3",
-    "gulp-util": "^3.0.7",
-    "karma": "^0.13.14",
-    "karma-browserify": "^4.4.0",
-    "karma-chrome-launcher": "^0.2.1",
-    "karma-mocha": "^0.2.0",
-    "mocha": "^2.3.2",
-    "mocha-loader": "^1.1.1",
     "react-addons-test-utils": "^15.5.1",
     "react-test-renderer": "^15.5.4",
-    "rework-npm": "^1.0.0",
-    "sinon": "^2.1.0",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.6.0",
-    "webpack": "^2.3.1",
-    "webpack-dev-server": "^2.4.2"
+    "sinon": "^2.1.0"
   }
 }

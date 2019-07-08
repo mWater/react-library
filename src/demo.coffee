@@ -11,6 +11,7 @@ VerticalTreeLayoutComponent = require './VerticalTreeLayoutComponent'
 ReorderableListComponent = require "./reorderable/ReorderableListComponent"
 ReorderableListItemComponent = require "./reorderable/ReorderableListItemComponent"
 PopoverHelpComponent = require './PopoverHelpComponent'
+PopupHelpComponent = require('./PopupHelpComponent').default
 FillDownwardComponent = require './FillDownwardComponent'
 AutoSizeComponent = require './AutoSizeComponent'
 ui = require './bootstrap'
@@ -32,8 +33,8 @@ class Block2 extends React.Component
     R 'div', style: { height: 300, width: 200, border: "solid 2px blue" }, " "
 
 class ModalWindowSample extends React.Component
-  constructor: ->
-    super
+  constructor: (props) ->
+    super(props)
     @state = {
       editing: false
     }
@@ -60,8 +61,8 @@ class ModalWindowSample extends React.Component
             _.map(_.range(1, 100), (x) -> R 'div', null, "#{x}")
 
 class ModalPopupSample extends React.Component
-  constructor: ->
-    super
+  constructor: (props) ->
+    super(props)
     @state = {
       editing: false
     }
@@ -86,8 +87,8 @@ class ModalPopupSample extends React.Component
             _.map(_.range(1, 100), (x) -> R 'div', null, "#{x}")
 
 class SortableSampleItem extends React.Component
-  constructor: ->
-    super
+  constructor: (props) ->
+    super(props)
     @state = {
       value: Math.floor(Math.random() * 1000) + "!"
     }
@@ -125,8 +126,8 @@ class SortableSampleItem extends React.Component
     )
 
 class SortableSample extends React.Component
-  constructor: ->
-    super
+  constructor: (props) ->
+    super(props)
     @state =
       items: [
         id: "red"
@@ -252,7 +253,7 @@ class SortableSample extends React.Component
 
 class BlocksComponent extends React.Component
   constructor: (props) ->
-    super 
+    super(props)
     @state = {
       items: [
         { id: "1", type: "title" }
@@ -318,8 +319,8 @@ class AutoSizeTestComponent extends React.Component
         R 'div', style: { height: size.height + 1, backgroundColor: "#FDF" }, JSON.stringify(size)
 
 class ToggleTestComponent extends React.Component
-  constructor: ->
-    super()
+  constructor: (props) ->
+    super(props)
     @state = {
       action: 'keep'
     }
@@ -389,11 +390,14 @@ $ ->
 
   # elem = R ToggleTestComponent
 
-  elem = R ui.NumberInput,
-      onChange: console.log
-      min: 0
-      max: 100
-      decimal: false 
+  # elem = R ui.NumberInput,
+  #     onChange: console.log
+  #     min: 0
+  #     max: 100
+  #     decimal: false 
+
+  elem = R PopupHelpComponent, null,
+    "This is a test!"
 
   # elem = R 'div', null,
   #    React.createElement(SampleComponent)

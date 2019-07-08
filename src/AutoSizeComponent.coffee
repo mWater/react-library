@@ -12,7 +12,8 @@ module.exports = class AutoSizeComponent extends React.Component
     injectWidth: PropTypes.bool # True to inject width
     injectHeight: PropTypes.bool # True to inject height
 
-  constructor: ->
+  constructor: (props) ->
+    super(props)
     @state = { width: null, height: null }
 
   componentDidMount: ->

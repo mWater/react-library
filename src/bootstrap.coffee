@@ -206,7 +206,7 @@ exports.NumberInput = class NumberInput extends React.Component
     max: PropTypes.number # The maximum number allowed
 
   constructor: (props) ->
-    super
+    super(props)
 
     # Parsing happens on blur
     @state = {
