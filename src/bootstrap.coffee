@@ -304,7 +304,7 @@ exports.NumberInput = class NumberInput extends React.Component
     inputType = if @props.decimal then "number" else "tel"
 
     # Special problem with Galaxy Tab 3V (SM-T116NU) missing decimal place
-    if @props.decimal and navigator.userAgent.match(/SM-T116NU/)
+    if @props.decimal and navigator.userAgent.match(/SM-/)
       inputType = "text"
 
     R 'input',
