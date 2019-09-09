@@ -63,3 +63,21 @@ declare class Toggle<T> extends React.Component<{
   size?: string
   allowReset?: boolean
 }> {}
+
+/** Indented form group with a label, optional help text. Label and indented contents */
+declare class FormGroup extends React.Component<{
+  /** Label to display */
+  label: ReactNode
+  /** True to mute label */
+  labelMuted?: boolean  
+  /** Hint to append to label. Makes label faded if only hint presented */
+  hint?: ReactNode
+  /** Help block at bottom */
+  help?: ReactNode
+  /** True to display as success */
+  hasSuccess?: boolean 
+  /** True to display as warning */
+  hasWarning?: boolean
+  /** True to display as error */
+  hasError?: boolean
+}> {}
