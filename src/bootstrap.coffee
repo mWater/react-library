@@ -240,10 +240,16 @@ exports.NumberInput = class NumberInput extends React.Component
   handleKeyDown: (ev) =>
     # When pressing ENTER or TAB
     if @props.onEnter and ev.keyCode == 13
+      # First parse value as if blur will be done
+      @handleBlur()
+      
       @props.onEnter(ev)
       ev.preventDefault()
 
     if @props.onTab and ev.keyCode == 9 and @props.onTab
+      # First parse value as if blur will be done
+      @handleBlur()
+
       @props.onTab(ev)
       # It's important to prevent the default behavior when handling tabs (or else the tab is applied after the focus change)
       ev.preventDefault()
@@ -254,7 +260,6 @@ exports.NumberInput = class NumberInput extends React.Component
       val = @getNumericValue()
       if val != @props.value
         @props.onChange?(val)
-        
 
   getNumericValue: =>
     val = if @props.decimal then parseFloat(@state.inputText) else parseInt(@state.inputText)
