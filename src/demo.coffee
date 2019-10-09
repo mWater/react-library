@@ -15,6 +15,7 @@ PopupHelpComponent = require('./PopupHelpComponent').default
 FillDownwardComponent = require './FillDownwardComponent'
 AutoSizeComponent = require './AutoSizeComponent'
 ui = require './bootstrap'
+ReactElementPrinter = require './ReactElementPrinter'
 
 HTML5Backend = require('react-dnd-html5-backend').default
 DragDropContext = require("react-dnd").DragDropContext
@@ -31,6 +32,18 @@ class Block extends React.Component
 class Block2 extends React.Component
   render: ->
     R 'div', style: { height: 300, width: 200, border: "solid 2px blue" }, " "
+
+
+class ReactElementPrinterSample extends React.Component
+  handlePrint: =>
+    printer = new ReactElementPrinter()
+    elem = R 'h1', null, "Print this!"
+    printer.print(elem, {})
+
+  render: ->
+    R 'div', null,
+      R 'button', type: "button", onClick: @handlePrint, "Print"
+      "DO NOT PRINT THIS"
 
 class ModalWindowSample extends React.Component
   constructor: (props) ->
@@ -396,8 +409,10 @@ $ ->
   #     max: 100
   #     decimal: false 
 
-  elem = R PopupHelpComponent, null,
-    "This is a test!"
+  # elem = R PopupHelpComponent, null,
+  #   "This is a test!" 
+  
+  elem = R ReactElementPrinterSample, null
 
   # elem = R 'div', null,
   #    React.createElement(SampleComponent)

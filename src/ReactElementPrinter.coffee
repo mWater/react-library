@@ -31,11 +31,11 @@ module.exports = class ReactElementPrinter
     }
   }
 
-  /* Don't show when not printing */
-  #react_element_printer {
-    /* Removed because causes c3 titles to be hidden for mysterious reasons
-    display: none;
-    */
+  @media screen {
+    /* Don't show when not printing */
+    #react_element_printer {
+      visibility: hidden;
+    }
   }
 
   /* Default to letter sized pages */
