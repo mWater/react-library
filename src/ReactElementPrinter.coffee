@@ -32,10 +32,10 @@ module.exports = class ReactElementPrinter
   }
 
   @media screen {
-    /* Don't show when not printing */
-    #react_element_printer {
+    /* REMOVED: Don't show when not printing. Caused c3 problems */
+    /*#react_element_printer {
       visibility: hidden;
-    }
+    }*/
   }
 
   /* Default to letter sized pages */
