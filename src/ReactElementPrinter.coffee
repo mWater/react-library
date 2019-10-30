@@ -6,6 +6,7 @@ ReactDOM = require 'react-dom'
 module.exports = class ReactElementPrinter
   # Options include:
   # delay: ms to wait before printing to allow elements to render
+  # text: text to display next to spinner
   print: (element, options) ->
     # Add special CSS printing rules
     extraCss = $('''
@@ -77,7 +78,7 @@ module.exports = class ReactElementPrinter
       <div id="react_element_printer_splash">
         <div style="font-size: 30pt;">
           <i class="fa fa-spinner fa-spin"></i>
-          Preparing to print...
+          ''' + (options.text or "") + '''
         </div>
       </div>
     ''')

@@ -35,7 +35,7 @@ declare class Select<T> extends React.Component<{
 }> {}
 
 declare class Checkbox extends React.Component<{
-  value: boolean
+  value: boolean | null | undefined
   onChange?: (value: boolean) => void
   inline?: boolean
 }> {}
