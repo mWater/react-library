@@ -26,7 +26,7 @@
     "classnames": "^2.2.1",
     "coffeescript": "^2.2.4",
     "create-react-class": "^15.6.3",
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.13",
     "object-assign": "^4.1.0",
     "object-path-immutable": "^0.5.1",
     "prop-types": "^15.5.10",
