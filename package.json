@@ -36,11 +36,14 @@
     "react-dnd-html5-backend": "^6.0.0",
     "react-dom": "^16.12.0",
     "react-overlays": "^0.8.3",
+    "react-select": "^3.0.8",
     "to-px": "^1.0.1",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
+    "@types/lodash": "^3.10.2",
     "@types/react": "^16.8.23",
+    "@types/react-select": "^3.0.8",
     "build-library": "github:mWater/build-library",
     "canonical-json": "0.0.4",
     "chai": "^3.4.0",

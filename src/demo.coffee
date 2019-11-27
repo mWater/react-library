@@ -16,6 +16,7 @@ FillDownwardComponent = require './FillDownwardComponent'
 AutoSizeComponent = require './AutoSizeComponent'
 ui = require './bootstrap'
 ReactElementPrinter = require './ReactElementPrinter'
+GridComponentDemo = require('./GridComponentDemo').GridComponentDemo
 
 HTML5Backend = require('react-dnd-html5-backend').default
 DragDropContext = require("react-dnd").DragDropContext
@@ -412,7 +413,8 @@ $ ->
   # elem = R PopupHelpComponent, null,
   #   "This is a test!" 
   
-  elem = R ReactElementPrinterSample, null
+  # elem = R ReactElementPrinterSample, null
+  elem = R GridComponentDemo
 
   # elem = R 'div', null,
   #    React.createElement(SampleComponent)
