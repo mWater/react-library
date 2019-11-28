@@ -85,6 +85,8 @@ export interface RenderColHeaderProps {
     width: number;
     /** Height of header to be rendered */
     height: number;
+    /** True if cell in column is selected */
+    selected: boolean;
 }
 export interface RenderRowHeaderProps {
     /** Zero-based row number */
@@ -93,6 +95,8 @@ export interface RenderRowHeaderProps {
     width: number;
     /** Height of header to be rendered */
     height: number;
+    /** True if cell in row is selected */
+    selected: boolean;
 }
 /** Will be called to save the current edit. Returns true if successful */
 export declare type SaveEditFunc = () => Promise<boolean>;

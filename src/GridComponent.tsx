@@ -372,7 +372,12 @@ export const GridComponent = (props: {
         border: "solid 1px #c0c0c0",
         backgroundColor: selected ? "#eaeaea" : "#f5f5f5"
       }
-      const colHeaderContents = props.renderColHeader({ col: c, width: props.colWidths[c] - 1, height: props.colHeaderHeight - 1 })
+      const colHeaderContents = props.renderColHeader({ 
+        col: c, 
+        width: props.colWidths[c] - 1, 
+        height: props.colHeaderHeight - 1,
+        selected: selected
+      })
       nodes.push(<div key={c + ":h"} style={colHeaderStyle}>{colHeaderContents}</div>)
     }
 
@@ -435,7 +440,12 @@ export const GridComponent = (props: {
         border: "solid 1px #c0c0c0",
         backgroundColor: selected ? "#eaeaea" : "#f5f5f5"
       }
-      const rowHeaderContents = props.renderRowHeader({ row: r, width: props.rowHeaderWidth - 1, height: props.rowHeight - 1 })
+      const rowHeaderContents = props.renderRowHeader({ 
+        row: r, 
+        width: props.rowHeaderWidth - 1, 
+        height: props.rowHeight - 1,
+        selected: selected
+      })
       nodes.push(<div key={"h:" + r} style={rowHeaderStyle}>{rowHeaderContents}</div>)
       y += props.rowHeight
     }
@@ -683,6 +693,8 @@ export interface RenderColHeaderProps {
   width: number
   /** Height of header to be rendered */
   height: number
+  /** True if cell in column is selected */
+  selected: boolean
 }
 
 export interface RenderRowHeaderProps {
@@ -692,6 +704,8 @@ export interface RenderRowHeaderProps {
   width: number
   /** Height of header to be rendered */
   height: number
+  /** True if cell in row is selected */
+  selected: boolean
 }
 
 /** Will be called to save the current edit. Returns true if successful */
