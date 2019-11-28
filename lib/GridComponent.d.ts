@@ -1,5 +1,4 @@
 import React from "react";
-import './GridComponent.css';
 /** Grid that has headers on rows and columns. Has virtual, high-performance scrolling.
  * Handles:
  *  - arrow keys
@@ -16,6 +15,12 @@ import './GridComponent.css';
  *  - content rendering
  *  - header rendering
  *  - editor creation
+ *
+ * Row header refers to a sticky vertical band to the left of each row, like in a spreadsheet
+ *
+ * Column header extra is an optional part of the column header to the right of the last column. Used for "+" usually to add a column.
+ * Row header extra is an optional part of the row header below of the last row. Used for "+" usually to add a row.
+ *
  */
 export declare const GridComponent: (props: {
     /** Width of display of grid */
@@ -47,6 +52,14 @@ export declare const GridComponent: (props: {
         row: number;
         col: number;
     }) => boolean | Promise<boolean>) | undefined;
+    /** Width of extra region to right of last column header */
+    colHeaderExtraWidth?: number | undefined;
+    /** Render extra region to the right of last column header */
+    renderColHeaderExtra?: (() => React.ReactNode) | undefined;
+    /** Height of extra region below last row header */
+    rowHeaderExtraHeight?: number | undefined;
+    /** Render extra region below last row header */
+    renderRowHeaderExtra?: (() => React.ReactNode) | undefined;
     /** Handle row click. Prevents selection by click if present */
     onRowClick?: ((rowIndex: number) => void) | undefined;
     /** Handle row double click. Prevents editing by double click if present */
