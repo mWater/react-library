@@ -627,7 +627,9 @@ export const GridComponent = (props: {
     const style: CSSProperties = {
       position: "absolute",
       left: colXs[selection.col] + 1, 
-      top: selection.row * props.rowHeight + props.colHeaderHeight + 1
+      top: selection.row * props.rowHeight + props.colHeaderHeight + 1,
+      width: props.colWidths[selection.col] - 1, 
+      height: props.rowHeight - 1
     }
     const editorContent = props.renderCellEditor({
       row: selection.row,
