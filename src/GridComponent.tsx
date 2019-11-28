@@ -18,34 +18,56 @@ import { ReactNode, useRef, useState, useCallback, CSSProperties, useMemo, React
  *  - content rendering
  *  - header rendering
  *  - editor creation
+ * 
+ * Row header refers to a sticky vertical band to the left of each row, like in a spreadsheet
+ * 
+ * Column header extra is an optional part of the column header to the right of the last column. Used for "+" usually to add a column.
+ * Row header extra is an optional part of the row header below of the last row. Used for "+" usually to add a row.
+ * 
  */
 export const GridComponent = (props: {
   /** Width of display of grid */
-  width: number,
+  width: number
   /** Height of display of grid */
-  height: number,
+  height: number
+
   /** Number of rows in the grid */
-  numRows: number,
+  numRows: number
   /** Height of each row in grid (excluding header) */
-  rowHeight: number,
+  rowHeight: number
+
   /** Widths of columns */
-  colWidths: number[],
+  colWidths: number[]
   /** Called when columns are resized */
   onColWidthsChange?: (colWidths: number[]) => void
   /** Height of column headers */
-  colHeaderHeight: number,
+  colHeaderHeight: number
+
   /** Width of row headers */
-  rowHeaderWidth: number,
+  rowHeaderWidth: number
+
   /** Render a single cell. Renderer is responsible for clipping and padding */
   renderCell: (props: RenderCellProps) => ReactNode
   /** Render a single column header. Renderer is responsible for clipping and padding */
   renderColHeader?: (props: RenderColHeaderProps) => ReactNode
   /** Render a single row header. Renderer is responsible for clipping and padding */
   renderRowHeader?: (props: RenderRowHeaderProps) => ReactNode
+
   /** Cell editor when editing set */
   renderCellEditor?: (props: RenderCellEditorProps) => ReactElement<any>
   /** Check if a cell can be edited */
   canEdit?: (props: { row: number, col: number }) => Promise<boolean> | boolean
+
+  /** Width of extra region to right of last column header */
+  colHeaderExtraWidth?: number
+  /** Render extra region to the right of last column header */
+  renderColHeaderExtra?: () => ReactNode
+
+  /** Height of extra region below last row header */
+  rowHeaderExtraHeight?: number
+  /** Render extra region below last row header */
+  renderRowHeaderExtra?: () => ReactNode
+
   /** Handle row click. Prevents selection by click if present */
   onRowClick?: (rowIndex: number) => void
   /** Handle row double click. Prevents editing by double click if present */
@@ -490,6 +512,36 @@ export const GridComponent = (props: {
     return nodes
   }
 
+  /** Render extra region to right of last column header */
+  const renderColHeaderExtra = () => {
+    if (!paneDiv.current || !props.renderColHeaderExtra || !props.colHeaderExtraWidth) {
+      return null
+    }
+
+    return <div key="colextra" style={{
+        position: "absolute",
+        top: paneDiv.current.scrollTop,
+        left: props.rowHeaderWidth + props.colWidths.reduce((a,b) => a + b, 0),
+        height: props.colHeaderHeight,
+        width: props.colHeaderExtraWidth
+      }}>{ props.renderColHeaderExtra() }</div>
+  }
+
+  /** Render extra region below last row header */
+  const renderRowHeaderExtra = () => {
+    if (!paneDiv.current || !props.renderRowHeaderExtra || !props.rowHeaderExtraHeight) {
+      return null
+    }
+
+    return <div key="rowextra" style={{
+        position: "absolute",
+        left: paneDiv.current.scrollLeft,
+        top: props.colHeaderHeight + props.rowHeight * props.numRows,
+        height: props.rowHeaderExtraHeight,
+        width: props.rowHeaderWidth
+      }}>{ props.renderRowHeaderExtra() }</div>
+  }
+  
   /** Render column resizers */
   const renderColResizers = () => {
     if (!paneDiv.current || !props.onColWidthsChange) {
@@ -580,8 +632,8 @@ export const GridComponent = (props: {
   }
 
   // Calculate the size of the grid
-  const totalWidth = props.rowHeaderWidth + props.colWidths.reduce((a,b) => a + b, 0)
-  const totalHeight = props.rowHeight * props.numRows + props.colHeaderHeight
+  const totalWidth = props.rowHeaderWidth + props.colWidths.reduce((a,b) => a + b, 0) + (props.colHeaderExtraWidth || 0)
+  const totalHeight = props.rowHeight * props.numRows + props.colHeaderHeight + (props.rowHeaderExtraHeight || 0)
 
   return <div key="pane" 
     style={{ width: props.width, height: props.height, overflow: "scroll", position: "relative" }} 
@@ -595,14 +647,16 @@ export const GridComponent = (props: {
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
       ref={(node) => { if (node) { node.focus() }}}
-      style={{ width: totalWidth, height: totalHeight, cursor: colResizing != null ? "col-resize" : undefined }}>
+      style={{ width: totalWidth, height: totalHeight, cursor: colResizing != null ? "col-resize" : undefined, outline: "none" }}>
       { renderGrid() }
       { renderCells() }
       { renderSelection() }
       { renderEditor() }
       { renderColHeaders() }
+      { renderColHeaderExtra() }
       { renderColResizers() }
       { renderRowHeaders() }
+      { renderRowHeaderExtra() }
       { renderTopLeft() }
     </div>
   </div>

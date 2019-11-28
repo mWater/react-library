@@ -32,6 +32,10 @@ export const GridComponentDemo = () => {
       renderColHeader={renderColHeader}
       renderRowHeader={renderRowHeader}
       renderCellEditor={renderCellEditor}
+      colHeaderExtraWidth={20}
+      renderColHeaderExtra={() => "X"}
+      rowHeaderExtraHeight={20}
+      renderRowHeaderExtra={() => "X"}
       canEdit={() => true}
       />
   </div> 
