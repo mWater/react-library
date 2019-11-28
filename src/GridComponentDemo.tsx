@@ -11,7 +11,7 @@ export const GridComponentDemo = () => {
     return <div style={{padding: 5}}>{`x${props.col}`}</div>
   }
   const renderRowHeader = (props: RenderRowHeaderProps) => {
-    return <div style={{padding: 10}}>{`x${props.row}`}</div>
+    return <div style={{padding: 10}}><i className="fa fa-open"/></div>
   }
 
   const renderCellEditor = (props: RenderCellEditorProps) => {
@@ -54,7 +54,9 @@ const Editor = (props: { width: number, setSaveEdit: (saveEditFunc: SaveEditFunc
        console.log("onChange")
        setValue(v)
      }} onBlur={() => { console.log("onBlur")}}
-     isMulti={true}
+        isMulti={true}
+        ref={(node) => { if (node) { 
+          setTimeout(() => { node.focus()  }, 0)}}}
       />
   </div>  
 }

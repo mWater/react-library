@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import React from "react"
 import { ReactNode, useRef, useState, useCallback, CSSProperties, useMemo, ReactElement } from "react"
-import './GridComponent.css'
 
 /** Grid that has headers on rows and columns. Has virtual, high-performance scrolling.
  * Handles:
@@ -47,6 +46,10 @@ export const GridComponent = (props: {
   renderCellEditor?: (props: RenderCellEditorProps) => ReactElement<any>
   /** Check if a cell can be edited */
   canEdit?: (props: { row: number, col: number }) => Promise<boolean> | boolean
+  /** Handle row click. Prevents selection by click if present */
+  onRowClick?: (rowIndex: number) => void
+  /** Handle row double click. Prevents editing by double click if present */
+  onRowDoubleClick?: (rowIndex: number) => void
 }) => {
   /** Range of visible cells */
   const [visibleRange, setVisibleRange] = useState<CellRange | null>(null)
@@ -90,7 +93,7 @@ export const GridComponent = (props: {
     const row = Math.floor((y - props.colHeaderHeight) / props.rowHeight)
     
     let col: number | null = null
-    for (let c = 0 ; c <= props.colWidths.length; c++) {
+    for (let c = 0 ; c < props.colWidths.length; c++) {
       const colStartX = colXs[c]
       const colEndX = colXs[c] + props.colWidths[c]
       if (x >= colStartX && x < colEndX) {
@@ -262,6 +265,12 @@ export const GridComponent = (props: {
       ev.clientY - paneDiv.current.getBoundingClientRect().top + paneDiv.current.scrollTop)
 
     if (row != null && col != null) {
+      // Handle override in prop
+      if (props.onRowClick) {
+        props.onRowClick(row)
+        return
+      }
+
       moveSelection({ row, col })
     }
   }
@@ -308,6 +317,12 @@ export const GridComponent = (props: {
 
     // If not on the grid
     if (row == null || col == null) {
+      return
+    }
+
+    // If overridden, call prop
+    if (props.onRowDoubleClick) {
+      props.onRowDoubleClick(row)
       return
     }
 
@@ -483,7 +498,7 @@ export const GridComponent = (props: {
 
     const nodes: ReactNode[] = []
 
-    for (let c = 0 ; c <= props.colWidths.length; c++) {
+    for (let c = 0 ; c < props.colWidths.length; c++) {
       let left = colXs[c] + props.colWidths[c] - 2
       if (colResizing == c && colResizingDelta != null) {
         left = left + colResizingDelta

@@ -47,6 +47,10 @@ export declare const GridComponent: (props: {
         row: number;
         col: number;
     }) => boolean | Promise<boolean>) | undefined;
+    /** Handle row click. Prevents selection by click if present */
+    onRowClick?: ((rowIndex: number) => void) | undefined;
+    /** Handle row double click. Prevents editing by double click if present */
+    onRowDoubleClick?: ((rowIndex: number) => void) | undefined;
 }) => JSX.Element;
 /** Props passed to render a cell */
 export interface RenderCellProps {
