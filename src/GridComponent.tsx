@@ -73,10 +73,6 @@ export const GridComponent = (props: {
   /** Handle row double click. Prevents editing by double click if present */
   onRowDoubleClick?: (rowIndex: number) => void
 }) => {
-  /** Scroll positions */
-  const [scrollTop, setScrollTop] = useState(0)
-  const [scrollLeft, setScrollLeft] = useState(0)
-  
   /** Range of visible cells */
   const [visibleRange, setVisibleRange] = useState<CellRange | null>(null)
 
@@ -191,14 +187,7 @@ export const GridComponent = (props: {
       colEnd: colEnd != null ? colEnd : props.colWidths.length - 1
     }
 
-    // Only set if changed
-    if (!visibleRange || 
-      cellRange.colStart != visibleRange.colStart ||
-      cellRange.colEnd != visibleRange.colEnd ||
-      cellRange.rowStart != visibleRange.rowStart ||
-      cellRange.rowEnd != visibleRange.rowEnd) {
-      setVisibleRange(cellRange)
-    }
+    setVisibleRange(cellRange)
   }
 
   /** Capture the pane div */
@@ -212,9 +201,7 @@ export const GridComponent = (props: {
     if (!paneDiv.current) {
       return
     }
-
-    setScrollLeft(paneDiv.current.scrollLeft)
-    setScrollTop(paneDiv.current.scrollTop)
+    updateVisibleRange()
   }
 
   /** Update visible range each render as rows might have been added, heights changed, etc */
@@ -225,7 +212,7 @@ export const GridComponent = (props: {
     if (editing == "active" && selection) {
       scrollIntoView(selection.row, selection.col)
     }
-  })
+  }, [props.numRows, props.colWidths, props.height, props.width, props.rowHeight, props.rowHeaderWidth, props.colHeaderHeight])
 
   /** Update selection if needed, scrolling into view. Returns whether was successful (edits can block) */
   const moveSelection = async (sel: CellSelection) => {
@@ -374,7 +361,7 @@ export const GridComponent = (props: {
 
   /** Render column headers */
   const renderColHeaders = () => {
-    if (!visibleRange || !props.renderColHeader || !props.colHeaderHeight) {
+    if (!visibleRange || !props.renderColHeader || !props.colHeaderHeight || !paneDiv.current) {
       return null
     }
 
@@ -387,7 +374,7 @@ export const GridComponent = (props: {
       const colHeaderStyle: CSSProperties = {
         position: "absolute",
         left: colXs[c], 
-        top: scrollTop, 
+        top: paneDiv.current.scrollTop, 
         width: props.colWidths[c] + 1, 
         height: props.colHeaderHeight + 1,
         border: "solid 1px #c0c0c0",
@@ -441,7 +428,7 @@ export const GridComponent = (props: {
 
   /** Render row headers */
   const renderRowHeaders = () => {
-    if (!visibleRange || !props.renderRowHeader || !props.rowHeaderWidth) {
+    if (!visibleRange || !props.renderRowHeader || !props.rowHeaderWidth || !paneDiv.current) {
       return null
     }
 
@@ -454,7 +441,7 @@ export const GridComponent = (props: {
       // Render row header
       const rowHeaderStyle: CSSProperties = {
         position: "absolute",
-        left: scrollLeft, 
+        left: paneDiv.current.scrollLeft, 
         top: y, 
         width: props.rowHeaderWidth + 1, 
         height: props.rowHeight + 1,
@@ -551,7 +538,7 @@ export const GridComponent = (props: {
 
     return <div key="colextra" style={{
         position: "absolute",
-        top: scrollTop,
+        top: paneDiv.current.scrollTop,
         left: props.rowHeaderWidth + props.colWidths.reduce((a,b) => a + b, 0),
         height: props.colHeaderHeight,
         width: props.colHeaderExtraWidth
@@ -566,7 +553,7 @@ export const GridComponent = (props: {
 
     return <div key="rowextra" style={{
         position: "absolute",
-        left: scrollLeft,
+        left: paneDiv.current.scrollLeft,
         top: props.colHeaderHeight + props.rowHeight * props.numRows,
         height: props.rowHeaderExtraHeight,
         width: props.rowHeaderWidth
@@ -588,7 +575,7 @@ export const GridComponent = (props: {
       }
       nodes.push(<div key={"colresize:" + c} style={{
           position: "absolute",
-          top: scrollTop,
+          top: paneDiv.current.scrollTop,
           left: left,
           height: colResizing == c ? props.height : props.colHeaderHeight,
           width: 4,
@@ -622,14 +609,14 @@ export const GridComponent = (props: {
 
   /** Render the top left corner */
   const renderTopLeft = () => {
-    if (!visibleRange) {
+    if (!visibleRange || !paneDiv.current) {
       return null
     }
 
     const style: CSSProperties = {
       position: "absolute",
-      left: scrollLeft, 
-      top: scrollTop, 
+      left: paneDiv.current.scrollLeft, 
+      top: paneDiv.current.scrollTop, 
       width: props.rowHeaderWidth + 1, 
       height: props.colHeaderHeight + 1,
       border: "solid 1px #c0c0c0",
