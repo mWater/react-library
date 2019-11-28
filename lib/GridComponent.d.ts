@@ -77,6 +77,8 @@ export interface RenderCellProps {
     height: number;
     /** True if cell is selected */
     selected: boolean;
+    /** Call to start editing cell. Assumes cell is selected because of click */
+    onStartEdit: () => void;
 }
 export interface RenderColHeaderProps {
     /** Zero-based column number */

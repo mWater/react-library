@@ -304,6 +304,7 @@ export const GridComponent = (props: {
 
   /** Attempt to edit a cell. Assumes that cell is already selected, or selection is in progress already */
   const handleEdit = (row: number, col: number) => {
+    console.log("HANDLEEDIT")
     if (!props.canEdit) {
       return
     }
@@ -518,7 +519,8 @@ export const GridComponent = (props: {
           col: c, 
           width: props.colWidths[c] - 1, 
           height: props.rowHeight - 1,
-          selected: selection ? selection.row == r && selection.col == c : false
+          selected: selection ? selection.row == r && selection.col == c : false,
+          onStartEdit: handleEdit.bind(null, r, c)
         })
         nodes.push(<div key={c + ":" + r} style={cellStyle}>{cellContents}</div>)
         y += props.rowHeight
@@ -691,6 +693,8 @@ export interface RenderCellProps {
   height: number
   /** True if cell is selected */
   selected: boolean
+  /** Call to start editing cell. Assumes cell is selected because of click */
+  onStartEdit: () => void
 }
 
 export interface RenderColHeaderProps {

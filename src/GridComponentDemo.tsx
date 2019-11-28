@@ -5,7 +5,7 @@ import ReactSelect from 'react-select'
 export const GridComponentDemo = () => {
   const [colWidths, setColWidths] = useState([100, 200, 300, 400, 500])
   const renderCell = (props: RenderCellProps) => {
-    return <div style={{padding: 10}}>{`x${props.row}:${props.col}`}</div>
+    return <div style={{padding: 10}} onClick={props.onStartEdit}>{`x${props.row}:${props.col}`}</div>
   }
   const renderColHeader = (props: RenderColHeaderProps) => {
     return <div style={{padding: 5}}>{`x${props.col}`}</div>
