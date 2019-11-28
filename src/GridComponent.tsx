@@ -73,8 +73,9 @@ export const GridComponent = (props: {
   /** Handle row double click. Prevents editing by double click if present */
   onRowDoubleClick?: (rowIndex: number) => void
 }) => {
-  /** Range of visible cells */
-  const [visibleRange, setVisibleRange] = useState<CellRange | null>(null)
+  /** Scroll positions. Used to refresh render */
+  const [scrollTop, setScrollTop] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
 
   /** Currently selected cell */
   const [selection, setSelection] = useState<CellSelection | null>(null)
@@ -90,7 +91,7 @@ export const GridComponent = (props: {
   const saveEditRef = useRef<SaveEditFunc | null>(null)
 
   /** Div of the large inner pane */
-  const paneDiv = useRef<HTMLDivElement | null>(null)
+  const [paneDiv, setPaneDiv] = useState<HTMLDivElement | null>(null)
 
   /** Column resize dragging state */
   const [colResizing, setColResizing] = useState<number>()
@@ -140,79 +141,75 @@ export const GridComponent = (props: {
 
   /** Scrolls the cell into view */
   const scrollIntoView = (row: number, col: number) => {
-    if (!paneDiv.current) {
+    if (!paneDiv) {
       return
     }
 
     const { minX, minY, maxX, maxY } = rowColToXY(row, col)
     
     // Make x in view
-    if (minX < paneDiv.current.scrollLeft + props.rowHeaderWidth) {
-      paneDiv.current.scrollLeft = minX - props.rowHeaderWidth
+    if (minX < paneDiv.scrollLeft + props.rowHeaderWidth) {
+      paneDiv.scrollLeft = minX - props.rowHeaderWidth
+      setScrollLeft(paneDiv.scrollLeft)
     }
-    else if (maxX > paneDiv.current.scrollLeft + paneDiv.current.clientWidth) {
-      paneDiv.current.scrollLeft = maxX - paneDiv.current.clientWidth
+    else if (maxX > paneDiv.scrollLeft + paneDiv.clientWidth) {
+      paneDiv.scrollLeft = maxX - paneDiv.clientWidth
+      setScrollLeft(paneDiv.scrollLeft)
     }
 
     // Make y in view
-    if (minY < paneDiv.current.scrollTop + props.colHeaderHeight) {
-      paneDiv.current.scrollTop = minY - props.colHeaderHeight
+    if (minY < paneDiv.scrollTop + props.colHeaderHeight) {
+      paneDiv.scrollTop = minY - props.colHeaderHeight
+      setScrollTop(paneDiv.scrollTop)
     }
-    else if (maxY > paneDiv.current.scrollTop + paneDiv.current.clientHeight) {
-      paneDiv.current.scrollTop = maxY - paneDiv.current.clientHeight
+    else if (maxY > paneDiv.scrollTop + paneDiv.clientHeight) {
+      paneDiv.scrollTop = maxY - paneDiv.clientHeight
+      setScrollTop(paneDiv.scrollTop)
     }
   }
   
   /** Determine range of cells that are visible */
-  const updateVisibleRange = () => {
-    if (!paneDiv.current) {
-      return
-    }
-
+  let visibleRange: CellRange | null = null
+  if (paneDiv) {
     // Get visible x and y
-    const minY = paneDiv.current.scrollTop
-    const maxY = paneDiv.current.scrollTop + paneDiv.current.clientHeight
-    const minX = paneDiv.current.scrollLeft
-    const maxX = paneDiv.current.scrollLeft + paneDiv.current.clientWidth
+    const minY = paneDiv.scrollTop
+    const maxY = paneDiv.scrollTop + paneDiv.clientHeight
+    const minX = paneDiv.scrollLeft
+    const maxX = paneDiv.scrollLeft + paneDiv.clientWidth
 
     // Determine ranges
     const { col: colStart, row: rowStart } = xyToRowCol(minX, minY)
     const { col: colEnd, row: rowEnd } = xyToRowCol(maxX, maxY)
 
     // Null means end or start
-    const cellRange = { 
+    visibleRange = { 
       rowStart: rowStart != null ? rowStart : 0,
       rowEnd: rowEnd != null ? rowEnd : props.numRows - 1,
       colStart: colStart != null ? colStart : 0,
       colEnd: colEnd != null ? colEnd : props.colWidths.length - 1
     }
-
-    setVisibleRange(cellRange)
   }
 
   /** Capture the pane div */
   const paneRef = useCallback((node: HTMLDivElement | null) => {
-    paneDiv.current = node
-    updateVisibleRange()
+    setPaneDiv(node)
   }, [])
 
   /** Respond to a scroll event */
   const handleScroll = () => {
-    if (!paneDiv.current) {
+    if (!paneDiv) {
       return
     }
-    updateVisibleRange()
+    setScrollLeft(paneDiv.scrollLeft)
+    setScrollTop(paneDiv.scrollTop)
   }
 
-  /** Update visible range each render as rows might have been added, heights changed, etc */
+  /** Prevent disappearing editor */
   useEffect(() => {
-    updateVisibleRange()
-
-    // Prevent disappearing editor
     if (editing == "active" && selection) {
       scrollIntoView(selection.row, selection.col)
     }
-  }, [props.numRows, props.colWidths, props.height, props.width, props.rowHeight, props.rowHeaderWidth, props.colHeaderHeight])
+  })
 
   /** Update selection if needed, scrolling into view. Returns whether was successful (edits can block) */
   const moveSelection = async (sel: CellSelection) => {
@@ -285,14 +282,14 @@ export const GridComponent = (props: {
 
   /** Handle mouse down (selects cell) */
   const handleMouseDown = (ev: React.MouseEvent<HTMLDivElement>) => {
-    if (!paneDiv.current) {
+    if (!paneDiv) {
       return
     }
 
     // Convert to row and col
     const { row, col } = xyToRowCol(
-      ev.clientX - paneDiv.current.getBoundingClientRect().left + paneDiv.current.scrollLeft, 
-      ev.clientY - paneDiv.current.getBoundingClientRect().top + paneDiv.current.scrollTop)
+      ev.clientX - paneDiv.getBoundingClientRect().left + paneDiv.scrollLeft, 
+      ev.clientY - paneDiv.getBoundingClientRect().top + paneDiv.scrollTop)
 
     if (row != null && col != null) {
       // Handle override in prop
@@ -336,14 +333,14 @@ export const GridComponent = (props: {
 
   /** Double click edits a cell */
   const handleDoubleClick = (ev: React.MouseEvent<HTMLDivElement>) => {
-    if (!paneDiv.current) {
+    if (!paneDiv) {
       return
     }
 
     // Convert to row and col
     const { row, col } = xyToRowCol(
-      ev.clientX - paneDiv.current.getBoundingClientRect().left + paneDiv.current.scrollLeft, 
-      ev.clientY - paneDiv.current.getBoundingClientRect().top + paneDiv.current.scrollTop)
+      ev.clientX - paneDiv.getBoundingClientRect().left + paneDiv.scrollLeft, 
+      ev.clientY - paneDiv.getBoundingClientRect().top + paneDiv.scrollTop)
 
     // If not on the grid
     if (row == null || col == null) {
@@ -361,7 +358,7 @@ export const GridComponent = (props: {
 
   /** Render column headers */
   const renderColHeaders = () => {
-    if (!visibleRange || !props.renderColHeader || !props.colHeaderHeight || !paneDiv.current) {
+    if (!visibleRange || !props.renderColHeader || !props.colHeaderHeight || !paneDiv) {
       return null
     }
 
@@ -374,7 +371,7 @@ export const GridComponent = (props: {
       const colHeaderStyle: CSSProperties = {
         position: "absolute",
         left: colXs[c], 
-        top: paneDiv.current.scrollTop, 
+        top: paneDiv.scrollTop, 
         width: props.colWidths[c] + 1, 
         height: props.colHeaderHeight + 1,
         border: "solid 1px #c0c0c0",
@@ -428,7 +425,7 @@ export const GridComponent = (props: {
 
   /** Render row headers */
   const renderRowHeaders = () => {
-    if (!visibleRange || !props.renderRowHeader || !props.rowHeaderWidth || !paneDiv.current) {
+    if (!visibleRange || !props.renderRowHeader || !props.rowHeaderWidth || !paneDiv) {
       return null
     }
 
@@ -441,7 +438,7 @@ export const GridComponent = (props: {
       // Render row header
       const rowHeaderStyle: CSSProperties = {
         position: "absolute",
-        left: paneDiv.current.scrollLeft, 
+        left: paneDiv.scrollLeft, 
         top: y, 
         width: props.rowHeaderWidth + 1, 
         height: props.rowHeight + 1,
@@ -532,13 +529,13 @@ export const GridComponent = (props: {
 
   /** Render extra region to right of last column header */
   const renderColHeaderExtra = () => {
-    if (!paneDiv.current || !props.renderColHeaderExtra || !props.colHeaderExtraWidth) {
+    if (!paneDiv || !props.renderColHeaderExtra || !props.colHeaderExtraWidth) {
       return null
     }
 
     return <div key="colextra" style={{
         position: "absolute",
-        top: paneDiv.current.scrollTop,
+        top: paneDiv.scrollTop,
         left: props.rowHeaderWidth + props.colWidths.reduce((a,b) => a + b, 0),
         height: props.colHeaderHeight,
         width: props.colHeaderExtraWidth
@@ -547,13 +544,13 @@ export const GridComponent = (props: {
 
   /** Render extra region below last row header */
   const renderRowHeaderExtra = () => {
-    if (!paneDiv.current || !props.renderRowHeaderExtra || !props.rowHeaderExtraHeight) {
+    if (!paneDiv || !props.renderRowHeaderExtra || !props.rowHeaderExtraHeight) {
       return null
     }
 
     return <div key="rowextra" style={{
         position: "absolute",
-        left: paneDiv.current.scrollLeft,
+        left: paneDiv.scrollLeft,
         top: props.colHeaderHeight + props.rowHeight * props.numRows,
         height: props.rowHeaderExtraHeight,
         width: props.rowHeaderWidth
@@ -562,7 +559,7 @@ export const GridComponent = (props: {
   
   /** Render column resizers */
   const renderColResizers = () => {
-    if (!paneDiv.current || !props.onColWidthsChange) {
+    if (!paneDiv || !props.onColWidthsChange) {
       return null
     }
 
@@ -575,7 +572,7 @@ export const GridComponent = (props: {
       }
       nodes.push(<div key={"colresize:" + c} style={{
           position: "absolute",
-          top: paneDiv.current.scrollTop,
+          top: paneDiv.scrollTop,
           left: left,
           height: colResizing == c ? props.height : props.colHeaderHeight,
           width: 4,
@@ -609,14 +606,14 @@ export const GridComponent = (props: {
 
   /** Render the top left corner */
   const renderTopLeft = () => {
-    if (!visibleRange || !paneDiv.current) {
+    if (!visibleRange || !paneDiv) {
       return null
     }
 
     const style: CSSProperties = {
       position: "absolute",
-      left: paneDiv.current.scrollLeft, 
-      top: paneDiv.current.scrollTop, 
+      left: paneDiv.scrollLeft, 
+      top: paneDiv.scrollTop, 
       width: props.rowHeaderWidth + 1, 
       height: props.colHeaderHeight + 1,
       border: "solid 1px #c0c0c0",
