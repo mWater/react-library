@@ -512,7 +512,9 @@ export const GridComponent = (props: {
         const cellStyle: CSSProperties = {
           position: "absolute",
           left: colXs[c] + 1, 
-          top: y + 1
+          top: y + 1,
+          width: props.colWidths[c] - 1,
+          height: props.rowHeight - 1
         }
         const cellContents = props.renderCell({ 
           row: r, 
