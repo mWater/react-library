@@ -8,7 +8,9 @@ declare class TextInput extends React.Component<{
   size?: "sm" | "lg"
   emptyNull?: boolean
   style?: object
-}> {}
+}> {
+  focus(): void
+}
 
 declare class NumberInput extends React.Component<{
   decimal: boolean,
@@ -21,7 +23,9 @@ declare class NumberInput extends React.Component<{
   /** Force an exact number of decimal places, rounding value as necessary */
   decimalPlaces?: number
   placeholder?: string  
-}> {}
+}> {
+  focus(): void
+}
 
 declare class Select<T> extends React.Component<{
   value: T | null,

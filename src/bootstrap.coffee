@@ -179,8 +179,12 @@ exports.TextInput = class TextInput extends React.Component
 
     @props.onChange(value)
 
+  focus: () ->
+    @input?.focus()
+
   render: ->
     return R 'input', 
+      ref: (c) => @input = c
       type: "text"
       className: classnames("form-control", { "input-sm": @props.size == "sm" }, { "input-lg": @props.size == "lg" })
       value: @props.value or ""
