@@ -211,14 +211,11 @@ export const GridComponent = (props: {
     }
   })
 
-  /** Update selection if needed, scrolling into view. Returns whether was successful (edits can block) */
-  const moveSelection = async (sel: CellSelection) => {
-    // Do nothing if already selected
-    if (selection && selection.col == sel.col && selection.row == sel.row) {
-      return true
-    }
-
-    // If saving edit, can't move selection
+  /** End editing. 
+   * @returns true if successful, false if cancelled
+   */
+  const endEditing = async () => {
+    // If saving edit, can't end
     if (editing == "saving") {
       return false
     }
@@ -230,10 +227,23 @@ export const GridComponent = (props: {
         // Allow control to abort save
         if (!await saveEditRef.current()) {
           setEditing("active")
-          return
+          return false
         }
       }
       setEditing("none")
+    }
+    return true
+  }
+
+  /** Update selection if needed, scrolling into view. Returns whether was successful (edits can block) */
+  const moveSelection = async (sel: CellSelection) => {
+    // Do nothing if already selected
+    if (selection && selection.col == sel.col && selection.row == sel.row) {
+      return true
+    }
+
+    if (!endEditing()) {
+      return
     }
 
     // Set selection
@@ -304,7 +314,6 @@ export const GridComponent = (props: {
 
   /** Attempt to edit a cell. Assumes that cell is already selected, or selection is in progress already */
   const handleEdit = (row: number, col: number) => {
-    console.log("HANDLEEDIT")
     if (!props.canEdit) {
       return
     }
@@ -646,7 +655,8 @@ export const GridComponent = (props: {
       width: props.colWidths[selection.col] - 1, 
       height: props.rowHeight - 1,
       saving: editing == "saving",
-      setSaveEdit: (saveEditFunc: SaveEditFunc) => { saveEditRef.current = saveEditFunc }
+      setSaveEdit: (saveEditFunc: SaveEditFunc) => { saveEditRef.current = saveEditFunc },
+      onEndEdit: endEditing
     })
 
     return <div style={style}>{editorContent}</div>
@@ -738,6 +748,9 @@ export interface RenderCellEditorProps {
 
   /** Call to set a optional asynchronous save function */
   setSaveEdit: (saveEditFunc: SaveEditFunc) => void
+
+  /** Call to end editing. Returns success */
+  onEndEdit: () => Promise<boolean>
 }
 
 interface CellRange {

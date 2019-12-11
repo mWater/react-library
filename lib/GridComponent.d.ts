@@ -115,4 +115,6 @@ export interface RenderCellEditorProps {
     saving: boolean;
     /** Call to set a optional asynchronous save function */
     setSaveEdit: (saveEditFunc: SaveEditFunc) => void;
+    /** Call to end editing. Returns success */
+    onEndEdit: () => Promise<boolean>;
 }
