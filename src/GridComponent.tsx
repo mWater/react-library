@@ -195,6 +195,13 @@ export const GridComponent = (props: {
     setPaneDiv(node)
   }, [])
 
+  /** Focus on inner div */
+  const innerRef = useCallback((node: HTMLDivElement | null) => {
+    if (node) { 
+      node.focus() 
+    }
+  }, [])
+  
   /** Respond to a scroll event */
   const handleScroll = () => {
     if (!paneDiv) {
@@ -677,7 +684,7 @@ export const GridComponent = (props: {
       onDoubleClick={handleDoubleClick}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
-      ref={(node) => { if (node) { node.focus() }}}
+      ref={innerRef}
       style={{ width: totalWidth, height: totalHeight, cursor: colResizing != null ? "col-resize" : undefined, outline: "none" }}>
       { renderGrid() }
       { renderCells() }

@@ -1,11 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useCallback } from "react"
 import { RenderCellProps, RenderColHeaderProps, RenderRowHeaderProps, GridComponent, RenderCellEditorProps, SaveEditFunc } from "./GridComponent"
 import ReactSelect from 'react-select'
 
 export const GridComponentDemo = () => {
   const [colWidths, setColWidths] = useState([100, 200, 300, 400, 500])
   const renderCell = (props: RenderCellProps) => {
-    return <div style={{padding: 10}} onClick={props.onStartEdit}>{`x${props.row}:${props.col}`}</div>
+    return <div style={{padding: 10}}>{`x${props.row}:${props.col}`}</div>
   }
   const renderColHeader = (props: RenderColHeaderProps) => {
     return <div style={{padding: 5}}>{`x${props.col}`}</div>
@@ -53,14 +53,20 @@ const Editor = (props: { width: number, setSaveEdit: (saveEditFunc: SaveEditFunc
     })
   })
 
+  /** Focus on select */
+  const selectRef = useCallback((node: ReactSelect | null) => {
+    if (node) { 
+      setTimeout(() => { node.focus()  }, 0)
+    }
+  }, [])
+
   return <div style={{width: props.width}}>
      <ReactSelect options={[{ value: "x", label: "X"}, { value: "y", label: "Y"}]} value={value} onChange={(v: any) => {
        console.log("onChange")
        setValue(v)
      }} onBlur={() => { console.log("onBlur")}}
         isMulti={true}
-        ref={(node) => { if (node) { 
-          setTimeout(() => { node.focus()  }, 0)}}}
+        ref={selectRef}
       />
   </div>  
 }
