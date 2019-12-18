@@ -5,11 +5,18 @@ declare class ActionCancelModalComponent extends Component<{
   title?: React.ReactNode
   /** Action button. Defaults to "Save" */
   actionLabel?: React.ReactNode
+  /** Label of delete button. Default "Delete" */
   deleteLabel?: React.ReactNode
+  /** Called when action button is clicked */
   onAction?: () => void
+  /** Called when cancel is clicked */
   onCancel?: () => void
+  /** Big red destuctive action in footer. Not present if null */
   onDelete?: () => void
+  /** "large" for large, "full" for full width */
   size?: "large" | "full"
+  /** True for action button to show spinner and be disabled */
+  actionBusy?: boolean
 }> {}
 
 export default ActionCancelModalComponent

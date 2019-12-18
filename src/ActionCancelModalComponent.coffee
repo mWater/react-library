@@ -14,6 +14,7 @@ module.exports = class ActionCancelModalComponent extends React.Component
     onDelete: PropTypes.func # Big red destuctive action in footer. Not present if null
     deleteLabel: PropTypes.node # Label of delete button. Default "Delete"
     size: PropTypes.string # "large" for large, "full" for full width
+    actionBusy: PropTypes.bool  # True for action button to show spinner and be disabled
 
   render: ->
     React.createElement(ModalPopupComponent,
@@ -31,7 +32,13 @@ module.exports = class ActionCancelModalComponent extends React.Component
             key: "action"
             type: "button"
             onClick: @props.onAction
+            disabled: @props.actionBusy
             className: "btn btn-primary",
+              if @props.actionBusy
+                [
+                  R 'i', className: "fa fa-spinner fa-spin"
+                  "\u00A0"
+                ]
               @props.actionLabel or "Save"
         if @props.onDelete 
           R 'button', 
