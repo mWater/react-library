@@ -12,6 +12,7 @@ module.exports = class ModalPopupComponent extends React.Component
     size: PropTypes.string # "large" for large, "full" for full-width
     showCloseX: PropTypes.bool # True to show close 'x' at top right
     onClose: PropTypes.func # callback function to be called when close is requested
+    width: PropTypes.number # For setting arbitary width of the modal
 
   constructor: (props) ->
     super(props)
@@ -56,6 +57,7 @@ class InnerModalComponent extends React.Component
     size: PropTypes.string # "large" for large, "full" for full-width
     showCloseX: PropTypes.bool # True to show close 'x' at top right
     onClose: PropTypes.func # callback function to be called when close is requested
+    width: PropTypes.number
 
   render: ->
     dialogClass = "modal-dialog"
@@ -65,6 +67,9 @@ class InnerModalComponent extends React.Component
       dialogClass += " modal-sm"
     if @props.size == "full"
       dialogStyle = { width: "95%" }
+
+    if @props.width
+      dialogStyle = { width: @props.width }
 
     rootStyle = {
       position: "fixed"

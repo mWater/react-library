@@ -96,7 +96,7 @@ class ModalPopupSample extends React.Component
       R 'a', onClick: @startEditing,
         "Edit me"
       if @state.editing
-        R ModalPopupComponent, onClose: @handleModalClose, showCloseX: true,
+        R ModalPopupComponent, onClose: @handleModalClose, showCloseX: true, width: 350,
           R 'div', null,
             _.map(_.range(1, 100), (x) -> R 'div', null, "#{x}")
 
@@ -414,7 +414,7 @@ $ ->
   #   "This is a test!" 
   
   # elem = R ReactElementPrinterSample, null
-  elem = R GridComponentDemo
+  elem = R ModalPopupSample, null
 
   # elem = R 'div', null,
   #    React.createElement(SampleComponent)
