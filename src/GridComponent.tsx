@@ -218,6 +218,15 @@ export const GridComponent = (props: {
     }
   })
 
+  /** Remove editing if selection is invalid */
+  useEffect(() => {
+    // Clear editing if selection doesn't exist anymore (row/column deleted)
+    if (selection && (selection.row >= props.numRows || selection.col >= props.colWidths.length)) {
+      setSelection(null)
+      setEditing("none")
+    }
+  })
+
   /** End editing. 
    * @returns true if successful, false if cancelled
    */
@@ -646,6 +655,11 @@ export const GridComponent = (props: {
   /** Render editor control */
   const renderEditor = () => {
     if (editing == "none" || !selection || !props.renderCellEditor) {
+      return null
+    }
+
+    // Don't render if selection doesn't exist anymore (row/column deleted)
+    if (selection.row >= props.numRows || selection.col >= props.colWidths.length) {
       return null
     }
 
