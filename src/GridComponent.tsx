@@ -690,14 +690,14 @@ export const GridComponent = (props: {
   return <div key="pane" 
     style={{ width: props.width, height: props.height, overflow: "scroll", position: "relative" }} 
     onScroll={handleScroll} 
+    onMouseUp={handleMouseUp}
+    onMouseMove={handleMouseMove}
     ref={paneRef}>
     <div key="inner" 
       onKeyDown={handleKeyDown}
       tabIndex={0}
       onMouseDown={handleMouseDown}
       onDoubleClick={handleDoubleClick}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
       ref={innerRef}
       style={{ width: totalWidth, height: totalHeight, cursor: colResizing != null ? "col-resize" : undefined, outline: "none" }}>
       { renderGrid() }

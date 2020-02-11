@@ -414,7 +414,8 @@ $ ->
   #   "This is a test!" 
   
   # elem = R ReactElementPrinterSample, null
-  elem = R ModalPopupSample, null
+  # elem = R ModalPopupSample, null
+  elem = R GridComponentDemo
 
   # elem = R 'div', null,
   #    React.createElement(SampleComponent)

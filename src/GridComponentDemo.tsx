@@ -3,7 +3,7 @@ import { RenderCellProps, RenderColHeaderProps, RenderRowHeaderProps, GridCompon
 import ReactSelect from 'react-select'
 
 export const GridComponentDemo = () => {
-  const [colWidths, setColWidths] = useState([100, 200, 300, 400, 500])
+  const [colWidths, setColWidths] = useState([100, 200, 300])
   const renderCell = (props: RenderCellProps) => {
     return <div style={{padding: 10}}>{`x${props.row}:${props.col}`}</div>
   }
