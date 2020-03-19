@@ -45,11 +45,11 @@ const Editor = (props: { width: number, setSaveEdit: (saveEditFunc: SaveEditFunc
   const [value, setValue] = useState<any>(null)
 
   props.setSaveEdit(() => {
-    alert(value)
+    //alert(value)
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(true)
-      }, 1000)
+      }, 10000)
     })
   })
 

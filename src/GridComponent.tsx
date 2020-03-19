@@ -258,7 +258,7 @@ export const GridComponent = (props: {
       return true
     }
 
-    if (!endEditing()) {
+    if (!await endEditing()) {
       return
     }
 
@@ -307,25 +307,14 @@ export const GridComponent = (props: {
   }
 
   /** Handle mouse down (selects cell) */
-  const handleMouseDown = (ev: React.MouseEvent<HTMLDivElement>) => {
-    if (!paneDiv) {
+  const handleMouseDown = (row: number, col: number, ev: React.MouseEvent<HTMLDivElement>) => {
+    // Handle override in prop
+    if (props.onRowClick) {
+      props.onRowClick(row)
       return
     }
 
-    // Convert to row and col
-    const { row, col } = xyToRowCol(
-      ev.clientX - paneDiv.getBoundingClientRect().left + paneDiv.scrollLeft, 
-      ev.clientY - paneDiv.getBoundingClientRect().top + paneDiv.scrollTop)
-
-    if (row != null && col != null) {
-      // Handle override in prop
-      if (props.onRowClick) {
-        props.onRowClick(row)
-        return
-      }
-
-      moveSelection({ row, col })
-    }
+    moveSelection({ row, col })
   }
 
   /** Attempt to edit a cell. Assumes that cell is already selected, or selection is in progress already */
@@ -358,21 +347,7 @@ export const GridComponent = (props: {
   }
 
   /** Double click edits a cell */
-  const handleDoubleClick = (ev: React.MouseEvent<HTMLDivElement>) => {
-    if (!paneDiv) {
-      return
-    }
-
-    // Convert to row and col
-    const { row, col } = xyToRowCol(
-      ev.clientX - paneDiv.getBoundingClientRect().left + paneDiv.scrollLeft, 
-      ev.clientY - paneDiv.getBoundingClientRect().top + paneDiv.scrollTop)
-
-    // If not on the grid
-    if (row == null || col == null) {
-      return
-    }
-
+  const handleDoubleClick = (row: number, col: number, ev: React.MouseEvent<HTMLDivElement>) => {
     // If overridden, call prop
     if (props.onRowDoubleClick) {
       props.onRowDoubleClick(row)
@@ -549,7 +524,13 @@ export const GridComponent = (props: {
           selected: selection ? selection.row == r && selection.col == c : false,
           onStartEdit: handleEdit.bind(null, r, c)
         })
-        nodes.push(<div key={c + ":" + r} style={cellStyle}>{cellContents}</div>)
+        nodes.push(<div 
+          key={c + ":" + r} 
+          onMouseDown={handleMouseDown.bind(null, r, c)} 
+          onDoubleClick={handleDoubleClick.bind(null, r, c)} 
+          style={cellStyle}>
+            {cellContents}
+        </div>)
         y += props.rowHeight
       }
     }
@@ -696,8 +677,6 @@ export const GridComponent = (props: {
     <div key="inner" 
       onKeyDown={handleKeyDown}
       tabIndex={0}
-      onMouseDown={handleMouseDown}
-      onDoubleClick={handleDoubleClick}
       ref={innerRef}
       style={{ width: totalWidth, height: totalHeight, cursor: colResizing != null ? "col-resize" : undefined, outline: "none" }}>
       { renderGrid() }
