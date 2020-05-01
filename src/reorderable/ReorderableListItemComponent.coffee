@@ -76,7 +76,7 @@ collectSource = (connect, monitor) ->
 
 class ReorderableListItemComponent extends React.Component
   @propTypes:
-    item: PropTypes.object.isRequired # the item from reorderable list
+    item: PropTypes.any.isRequired # the item from reorderable list
     isDragging: PropTypes.bool.isRequired # internally used for tracking if an item is being dragged
     isOver: PropTypes.bool.isRequired # internally used to check if an item is over the current component
     canDrop: PropTypes.bool.isRequired # internally used as a flag it the item being dragged can be dropped in place of the item it is over
