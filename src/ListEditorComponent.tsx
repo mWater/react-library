@@ -23,6 +23,9 @@ export function ListEditorComponent<T>(props: {
 
   /** Override label of add button */
   addLabel?: string
+
+  /** Prompt to confirm deletion */
+  deleteConfirmPrompt?: string
 }) {
   const [adding, setAdding] = useState<Partial<T>>()
   const [editing, setEditing] = useState<Partial<T>>()
@@ -35,11 +38,15 @@ export function ListEditorComponent<T>(props: {
   const handleDelete = (index: number, ev: React.MouseEvent<HTMLAnchorElement>) => {
     ev.stopPropagation()
     ev.preventDefault()
-    if (confirm("Delete item?")) {
-      const items = props.items.slice()
-      items.splice(index, 1)
-      props.onItemsChange(items)
+
+    // Confirm deletion
+    if (props.deleteConfirmPrompt && !confirm(props.deleteConfirmPrompt)) {
+      return
     }
+
+    const items = props.items.slice()
+    items.splice(index, 1)
+    props.onItemsChange(items)
   }
   
   const itemNodes = props.items.map((item, index) => (
@@ -47,7 +54,7 @@ export function ListEditorComponent<T>(props: {
       setEditing(item)
       setEditingIndex(index)
     }} key={index}>
-      <a className="btn btn-link btn-xs" onClick={handleDelete.bind(null, index)} style={{ float: "right", cursor: "pointer", marginTop: 2 }}>
+      <a className="btn btn-link btn-xs" onClick={handleDelete.bind(null, index)} style={{ float: "right", cursor: "pointer" }}>
         <i className="fa fa-remove"/>
       </a>
       {props.renderItem(item, index)}

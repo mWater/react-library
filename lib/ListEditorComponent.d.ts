@@ -15,4 +15,6 @@ export declare function ListEditorComponent<T>(props: {
     validateItem: (item: Partial<T>) => boolean;
     /** Override label of add button */
     addLabel?: string;
+    /** Prompt to confirm deletion */
+    deleteConfirmPrompt?: string;
 }): JSX.Element;
