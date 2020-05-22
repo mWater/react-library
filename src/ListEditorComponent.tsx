@@ -10,7 +10,7 @@ export function ListEditorComponent<T>(props: {
   onItemsChange: (items: T[]) => void
 
   /** Render the item in the list. Already inside a list-group-item */
-  renderItem: (item: T) => ReactNode
+  renderItem: (item: T, index: number) => ReactNode
 
   /** Render the editor in the popup modal */
   renderEditor: (item: Partial<T>, onItemChange: (item: Partial<T>) => void) => ReactNode
@@ -50,7 +50,7 @@ export function ListEditorComponent<T>(props: {
       <a className="btn btn-link btn-xs" onClick={handleDelete.bind(null, index)} style={{ float: "right", cursor: "pointer", marginTop: 2 }}>
         <i className="fa fa-remove"/>
       </a>
-      {props.renderItem(item)}
+      {props.renderItem(item, index)}
     </li>
   ))
 

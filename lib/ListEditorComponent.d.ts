@@ -6,7 +6,7 @@ export declare function ListEditorComponent<T>(props: {
     items: T[];
     onItemsChange: (items: T[]) => void;
     /** Render the item in the list. Already inside a list-group-item */
-    renderItem: (item: T) => ReactNode;
+    renderItem: (item: T, index: number) => ReactNode;
     /** Render the editor in the popup modal */
     renderEditor: (item: Partial<T>, onItemChange: (item: Partial<T>) => void) => ReactNode;
     /** Create a new item. Doesn't allow add if not present */
