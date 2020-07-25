@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode, ReactElement } from "react";
 /** Grid that has headers on rows and columns. Has virtual, high-performance scrolling.
  * Handles:
  *  - arrow keys
@@ -40,26 +40,26 @@ export declare const GridComponent: (props: {
     /** Width of row headers */
     rowHeaderWidth: number;
     /** Render a single cell. Renderer is responsible for clipping and padding */
-    renderCell: (props: RenderCellProps) => React.ReactNode;
+    renderCell: (props: RenderCellProps) => ReactNode;
     /** Render a single column header. Renderer is responsible for clipping and padding */
-    renderColHeader?: ((props: RenderColHeaderProps) => React.ReactNode) | undefined;
+    renderColHeader?: ((props: RenderColHeaderProps) => ReactNode) | undefined;
     /** Render a single row header. Renderer is responsible for clipping and padding */
-    renderRowHeader?: ((props: RenderRowHeaderProps) => React.ReactNode) | undefined;
+    renderRowHeader?: ((props: RenderRowHeaderProps) => ReactNode) | undefined;
     /** Cell editor when editing set */
-    renderCellEditor?: ((props: RenderCellEditorProps) => React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)>) | undefined;
+    renderCellEditor?: ((props: RenderCellEditorProps) => ReactElement<any>) | undefined;
     /** Check if a cell can be edited */
     canEdit?: ((props: {
         row: number;
         col: number;
-    }) => boolean | Promise<boolean>) | undefined;
+    }) => Promise<boolean> | boolean) | undefined;
     /** Width of extra region to right of last column header */
     colHeaderExtraWidth?: number | undefined;
     /** Render extra region to the right of last column header */
-    renderColHeaderExtra?: (() => React.ReactNode) | undefined;
+    renderColHeaderExtra?: (() => ReactNode) | undefined;
     /** Height of extra region below last row header */
     rowHeaderExtraHeight?: number | undefined;
     /** Render extra region below last row header */
-    renderRowHeaderExtra?: (() => React.ReactNode) | undefined;
+    renderRowHeaderExtra?: (() => ReactNode) | undefined;
     /** Handle row click. Prevents selection by click if present */
     onRowClick?: ((rowIndex: number) => void) | undefined;
     /** Handle row double click. Prevents editing by double click if present */

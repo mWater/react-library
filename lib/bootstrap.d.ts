@@ -31,8 +31,7 @@ declare class Select<T> extends React.Component<{
   value: T | null,
   onChange?: (value: T | null) => void,
   options: Array<{ value: T | null, label: string }>,
-  /** "lg" or "sm" */
-  size?: string
+  size?: "lg" | "sm"
   nullLabel?: string
   style?: object
   inline?: boolean
@@ -63,8 +62,7 @@ declare class Toggle<T> extends React.Component<{
   value: T | null
   onChange?: (value: T | null) => void,
   options: Array<{ value: T | null, label: ReactNode }>,
-  /** "xs" or "sm" */
-  size?: string
+  size?: "xs" | "sm"
   allowReset?: boolean
 }> {}
 
