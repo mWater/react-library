@@ -17,4 +17,6 @@ export declare function ListEditorComponent<T>(props: {
     addLabel?: string;
     /** Prompt to confirm deletion */
     deleteConfirmPrompt?: string;
+    /** Allows list to be re-ordered by dragging. Returns unique key for each item */
+    getReorderableKey?: (item: T) => any;
 }): JSX.Element;
