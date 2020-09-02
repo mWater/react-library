@@ -5,6 +5,8 @@ declare class ActionCancelModalComponent extends Component<{
   title?: React.ReactNode
   /** Action button. Defaults to "Save" */
   actionLabel?: React.ReactNode
+  /** Cancel button. Defaults to "Cancel" if action, "Close" otherwise */
+  cancelLabel?: React.ReactNode
   /** Label of delete button. Default "Delete" */
   deleteLabel?: React.ReactNode
   /** Called when action button is clicked */

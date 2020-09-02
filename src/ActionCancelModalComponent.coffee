@@ -9,6 +9,7 @@ module.exports = class ActionCancelModalComponent extends React.Component
   @propTypes: 
     title: PropTypes.node # Title of modal. Any react element
     actionLabel: PropTypes.node # Action button. Defaults to "Save"
+    cancelLabel: PropTypes.node # Cancel button. Defaults to "Cancel" if action, "Close" otherwise
     onAction: PropTypes.func # Called when action button is clicked
     onCancel: PropTypes.func # Called when cancel is clicked
     onDelete: PropTypes.func # Big red destuctive action in footer. Not present if null
@@ -26,7 +27,7 @@ module.exports = class ActionCancelModalComponent extends React.Component
           type: "button"
           onClick: @props.onCancel
           className: "btn btn-default", 
-            if @props.onAction then "Cancel" else "Close"
+            @props.cancelLabel or (if @props.onAction then "Cancel" else "Close")
         if @props.onAction 
           R 'button', 
             key: "action"
