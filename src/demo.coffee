@@ -17,6 +17,7 @@ AutoSizeComponent = require './AutoSizeComponent'
 ui = require './bootstrap'
 ReactElementPrinter = require './ReactElementPrinter'
 GridComponentDemo = require('./GridComponentDemo').GridComponentDemo
+GanttChartDemo = require('./GanttChartDemo').GanttChartDemo
 
 HTML5Backend = require('react-dnd-html5-backend').default
 DragDropContext = require("react-dnd").DragDropContext
@@ -415,7 +416,8 @@ $ ->
   
   # elem = R ReactElementPrinterSample, null
   # elem = R ModalPopupSample, null
-  elem = R GridComponentDemo
+  # elem = R GridComponentDemo
+  elem = R GanttChartDemo
 
   # elem = R 'div', null,
   #    React.createElement(SampleComponent)
