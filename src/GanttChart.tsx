@@ -196,7 +196,7 @@ export function GanttChart(props: {
         { props.rows.map(renderLabel) }
         { props.onAddRow ? 
           <div key="add">
-            <a style={{ fontSize: 12, cursor: "pointer" }}><i className="fa fa-plus"/></a>
+            <a style={{ fontSize: 12, cursor: "pointer" }} onClick={props.onAddRow}><i className="fa fa-plus"/></a>
           </div>
         : null }
       </div>
@@ -480,89 +480,3 @@ function DayWeekScale(props: {
     })}
   </div>
 }
-
-
-// { index == 10000 ?
-//   <div>
-//     <div style={{
-//       position: "absolute",
-//       right: 6,
-//       top: 21,
-//       border: "solid 1px #337ab7",
-//       backgroundColor: "white",
-//       paddingLeft: 3,
-//       paddingRight: 3,
-//       paddingTop: 0,
-//       color: "#337ab7" ,
-//       fontSize: 9,
-//       cursor: "pointer",
-//       opacity: 0.8,
-//     }}>
-//       <i className="fa fa-plus"/>
-//     </div>          
-//     <div style={{
-//       position: "absolute",
-//       right: -17,
-//       top: 5,
-//       border: "solid 1px #337ab7",
-//       backgroundColor: "white",
-//       paddingLeft: 3,
-//       paddingRight: 3,
-//       paddingTop: 0,
-//       color: "#337ab7" ,
-//       fontSize: 9,
-//       cursor: "pointer",
-//       opacity: 0.8,
-//     }}>
-//       <i className="fa fa-arrow-right"/>
-//     </div>          
-//     <div style={{
-//       position: "absolute",
-//       left: -15,
-//       top: 5,
-//       border: "solid 1px #337ab7",
-//       backgroundColor: "white",
-//       paddingLeft: 3,
-//       paddingRight: 3,
-//       paddingTop: 0,
-//       color: "#337ab7" ,
-//       fontSize: 9,
-//       cursor: "pointer",
-//       opacity: 0.8,
-//     }}>
-//       <i className="fa fa-arrow-left"/>
-//     </div>          
-//     <div style={{
-//       position: "absolute",
-//       left: 8,
-//       top: -10,
-//       border: "solid 1px #337ab7",
-//       backgroundColor: "white",
-//       paddingLeft: 3,
-//       paddingRight: 3,
-//       paddingTop: 0,
-//       color: "#337ab7" ,
-//       fontSize: 9,
-//       cursor: "pointer",
-//       opacity: 0.8,
-//     }}>
-//       <i className="fa fa-arrow-up"/>
-//     </div>          
-//     <div style={{
-//       position: "absolute",
-//       left: 8,
-//       bottom: -5,
-//       border: "solid 1px #337ab7",
-//       backgroundColor: "white",
-//       paddingLeft: 3,
-//       paddingRight: 3,
-//       paddingTop: 0,
-//       color: "#337ab7" ,
-//       fontSize: 9,
-//       cursor: "pointer",
-//       opacity: 0.8,
-//     }}>
-//       <i className="fa fa-arrow-down"/>
-//     </div>          
-//   </div>
-// : null }
