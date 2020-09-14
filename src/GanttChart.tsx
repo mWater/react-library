@@ -4,7 +4,7 @@ import moment, { Moment } from 'moment'
 import { LocalizeString } from 'ez-localize'
 
 /** Row of a GANTT chart */
-export interface GanttRow {
+export interface GanttChartRow {
   /** Label to left */
   label: string
 
@@ -33,7 +33,7 @@ const rowHeight = 21
 /** Display an editable GANTT chart */
 export function GanttChart(props: {
   /** Rows to display */
-  rows: GanttRow[]
+  rows: GanttChartRow[]
 
   /** Start of display range YYYY-MM-DD */
   startDate: string
@@ -110,7 +110,7 @@ export function GanttChart(props: {
   }
 
   /** Render a single label in left pane */
-  const renderLabel = (row: GanttRow, index: number) => {
+  const renderLabel = (row: GanttChartRow, index: number) => {
     // Determine if can move left (indented and previous is previous level)
     const canMoveLeft = props.onMoveRowLeft && row.level > 0 && index > 0 && props.rows[index - 1].level == row.level - 1
 
@@ -222,7 +222,7 @@ export function GanttChart(props: {
 
 /** Area of the Gantt chart that contains the bars */
 function GanttBarArea(props: {
-  rows: GanttRow[]
+  rows: GanttChartRow[]
 
   /** YYYY-MM-DD */
   startDate: string
@@ -273,7 +273,7 @@ function GanttBarArea(props: {
   }
   
   /** Draw a bar of the GANTT chart */
-  const renderBar = (row: GanttRow, index: number) => {
+  const renderBar = (row: GanttChartRow, index: number) => {
     // Draw bars for actual ranges
     if (row.startDate && row.endDate && row.startDate != row.endDate) {
       const rowStartDate = moment(row.startDate, "YYYY-MM-DD")

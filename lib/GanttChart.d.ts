@@ -1,7 +1,7 @@
 /// <reference types="react" />
 import { LocalizeString } from 'ez-localize';
 /** Row of a GANTT chart */
-export interface GanttRow {
+export interface GanttChartRow {
     /** Label to left */
     label: string;
     /** Indent number. 0 is top-level */
@@ -16,7 +16,7 @@ export interface GanttRow {
 /** Display an editable GANTT chart */
 export declare function GanttChart(props: {
     /** Rows to display */
-    rows: GanttRow[];
+    rows: GanttChartRow[];
     /** Start of display range YYYY-MM-DD */
     startDate: string;
     /** End of display range YYYY-MM-DD */
