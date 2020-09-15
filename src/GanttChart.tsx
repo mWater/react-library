@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState, useCallback, useRef } from "react";
+import React, { CSSProperties, useState, useCallback, useRef, ReactNode } from "react";
 import AutoSizeComponent from "./AutoSizeComponent";
 import moment, { Moment } from 'moment'
 import { LocalizeString } from 'ez-localize'
@@ -40,6 +40,9 @@ export function GanttChart(props: {
 
   /** End of display range YYYY-MM-DD */
   endDate: string
+
+  /** Override simple plus label for add button */
+  addRowLabel?: ReactNode
 
   /** Add level 0 row to bottom of list */
   onAddRow?: () => void
@@ -96,7 +99,7 @@ export function GanttChart(props: {
     // // Do not update if within dropdown
     // let target: HTMLElement | null = ev.target as HTMLElement
     // while (target) {
-    //   if (target.classList.contains("dropdown-menu")) {
+    //   if (target.classList.contains("menu")) {
     //     console.log(ev.target)
     //     return
     //   }
@@ -108,6 +111,31 @@ export function GanttChart(props: {
     const rowIndex = Math.floor((y - headerHeight) / rowHeight)
     setHoverIndex(rowIndex >= 0 && rowIndex < props.rows.length ? rowIndex : null)
   }
+
+  /** Handle mouse moves to hover rows */
+  const handleClick = (ev: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) {
+      return
+    }
+
+    // Ignore if dropdown
+    let target: HTMLElement | null = ev.target as HTMLElement
+    while (target) {
+      if (target.classList.contains("menu")) {
+        console.log(ev.target)
+        return
+      }
+      target = target.parentElement
+    }
+
+    // Get relative Y
+    const y = ev.clientY - containerRef.current.getBoundingClientRect().top
+    const rowIndex = Math.floor((y - headerHeight) / rowHeight)
+    if (rowIndex >= 0 && rowIndex < props.rows.length && props.onRowClick) {
+      props.onRowClick(rowIndex)
+    }
+  }
+
 
   /** Render a single label in left pane */
   const renderLabel = (row: GanttChartRow, index: number) => {
@@ -150,7 +178,7 @@ export function GanttChart(props: {
       style={{...labelStyle, paddingLeft: row.level * 10, position: "relative", paddingRight: 25 }}>
         <span style={{ fontSize: 12 }} onClick={() => { if (props.onRowClick) { props.onRowClick(index) }}}>{row.label}</span>
         { showMenu ? 
-          <div style={{ position: "absolute", right: 5, top: 1 }}>
+          <div className="menu" style={{ position: "absolute", right: 5, top: 1 }}>
             <div style={{ cursor: "pointer", visibility: hoverIndex == index ? "visible" : "hidden" }} data-toggle="dropdown">
               <i className="fa fa-caret-square-o-down text-primary"/>
             </div>
@@ -181,7 +209,7 @@ export function GanttChart(props: {
     </div>  
   }
 
-  return <div style={{ position: "relative" }} onMouseMove={handleMouseMove} onMouseOut={handleMouseOut} ref={containerRef}>
+  return <div style={{ position: "relative" }} onMouseMove={handleMouseMove} onMouseOut={handleMouseOut} onClick={handleClick} ref={containerRef}>
     <style>
     </style>
     {/* Background highlight hovered row */}
@@ -196,7 +224,9 @@ export function GanttChart(props: {
         { props.rows.map(renderLabel) }
         { props.onAddRow ? 
           <div key="add">
-            <a style={{ fontSize: 12, cursor: "pointer" }} onClick={props.onAddRow}><i className="fa fa-plus"/></a>
+            <a style={{ fontSize: 12, cursor: "pointer" }} onClick={props.onAddRow}>
+              { props.addRowLabel ? props.addRowLabel : <i className="fa fa-plus"/> }
+            </a>
           </div>
         : null }
       </div>
@@ -253,6 +283,8 @@ function GanttBarArea(props: {
     height: 11,
     position: "absolute",
     borderRadius: 4,
+    borderStyle: "solid",
+    borderWidth: 1,
     cursor: props.onRowClick ? "pointer" : "arrow"
   }
 
@@ -279,25 +311,25 @@ function GanttBarArea(props: {
       const rowStartDate = moment(row.startDate, "YYYY-MM-DD")
       const rowEndDate = moment(row.endDate, "YYYY-MM-DD")
       return <div key={index} 
-        onClick={() => { if (props.onRowClick) { props.onRowClick(index) } }}
         style={{ ...barStyle, 
           top: headerHeight + 5 + rowHeight * index, 
           left: dateToPx(rowStartDate), 
           width: dateToPx(rowEndDate) - dateToPx(rowStartDate),
-          backgroundColor: row.color
+          backgroundColor: row.color,
+          color: row.color
         }}/>
     }
     // Diamonds for single dates
     else if (row.startDate || row.endDate) {
       const rowDate = moment(row.startDate || row.endDate, "YYYY-MM-DD")
       return <div key={index}
-        onClick={() => { if (props.onRowClick) { props.onRowClick(index) } }}
         style={{
           position: "absolute",
           top: headerHeight + rowHeight * index - 1, 
           left: dateToPx(rowDate) - 5, 
           color: row.color,
-          cursor: props.onRowClick ? "pointer" : "arrow"
+          cursor: props.onRowClick ? "pointer" : "arrow",
+          fontSize: 16
         }}>{"\u25C6"}
       </div>
     }

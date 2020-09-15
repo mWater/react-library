@@ -20,7 +20,7 @@ export function GanttChartDemo() {
       onMoveRowUp={() => {}}
       onMoveRowLeft={() => {}}
       onMoveRowRight={() => {}}
-      onRowClick={() => { alert("sdfasdf")}}
+      onRowClick={() => { alert("onRowClick")}}
       onAddRow={() => { alert("sdfasdf")}}
       onInsertRowAbove={() => {}}
       onInsertRowBelow={() => {}}

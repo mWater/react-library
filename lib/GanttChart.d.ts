@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import { ReactNode } from "react";
 import { LocalizeString } from 'ez-localize';
 /** Row of a GANTT chart */
 export interface GanttChartRow {
@@ -21,6 +21,8 @@ export declare function GanttChart(props: {
     startDate: string;
     /** End of display range YYYY-MM-DD */
     endDate: string;
+    /** Override simple plus label for add button */
+    addRowLabel?: ReactNode;
     /** Add level 0 row to bottom of list */
     onAddRow?: () => void;
     /** Insert row at same level above specified row */
