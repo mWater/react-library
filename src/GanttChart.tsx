@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState, useCallback, useRef, ReactNode } from "react";
+import React, { CSSProperties, useState, useCallback, useRef, ReactNode, useEffect, useLayoutEffect } from "react";
 import AutoSizeComponent from "./AutoSizeComponent";
 import moment, { Moment } from 'moment'
 import { LocalizeString } from 'ez-localize'
@@ -268,6 +268,12 @@ function GanttBarArea(props: {
 
   onRowClick?: (rowIndex: number) => void
 }) {
+  /** Container (for measuring mouse position) */
+  const containerRef = useRef<HTMLDivElement | null>(null)
+
+  /** Amount to scroll by in next render */
+  const scrollLeftBy = useRef(0)
+
   // Expand to nearest month
   const startDate = moment(props.startDate, "YYYY-MM-DD").startOf("month")
   const endDate = moment(props.endDate, "YYYY-MM-DD").endOf("month")
@@ -279,15 +285,6 @@ function GanttBarArea(props: {
   // Set initial scale
   const [scale, setScale] = useState(initialScale)
 
-  const barStyle: CSSProperties = {
-    height: 11,
-    position: "absolute",
-    borderRadius: 4,
-    borderStyle: "solid",
-    borderWidth: 1,
-    cursor: props.onRowClick ? "pointer" : "arrow"
-  }
-
   /** Function to convert a date into pixels at current scale */
   const dateToPx = useCallback((date: Moment) => {
     return Math.floor(date.diff(startDate, "days") * scale) + 0.5
@@ -295,14 +292,40 @@ function GanttBarArea(props: {
 
   /** Allow zooming using mouse wheel */
   const handleWheel = (ev: React.WheelEvent) => {
+    if (!containerRef.current) {
+      return
+    }
+
+    let newScale: number
     if (ev.deltaY > 0) {
       // Prevent scaling down
-      setScale(s => Math.max(initialScale, s / 1.1))
+      newScale = Math.max(initialScale, scale / 1.1)
     }
-    if (ev.deltaY < 0) {
-      setScale(s => s * 1.1)
+    else if (ev.deltaY < 0) {
+      newScale = scale * 1.1
     }
+    else {
+      return
+    }
+
+    // Set scale
+    setScale(newScale)
+
+    // Get relative X to keep in the same place
+    const x = ev.clientX - containerRef.current.getBoundingClientRect().left + containerRef.current.scrollLeft
+
+    // Determine offset needed to keep mouse position in same place
+    const diffX = (x / scale * newScale) - x
+    scrollLeftBy.current = diffX
   }
+
+  // Perform scrolling immediately
+  useLayoutEffect(() => {
+    if (scrollLeftBy.current != 0 && containerRef.current) {
+      containerRef.current.scrollBy({ left: scrollLeftBy.current })
+      scrollLeftBy.current = 0
+    }
+  })
   
   /** Draw a bar of the GANTT chart */
   const renderBar = (row: GanttChartRow, index: number) => {
@@ -341,8 +364,9 @@ function GanttBarArea(props: {
 
   return <div 
     style={{ overflowX: "auto", position: "relative", height: "100%" }}
+    ref={containerRef}
     onWheel={handleWheel}>
-    <svg width={props.width} height={props.height - scrollBarHeight}>
+    <svg width={totalDays * scale} height={props.height - scrollBarHeight}>
       <YearScale 
         dateToPx={dateToPx}
         startDate={startDate} 

@@ -10,7 +10,7 @@ export interface GanttChartRow {
     startDate: string | null;
     /** YYYY-MM-DD */
     endDate: string | null;
-    /** Color for bar */
+    /** Color for bar/milestone */
     color: string;
 }
 /** Display an editable GANTT chart */
