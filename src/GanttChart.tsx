@@ -17,7 +17,7 @@ export interface GanttChartRow {
   /** YYYY-MM-DD */
   endDate: string | null
 
-  /** Color for bar */
+  /** Color for bar/milestone */
   color: string
 }
 
@@ -290,7 +290,7 @@ function GanttBarArea(props: {
 
   /** Function to convert a date into pixels at current scale */
   const dateToPx = useCallback((date: Moment) => {
-    return date.diff(startDate, "days") * scale
+    return Math.floor(date.diff(startDate, "days") * scale) + 0.5
   }, [scale, props.startDate])
 
   /** Allow zooming using mouse wheel */
@@ -310,105 +310,63 @@ function GanttBarArea(props: {
     if (row.startDate && row.endDate && row.startDate != row.endDate) {
       const rowStartDate = moment(row.startDate, "YYYY-MM-DD")
       const rowEndDate = moment(row.endDate, "YYYY-MM-DD")
-      return <div key={index} 
-        style={{ ...barStyle, 
-          top: headerHeight + 5 + rowHeight * index, 
-          left: dateToPx(rowStartDate), 
-          width: dateToPx(rowEndDate) - dateToPx(rowStartDate),
-          backgroundColor: row.color,
-          color: row.color
-        }}/>
+      return <rect 
+        key={index}
+        x={dateToPx(rowStartDate)} 
+        y={headerHeight + 5 + rowHeight * index} 
+        width={dateToPx(rowEndDate) - dateToPx(rowStartDate)} 
+        height={11}
+        rx={4}
+        color={row.color}
+        fill={row.color}
+      />
     }
     // Diamonds for single dates
     else if (row.startDate || row.endDate) {
       const rowDate = moment(row.startDate || row.endDate, "YYYY-MM-DD")
-      return <div key={index}
-        style={{
-          position: "absolute",
-          top: headerHeight + rowHeight * index - 1, 
-          left: dateToPx(rowDate) - 5, 
-          color: row.color,
-          cursor: props.onRowClick ? "pointer" : "arrow",
-          fontSize: 16
-        }}>{"\u25C6"}
-      </div>
+      const x = dateToPx(rowDate)
+      const y = headerHeight + rowHeight * index + (rowHeight / 2)
+      const size = 7
+      return <polygon 
+        key={index}
+        points={[x - size, y, x, y - size, x + size, y, x, y + size].join(" ")}
+        fill={row.color} />
     }
     else {
       return null
     }
   }
 
+  const todayPx = dateToPx(moment())
+
   return <div 
     style={{ overflowX: "auto", position: "relative", height: "100%" }}
     onWheel={handleWheel}>
-    <YearScale 
-      dateToPx={dateToPx}
-      startDate={startDate} 
-      endDate={endDate}
-      height={props.height}
-    />
-    <MonthScale 
-      dateToPx={dateToPx}
-      startDate={startDate} 
-      endDate={endDate} 
-      height={props.height}
-    />
-    <DayWeekScale 
-      dateToPx={dateToPx}
-      startDate={startDate} 
-      endDate={endDate} 
-      height={props.height}
-      scale={scale}
-    />
-    { props.rows.map(renderBar)}
-  </div>
-}
+    <svg width={props.width} height={props.height - scrollBarHeight}>
+      <YearScale 
+        dateToPx={dateToPx}
+        startDate={startDate} 
+        endDate={endDate}
+        height={props.height}
+      />
+      <MonthScale 
+        dateToPx={dateToPx}
+        startDate={startDate} 
+        endDate={endDate} 
+        height={props.height}
+      />
+      <DayWeekScale 
+        dateToPx={dateToPx}
+        startDate={startDate} 
+        endDate={endDate} 
+        height={props.height}
+        scale={scale}
+      />
+      <line key="today" x1={todayPx} y1={32} x2={todayPx} y2={props.height} stroke="#3CF" />
 
-/** Display scale at top for each month */
-function MonthScale(props: {
-  startDate: Moment
-  endDate: Moment
-  dateToPx: (date: Moment) => number
-  height: number
-}) {
-  const { startDate, endDate } = props
+      { props.rows.map(renderBar)}
+    </svg>
 
-  const date = moment(startDate)
-
-  /** Start and end of each segment to draw */
-  const segs: [Moment, Moment][] = []
-
-  while (date.isBefore(endDate)) {
-    const itemStart = moment(date)
-    date.add(1, "months")
-    const itemEnd = moment(date)
-    if (itemEnd.isAfter(endDate)) {
-      segs.push([itemStart, endDate])
-    }
-    else {
-      segs.push([itemStart, itemEnd])
-    }
-  }
-
-  return <div>
-    { segs.map((seg, i) => {
-      const left = props.dateToPx(seg[0])
-      const right = props.dateToPx(seg[1])
-      return <div key={i} style={{ 
-        position: "absolute", 
-        top: 11, 
-        left: left, 
-        width: right - left + 1,
-        textAlign: "center",
-        fontSize: 9,
-        height: props.height - 11 - scrollBarHeight,
-        color: "#666",
-        borderLeft: "solid 1px #DDD",
-        borderRight: "solid 1px #DDD"
-      }}>
-        { seg[0].format("MMM") }
-      </div>
-    })}
   </div>
 }
 
@@ -438,26 +396,73 @@ function YearScale(props: {
     }
   }
 
-  return <div>
+  return <g>
     { segs.map((seg, i) => {
       const left = props.dateToPx(seg[0])
       const right = props.dateToPx(seg[1])
-      return <div key={i} style={{ 
-        position: "absolute", 
-        top: 0, 
-        left: left, 
-        width: right - left + 1,
-        textAlign: "center",
-        fontSize: 9,
-        color: "#333",
-        borderLeft: "solid 1px #DDD",
-        borderRight: "solid 1px #DDD"
-      }}>
-        { seg[0].format("YYYY") }
-      </div>
+      return <g key={i}>
+        <line key="left" x1={left} y1={0} x2={left} y2={props.height} stroke="#DDD" />
+        <line key="right" x1={right} y1={0} x2={right} y2={props.height} stroke="#DDD" />
+        <text text-anchor="middle" x={(left + right) / 2} y={8} fill="#333" fontSize={9}>{ seg[0].format("YYYY") }</text>
+      </g>
     })}
-  </div>
+  </g>
 }
+
+/** Display scale at top for each month */
+function MonthScale(props: {
+  startDate: Moment
+  endDate: Moment
+  dateToPx: (date: Moment) => number
+  height: number
+}) {
+  const { startDate, endDate } = props
+
+  const date = moment(startDate)
+
+  /** Start and end of each segment to draw */
+  const segs: [Moment, Moment][] = []
+
+  while (date.isBefore(endDate)) {
+    const itemStart = moment(date)
+    date.add(1, "months")
+    const itemEnd = moment(date)
+    if (itemEnd.isAfter(endDate)) {
+      segs.push([itemStart, endDate])
+    }
+    else {
+      segs.push([itemStart, itemEnd])
+    }
+  }
+
+  return <g>
+    { segs.map((seg, i) => {
+      const left = props.dateToPx(seg[0])
+      const right = props.dateToPx(seg[1])
+      return <g key={i}>
+        <line key="left" x1={left} y1={11} x2={left} y2={props.height} stroke="#DDD" />
+        <line key="right" x1={right} y1={11} x2={right} y2={props.height} stroke="#DDD" />
+        <text key="text" text-anchor="middle" x={(left + right) / 2} y={21} fill="#666" fontSize={9}>{ seg[0].format("MMM") }</text>
+      </g>
+    })}
+  </g>
+}
+
+// return <div key={i} style={{ 
+//   position: "absolute", 
+//   top: 11, 
+//   left: left, 
+//   width: right - left + 1,
+//   textAlign: "center",
+//   fontSize: 9,
+//   height: props.height - 11 - scrollBarHeight,
+//   color: "#666",
+//   borderLeft: "solid 1px #DDD",
+//   borderRight: "solid 1px #DDD"
+// }}>
+//   { seg[0].format("MMM") }
+// </div>
+
 
 /** Display scale at top for each week or day (if scale permits) */
 function DayWeekScale(props: {
@@ -491,24 +496,15 @@ function DayWeekScale(props: {
     }
   }
 
-  return <div>
+  return <g>
     { segs.map((seg, i) => {
       const left = props.dateToPx(seg[0])
       const right = props.dateToPx(seg[1])
-      return <div key={i} style={{ 
-        position: "absolute", 
-        top: 22, 
-        left: left, 
-        width: right - left + 1,
-        textAlign: "center",
-        fontSize: 9,
-        height: props.height - 22 - scrollBarHeight,
-        color: "#AAA",
-        borderLeft: "dotted 1px #F0F0F0",
-        borderRight: "dotted 1px #F0F0F0"
-      }}>
-        <div style={{ backgroundColor: "rgba(255, 255, 255, 0.5)" }}>{ seg[0].format("DD") }</div>
-      </div>
+      return <g key={i}>
+        <line key="left" x1={left} y1={22} x2={left} y2={props.height} stroke="#F0F0F0" strokeDasharray={2} />
+        <line key="right" x1={right} y1={22} x2={right} y2={props.height} stroke="#F0F0F0" strokeDasharray={2} />
+        <text key="text" text-anchor="middle" x={(left + right) / 2} y={31} fill="#AAA" fontSize={9}>{ seg[0].format("DD") }</text>
+      </g>
     })}
-  </div>
+  </g>
 }
