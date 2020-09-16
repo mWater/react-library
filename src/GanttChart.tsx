@@ -68,6 +68,9 @@ export function GanttChart(props: {
   /** Handle row being clicked on */
   onRowClick?: (rowIndex: number) => void
 
+  /** Insert child row */
+  onInsertChildRow?: (rowIndex: number) => void
+
   /** Localizer for labels */
   T: LocalizeString
 }) {
@@ -122,7 +125,7 @@ export function GanttChart(props: {
     let target: HTMLElement | null = ev.target as HTMLElement
     while (target) {
       if (target.classList.contains("menu")) {
-        console.log(ev.target)
+        // console.log(ev.target)
         return
       }
       target = target.parentElement
@@ -170,7 +173,7 @@ export function GanttChart(props: {
     }
 
     // Determine if dropdown menu should be shown
-    const showMenu = canMoveLeft || canMoveRight || canMoveUp || canMoveDown || props.onInsertRowBelow != null || props.onInsertRowAbove != null
+    const showMenu = canMoveLeft || canMoveRight || canMoveUp || canMoveDown || props.onInsertRowBelow != null || props.onInsertRowAbove != null || props.onInsertChildRow != null
 
     return <div 
       key={index} 
@@ -203,6 +206,10 @@ export function GanttChart(props: {
               { canMoveRight ? <li key="moveRight">
                 <a onClick={() => props.onMoveRowRight!(index) }><i className="fa fa-arrow-right"/> {props.T("Move Right")}</a>
                 </li> : null }
+              { props.onInsertChildRow != null ?
+                <li><a onClick={() => props.onInsertChildRow!(index) }><i className="fa fa-plus"/> {props.T("Add Child Row")}</a>
+                </li>
+              : null }                              
             </ul>
           </div>
         : null }
@@ -471,22 +478,6 @@ function MonthScale(props: {
     })}
   </g>
 }
-
-// return <div key={i} style={{ 
-//   position: "absolute", 
-//   top: 11, 
-//   left: left, 
-//   width: right - left + 1,
-//   textAlign: "center",
-//   fontSize: 9,
-//   height: props.height - 11 - scrollBarHeight,
-//   color: "#666",
-//   borderLeft: "solid 1px #DDD",
-//   borderRight: "solid 1px #DDD"
-// }}>
-//   { seg[0].format("MMM") }
-// </div>
-
 
 /** Display scale at top for each week or day (if scale permits) */
 function DayWeekScale(props: {
