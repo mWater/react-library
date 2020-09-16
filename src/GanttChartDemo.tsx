@@ -14,7 +14,7 @@ export function GanttChartDemo() {
         { color: "#68cdee", level: 1, startDate: "2020-04-12", endDate: "2020-07-23", label: "Activity 3" }
       ]}
       startDate="2020-01-01"
-      endDate="2022-10-01"
+      endDate="2020-12-31"
       T={defaultT}
       onMoveRowDown={() => {}}
       onMoveRowUp={() => {}}
