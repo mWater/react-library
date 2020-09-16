@@ -89,7 +89,7 @@ export function GanttChart(props: {
   const containerRef = useRef<HTMLDivElement | null>(null)
 
   /** Reset hover when out */
-  const handleMouseOut = (ev: React.MouseEvent) => {
+  const handleMouseLeave = (ev: React.MouseEvent) => {
     setHoverIndex(null)
   }
 
@@ -216,7 +216,7 @@ export function GanttChart(props: {
     </div>  
   }
 
-  return <div style={{ position: "relative" }} onMouseMove={handleMouseMove} onMouseOut={handleMouseOut} onClick={handleClick} ref={containerRef}>
+  return <div style={{ position: "relative" }} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} onClick={handleClick} ref={containerRef}>
     <style>
     </style>
     {/* Background highlight hovered row */}
