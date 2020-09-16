@@ -150,7 +150,7 @@ export function GanttChart(props: {
 
     // Determine if can move up (exists previous of same level before one of previous level)
     let canMoveUp: boolean = false
-    for (let i = index - 1 ; i > 0 ; i--) {
+    for (let i = index - 1 ; i >= 0 ; i--) {
       if (props.rows[i].level < row.level) {
         break
       }
