@@ -106,7 +106,6 @@ export function GanttChart(props: {
     let target: HTMLElement | null = ev.target as HTMLElement
     while (target) {
       if (target.classList.contains("dropdown-menu")) {
-        console.log(ev.target)
         return
       }
       target = target.parentElement
@@ -128,7 +127,6 @@ export function GanttChart(props: {
     let target: HTMLElement | null = ev.target as HTMLElement
     while (target) {
       if (target.classList.contains("menu")) {
-        // console.log(ev.target)
         return
       }
       target = target.parentElement
