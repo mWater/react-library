@@ -41,6 +41,8 @@ export declare function GanttChart(props: {
     onRowClick?: (rowIndex: number) => void;
     /** Insert child row */
     onInsertChildRow?: (rowIndex: number) => void;
+    /** Remove row */
+    onRemoveRow?: (rowIndex: number) => void;
     /** Localizer for labels */
     T: LocalizeString;
 }): JSX.Element;

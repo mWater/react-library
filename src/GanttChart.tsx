@@ -71,6 +71,9 @@ export function GanttChart(props: {
   /** Insert child row */
   onInsertChildRow?: (rowIndex: number) => void
 
+  /** Remove row */
+  onRemoveRow?: (rowIndex: number) => void
+
   /** Localizer for labels */
   T: LocalizeString
 }) {
@@ -99,15 +102,15 @@ export function GanttChart(props: {
       return
     }
 
-    // // Do not update if within dropdown
-    // let target: HTMLElement | null = ev.target as HTMLElement
-    // while (target) {
-    //   if (target.classList.contains("menu")) {
-    //     console.log(ev.target)
-    //     return
-    //   }
-    //   target = target.parentElement
-    // }
+    // Do not update if within dropdown
+    let target: HTMLElement | null = ev.target as HTMLElement
+    while (target) {
+      if (target.classList.contains("dropdown-menu")) {
+        console.log(ev.target)
+        return
+      }
+      target = target.parentElement
+    }
 
     // Get relative Y
     const y = ev.clientY - containerRef.current.getBoundingClientRect().top
@@ -173,7 +176,9 @@ export function GanttChart(props: {
     }
 
     // Determine if dropdown menu should be shown
-    const showMenu = canMoveLeft || canMoveRight || canMoveUp || canMoveDown || props.onInsertRowBelow != null || props.onInsertRowAbove != null || props.onInsertChildRow != null
+    const showMenu = canMoveLeft || canMoveRight || canMoveUp || canMoveDown 
+      || props.onInsertRowBelow != null || props.onInsertRowAbove != null || props.onInsertChildRow != null
+      || props.onRemoveRow != null
 
     return <div 
       key={index} 
@@ -185,31 +190,34 @@ export function GanttChart(props: {
             <div style={{ cursor: "pointer", visibility: hoverIndex == index ? "visible" : "hidden" }} data-toggle="dropdown">
               <i className="fa fa-caret-square-o-down text-primary"/>
             </div>
-            <ul className="dropdown-menu">
+            <ul className="dropdown-menu" style={{ marginTop: 0 }}>
               { props.onInsertRowAbove != null ?
-                <li><a onClick={() => props.onInsertRowAbove!(index) }><i className="fa fa-chevron-up"/> {props.T("Insert Above")}</a>
+                <li><a onClick={() => props.onInsertRowAbove!(index) }><i className="fa fa-fw text-muted fa-chevron-up"/> {props.T("Add Above")}</a>
                 </li>
               : null }
               { props.onInsertRowBelow != null ?
-                <li><a onClick={() => props.onInsertRowBelow!(index) }><i className="fa fa-chevron-down"/> {props.T("Insert Below")}</a>
+                <li><a onClick={() => props.onInsertRowBelow!(index) }><i className="fa fa-fw text-muted fa-chevron-down"/> {props.T("Add Below")}</a>
+                </li>
+              : null }                              
+              { props.onInsertChildRow != null ?
+                <li><a onClick={() => props.onInsertChildRow!(index) }><i className="fa fa-fw text-muted fa-chevron-right"/> {props.T("Add Subitem")}</a>
                 </li>
               : null }                              
               { canMoveUp ? <li key="moveUp">
-                <a onClick={() => props.onMoveRowUp!(index) }><i className="fa fa-arrow-up"/> {props.T("Move Up")}</a>
+                <a onClick={() => props.onMoveRowUp!(index) }><i className="fa fa-fw text-muted fa-arrow-up"/> {props.T("Move Up")}</a>
                 </li> : null }
               { canMoveDown ? <li key="moveDown">
-                <a onClick={() => props.onMoveRowDown!(index) }><i className="fa fa-arrow-down"/> {props.T("Move Down")}</a>
+                <a onClick={() => props.onMoveRowDown!(index) }><i className="fa fa-fw text-muted fa-arrow-down"/> {props.T("Move Down")}</a>
                 </li> : null }
               { canMoveLeft ? <li key="moveLeft">
-                <a onClick={() => props.onMoveRowLeft!(index) }><i className="fa fa-arrow-left"/> {props.T("Move Left")}</a>
+                <a onClick={() => props.onMoveRowLeft!(index) }><i className="fa fa-fw text-muted fa-arrow-left"/> {props.T("Move Left")}</a>
                 </li> : null }
               { canMoveRight ? <li key="moveRight">
-                <a onClick={() => props.onMoveRowRight!(index) }><i className="fa fa-arrow-right"/> {props.T("Move Right")}</a>
+                <a onClick={() => props.onMoveRowRight!(index) }><i className="fa fa-fw text-muted fa-arrow-right"/> {props.T("Move Right")}</a>
                 </li> : null }
-              { props.onInsertChildRow != null ?
-                <li><a onClick={() => props.onInsertChildRow!(index) }><i className="fa fa-plus"/> {props.T("Add Child Row")}</a>
-                </li>
-              : null }                              
+              { props.onRemoveRow ? <li key="removeRow">
+                <a onClick={() => props.onRemoveRow!(index) }><i className="fa fa-fw text-muted fa-remove"/> {props.T("Remove")}</a>
+              </li> : null }
             </ul>
           </div>
         : null }
@@ -218,6 +226,7 @@ export function GanttChart(props: {
 
   return <div style={{ position: "relative" }} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} onClick={handleClick} ref={containerRef}>
     <style>
+      {`@media print { .no-print { display: none } }}`}
     </style>
     {/* Background highlight hovered row */}
     <div key="hover-row">
@@ -230,7 +239,7 @@ export function GanttChart(props: {
       <div key="left" style={{ paddingLeft: 5, paddingTop: headerHeight, marginBottom: scrollBarHeight }}>
         { props.rows.map(renderLabel) }
         { props.onAddRow ? 
-          <div key="add">
+          <div key="add" className="no-print">
             <a style={{ fontSize: 12, cursor: "pointer" }} onClick={props.onAddRow}>
               { props.addRowLabel ? props.addRowLabel : <i className="fa fa-plus"/> }
             </a>
@@ -374,11 +383,12 @@ function GanttBarArea(props: {
     ref={containerRef}
     onWheel={handleWheel}>
     <svg width={totalDays * scale} height={props.height - scrollBarHeight}>
-      <YearScale 
+      <DayWeekScale 
         dateToPx={dateToPx}
         startDate={startDate} 
-        endDate={endDate}
+        endDate={endDate} 
         height={props.height}
+        scale={scale}
       />
       <MonthScale 
         dateToPx={dateToPx}
@@ -386,12 +396,11 @@ function GanttBarArea(props: {
         endDate={endDate} 
         height={props.height}
       />
-      <DayWeekScale 
+      <YearScale 
         dateToPx={dateToPx}
         startDate={startDate} 
-        endDate={endDate} 
+        endDate={endDate}
         height={props.height}
-        scale={scale}
       />
       <line key="today" x1={todayPx} y1={32} x2={todayPx} y2={props.height} stroke="#3CF" />
 
@@ -516,8 +525,8 @@ function DayWeekScale(props: {
       const left = props.dateToPx(seg[0])
       const right = props.dateToPx(seg[1])
       return <g key={i}>
-        <line key="left" x1={left} y1={22} x2={left} y2={props.height} stroke="#F0F0F0" strokeDasharray={2} strokeWidth={1} />
-        <line key="right" x1={right} y1={22} x2={right} y2={props.height} stroke="#F0F0F0" strokeDasharray={2} strokeWidth={1} />
+        <line key="left" x1={left} y1={22} x2={left} y2={props.height} stroke="#F6F6F6" strokeWidth={1} />
+        <line key="right" x1={right} y1={22} x2={right} y2={props.height} stroke="#F6F6F6" strokeWidth={1} />
         <text key="text" text-anchor="middle" x={(left + right) / 2} y={31} fill="#AAA" fontSize={9}>{ seg[0].format("DD") }</text>
       </g>
     })}

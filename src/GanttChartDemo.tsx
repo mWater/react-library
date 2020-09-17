@@ -24,6 +24,8 @@ export function GanttChartDemo() {
       onAddRow={() => { alert("sdfasdf")}}
       onInsertRowAbove={() => {}}
       onInsertRowBelow={() => {}}
+      onInsertChildRow={() => {}}
+      onRemoveRow={() => {}}
       />
   </div>
 }
