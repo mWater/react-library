@@ -4,7 +4,7 @@ import ActionCancelModal from './ActionCancelModalComponent'
 import ReorderableListComponent from "./reorderable/ReorderableListComponent"
 
 /** Generic editor for a list of items that shows the items within a Bootstrap 3 list-group.
- * Adding and editing are done via a popup
+ * Adding and editing are done via a popup if present
  */
 export function ListEditorComponent<T>(props: {
   items: T[]
@@ -14,9 +14,9 @@ export function ListEditorComponent<T>(props: {
   renderItem: (item: T, index: number) => ReactNode
 
   /** Render the editor in the popup modal */
-  renderEditor: (item: Partial<T>, onItemChange: (item: Partial<T>) => void) => ReactNode
+  renderEditor?: (item: Partial<T>, onItemChange: (item: Partial<T>) => void) => ReactNode
   
-  /** Create a new item. Doesn't allow add if not present */
+  /** Create a new item. Doesn't allow add if not present. If editor not present, must return valid item */
   createNew?: () => Partial<T>
 
   /** Validate an item. True for valid */
@@ -36,7 +36,12 @@ export function ListEditorComponent<T>(props: {
   const [editingIndex, setEditingIndex] = useState<number>()
   
   const handleAdd = () => {
-    setAdding(props.createNew!())
+    if (props.renderEditor != null) {
+      setAdding(props.createNew!())
+    }
+    else {
+      props.onItemsChange(props.items.concat(props.createNew!() as T))
+    }
   }
 
   const handleDelete = (index: number, ev: React.MouseEvent<HTMLAnchorElement>) => {
@@ -59,8 +64,10 @@ export function ListEditorComponent<T>(props: {
     index: number
   ) => {
     return <li className="list-group-item" onClick={() => {
-      setEditing(item)
-      setEditingIndex(index)
+      if (props.renderEditor != null) {
+        setEditing(item)
+        setEditingIndex(index)
+      }
     }} key={index}>
       <a className="btn btn-link btn-xs" onClick={handleDelete.bind(null, index)} style={{ float: "right", cursor: "pointer" }}>
         <i className="fa fa-remove"/>
@@ -85,7 +92,7 @@ export function ListEditorComponent<T>(props: {
   }
   
   return <div>
-    { adding ?
+    { adding && props.renderEditor != null ?
       <ActionCancelModal
         actionLabel="Add"
         onCancel={() => setAdding(undefined)}
@@ -100,7 +107,7 @@ export function ListEditorComponent<T>(props: {
         { props.renderEditor(adding, setAdding) }
       </ActionCancelModal>
     : null }
-    { editing != null ?
+    { editing != null && props.renderEditor != null ?
       <ActionCancelModal
         size="large"
         onCancel={() => setEditing(undefined)}
