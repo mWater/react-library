@@ -11,7 +11,7 @@ export function ListEditorComponent<T>(props: {
   onItemsChange: (items: T[]) => void
 
   /** Render the item in the list. Already inside a list-group-item */
-  renderItem: (item: T, index: number) => ReactNode
+  renderItem: (item: T, index: number, onItemChange: (item: T) => void) => ReactNode
 
   /** Render the editor in the popup modal */
   renderEditor?: (item: Partial<T>, onItemChange: (item: Partial<T>) => void) => ReactNode
@@ -20,7 +20,7 @@ export function ListEditorComponent<T>(props: {
   createNew?: () => Partial<T>
 
   /** Validate an item. True for valid */
-  validateItem: (item: Partial<T>) => boolean
+  validateItem?: (item: Partial<T>) => boolean
 
   /** Override label of add button */
   addLabel?: string
@@ -63,6 +63,12 @@ export function ListEditorComponent<T>(props: {
     item: T, 
     index: number
   ) => {
+    const handleChange = (value: T) => {
+      const items = props.items.slice()
+      items[index] = value
+      props.onItemsChange(items)
+    }
+
     return <li className="list-group-item" onClick={() => {
       if (props.renderEditor != null) {
         setEditing(item)
@@ -72,7 +78,7 @@ export function ListEditorComponent<T>(props: {
       <a className="btn btn-link btn-xs" onClick={handleDelete.bind(null, index)} style={{ float: "right", cursor: "pointer" }}>
         <i className="fa fa-remove"/>
       </a>
-      {props.renderItem(item, index)}
+      {props.renderItem(item, index, handleChange)}
     </li>
   }
   
@@ -97,7 +103,7 @@ export function ListEditorComponent<T>(props: {
         actionLabel="Add"
         onCancel={() => setAdding(undefined)}
         onAction={() => {
-          if (!props.validateItem(adding)) {
+          if (props.validateItem != null && !props.validateItem(adding)) {
             return
           }
           props.onItemsChange(props.items.concat([adding as T]))
@@ -112,7 +118,7 @@ export function ListEditorComponent<T>(props: {
         size="large"
         onCancel={() => setEditing(undefined)}
         onAction={() => {
-          if (!props.validateItem(editing)) {
+          if (props.validateItem != null && !props.validateItem(editing)) {
             return
           }
           const items = props.items.slice()
