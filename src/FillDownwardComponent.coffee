@@ -35,9 +35,9 @@ module.exports = class FillDownwardComponent extends React.Component
   render: ->
     # If height is not known, render placeholder
     if not @state.height
-      return R 'div', style: { height: 100 }, ref: (c) => @self = c
+      return R 'div', style: { height: 100, position: "relative" }, ref: (c) => @self = c
 
     # Render with correct height
-    return R 'div', style: { height: @state.height }, ref: ((c) => @self = c),
+    return R 'div', style: { height: @state.height, position: "relative" }, ref: ((c) => @self = c),
       @props.children
 
