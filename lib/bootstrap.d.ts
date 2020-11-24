@@ -62,7 +62,7 @@ declare class Toggle<T> extends React.Component<{
   value: T | null
   onChange?: (value: T | null) => void,
   options: Array<{ value: T | null, label: ReactNode }>,
-  size?: "xs" | "sm"
+  size?: "xs" | "sm" | "lg"
   allowReset?: boolean
 }> {}
 

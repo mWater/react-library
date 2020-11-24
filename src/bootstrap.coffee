@@ -397,7 +397,7 @@ exports.Toggle = class Toggle extends React.Component
     value: PropTypes.any
     options: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.any, label: PropTypes.node.isRequired })).isRequired
     onChange: PropTypes.func
-    size: PropTypes.string  # "xs", "sm"
+    size: PropTypes.string  # "xs", "sm", "lg"
     allowReset: PropTypes.bool
 
   renderOption: (option, index) =>

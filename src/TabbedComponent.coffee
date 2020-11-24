@@ -51,7 +51,7 @@ module.exports = class TabbedComponent extends React.Component
         if @props.onAddTab
           R 'li', key: "_add", 
             R 'a', onClick: @props.onAddTab, style: { cursor: "pointer" },
-              R 'span', className: "glyphicon glyphicon-plus"
+              R 'i', className: "fa fa-plus"
 
       R 'div', key: "currentTab", 
         if currentTab

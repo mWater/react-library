@@ -113,4 +113,4 @@ class InnerModalComponent extends React.Component
           @props.children
         if @props.onRequestClose
           R 'div', style: closeStyle,
-            R 'span', className: "glyphicon glyphicon-remove", onClick: @props.onRequestClose
+            R 'i', className: "fa fa-remove", onClick: @props.onRequestClose
