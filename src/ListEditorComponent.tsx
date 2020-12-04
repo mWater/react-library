@@ -110,6 +110,7 @@ export function ListEditorComponent<T>(props: {
   return <div>
     { adding && props.renderEditor != null ?
       <ActionCancelModal
+        size="large"
         actionLabel="Add"
         onCancel={() => setAdding(undefined)}
         onAction={() => {
