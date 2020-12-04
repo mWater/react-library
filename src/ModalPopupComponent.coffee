@@ -102,7 +102,7 @@ class InnerModalComponent extends React.Component
               R 'h4', className: "modal-title",
                 @props.header
 
-          R 'div', className: "modal-body", style: { maxHeight: window.innerHeight - 56 - 65 - 30 - 30, overflowY: "auto" }, 
+          R 'div', className: "modal-body", style: { maxHeight: window.innerHeight - (if @props.header then 56 else 0) - (if @props.footer then 65 else 0) - 30 - 30, overflowY: "auto" }, 
             @props.children
           if @props.footer
             R 'div', className: "modal-footer", 
