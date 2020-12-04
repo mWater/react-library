@@ -19,4 +19,6 @@ export declare function ListEditorComponent<T>(props: {
     deleteConfirmPrompt?: string;
     /** Allows list to be re-ordered by dragging. Returns unique key for each item */
     getReorderableKey?: (item: T) => any;
+    /** Puts an edit on the left which must be clicked to edit */
+    editLink?: boolean;
 }): JSX.Element;

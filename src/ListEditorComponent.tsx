@@ -30,6 +30,9 @@ export function ListEditorComponent<T>(props: {
 
   /** Allows list to be re-ordered by dragging. Returns unique key for each item */
   getReorderableKey?: (item: T) => any
+
+  /** Puts an edit on the left which must be clicked to edit */
+  editLink?: boolean
 }) {
   const [adding, setAdding] = useState<Partial<T>>()
   const [editing, setEditing] = useState<Partial<T>>()
@@ -69,12 +72,19 @@ export function ListEditorComponent<T>(props: {
       props.onItemsChange(items)
     }
 
-    return <li className="list-group-item" onClick={() => {
+    const handleClick = () => {
       if (props.renderEditor != null) {
         setEditing(item)
         setEditingIndex(index)
       }
-    }} key={index}>
+    }
+
+    return <li className="list-group-item" onClick={props.editLink ? undefined : handleClick} key={index}>
+      { props.editLink && props.renderEditor != null ? 
+        <a className="btn btn-link btn-xs" onClick={handleClick} style={{ float: "left", cursor: "pointer" }}>
+          <i className="fa fa-pencil"/>
+        </a>
+      : null }
       <a className="btn btn-link btn-xs" onClick={handleDelete.bind(null, index)} style={{ float: "right", cursor: "pointer" }}>
         <i className="fa fa-remove"/>
       </a>
