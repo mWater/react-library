@@ -22,12 +22,6 @@ module.exports = class ActionCancelModalComponent extends React.Component
       size: @props.size
       header: @props.title
       footer: [
-        R 'button', 
-          key: "cancel"
-          type: "button"
-          onClick: @props.onCancel
-          className: "btn btn-default", 
-            @props.cancelLabel or (if @props.onAction then "Cancel" else "Close")
         if @props.onAction 
           R 'button', 
             key: "action"
@@ -41,6 +35,12 @@ module.exports = class ActionCancelModalComponent extends React.Component
                   "\u00A0"
                 ]
               @props.actionLabel or "Save"
+        R 'button', 
+          key: "cancel"
+          type: "button"
+          onClick: @props.onCancel
+          className: "btn btn-default", 
+            @props.cancelLabel or (if @props.onAction then "Cancel" else "Close")
         if @props.onDelete 
           R 'button', 
             key: "delete"
