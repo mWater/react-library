@@ -1,7 +1,6 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
 R = React.createElement
-Resizable = require './react-component-resizable'
 
 # Component which sets its height to automatically fill all remaining vertical space
 module.exports = class FillDownwardComponent extends React.Component
