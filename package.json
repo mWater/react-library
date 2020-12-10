@@ -38,6 +38,7 @@
     "react-dnd-html5-backend": "^6.0.0",
     "react-dom": "^16.13.1",
     "react-overlays": "^0.8.3",
+    "react-resize-detector": "^5.2.0",
     "react-select": "^3.1.0",
     "to-px": "^1.0.1",
     "uuid": "^3.4.0"
