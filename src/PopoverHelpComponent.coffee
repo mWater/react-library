@@ -11,6 +11,7 @@ module.exports = class PopoverHelpComponent extends React.Component
   @propTypes:
     placement: PropTypes.string # "top", "right", "bottom", "left"
     trigger: PropTypes.string # "hover", "click"
+    content: PropTypes.node # Defaults to gray question circle
 
   @defaultProps:
     placement: "top"
@@ -18,5 +19,8 @@ module.exports = class PopoverHelpComponent extends React.Component
 
   render: ->
     R OverlayTrigger, trigger: (if @props.trigger == "hover" then ["hover", "focus"] else ["click"]), placement: @props.placement, overlay: R(Popover, null, @props.children),
-      R 'span', className: "text-muted", style: { cursor: "pointer" },
-        R 'i', className: "fa fa-question-circle"
+      if @props.content
+        @props.content
+      else
+        R 'span', className: "text-muted", style: { cursor: "pointer" },
+          R 'i', className: "fa fa-question-circle"
