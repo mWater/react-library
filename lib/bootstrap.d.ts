@@ -83,3 +83,21 @@ declare class FormGroup extends React.Component<{
   /** True to display as error */
   hasError?: boolean
 }> {}
+
+/** Indented section than can be opened and closed. Defaults closed */
+declare class CollapsibleSection extends React.Component<{
+  initiallyOpen?: boolean
+
+  /** Label to display */
+  label: ReactNode  
+
+  /** True to mute label */
+  labelMuted?: boolean
+
+  /** Hint to append to label. Makes label faded if only hint presented */
+  hint?: ReactNode 
+}>{}
+
+
+
+
