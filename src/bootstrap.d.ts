@@ -1,18 +1,31 @@
 import * as React from 'react';
-import { ReactNode, Children } from "react";
+import { ReactNode } from "react";
 
-declare class TextInput extends React.Component<{
+type TextInputProps = TextInputPropsNull | TextInputPropsNoNull
+
+interface TextInputPropsNoNull {
+  value: string | null
+  onChange?: (value: string) => void
+  placeholder?: string
+  size?: "sm" | "lg"
+  emptyNull?: false
+  style?: object
+}
+
+interface TextInputPropsNull {
   value: string | null
   onChange?: (value: string | null) => void
   placeholder?: string
   size?: "sm" | "lg"
-  emptyNull?: boolean
+  emptyNull: true
   style?: object
-}> {
+}
+
+export class TextInput extends React.Component<TextInputProps> {
   focus(): void
 }
 
-declare class NumberInput extends React.Component<{
+export class NumberInput extends React.Component<{
   decimal: boolean,
   value?: number | null
   onChange?: (value: number | null) => void
@@ -27,7 +40,7 @@ declare class NumberInput extends React.Component<{
   focus(): void
 }
 
-declare class Select<T> extends React.Component<{
+export class Select<T> extends React.Component<{
   value: T | null,
   onChange?: (value: T | null) => void,
   options: Array<{ value: T | null, label: string }>,
@@ -37,13 +50,13 @@ declare class Select<T> extends React.Component<{
   inline?: boolean
 }> {}
 
-declare class Checkbox extends React.Component<{
+export class Checkbox extends React.Component<{
   value: boolean | null | undefined
   onChange?: (value: boolean) => void
   inline?: boolean
 }> {}
 
-declare class Radio extends React.Component<{
+export class Radio extends React.Component<{
   /** Value to display */
   value: any     
 
@@ -58,7 +71,7 @@ declare class Radio extends React.Component<{
 }> {}
 
 
-declare class Toggle<T> extends React.Component<{
+export class Toggle<T> extends React.Component<{
   value: T | null
   onChange?: (value: T | null) => void,
   options: Array<{ value: T | null, label: ReactNode }>,
@@ -67,7 +80,7 @@ declare class Toggle<T> extends React.Component<{
 }> {}
 
 /** Indented form group with a label, optional help text. Label and indented contents */
-declare class FormGroup extends React.Component<{
+export class FormGroup extends React.Component<{
   /** Label to display */
   label: ReactNode
   /** True to mute label */
@@ -85,7 +98,7 @@ declare class FormGroup extends React.Component<{
 }> {}
 
 /** Indented section than can be opened and closed. Defaults closed */
-declare class CollapsibleSection extends React.Component<{
+export class CollapsibleSection extends React.Component<{
   initiallyOpen?: boolean
 
   /** Label to display */
@@ -97,7 +110,3 @@ declare class CollapsibleSection extends React.Component<{
   /** Hint to append to label. Makes label faded if only hint presented */
   hint?: ReactNode 
 }>{}
-
-
-
-
