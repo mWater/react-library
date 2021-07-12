@@ -54,6 +54,8 @@ export class Checkbox extends React.Component<{
   value: boolean | null | undefined
   onChange?: (value: boolean) => void
   inline?: boolean
+  /** Uses null for false */
+  nullForFalse?: boolean
 }> {}
 
 export class Radio extends React.Component<{
