@@ -19,8 +19,12 @@ module.exports = class ModalPopupComponent extends React.Component
 
     # Add special region to body
     @modalNode = document.createElement("div")
+
     # append is not supported everywhere https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append#Browser_compatibility
-    document.body.appendChild(@modalNode)
+    if document.fullscreenElement
+      document.fullscreenElement.appendChild(@modalNode)
+    else  
+      document.body.appendChild(@modalNode)
 
   componentWillUnmount: ->
     @modalNode.remove()
