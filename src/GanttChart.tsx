@@ -1,7 +1,7 @@
-import React, { CSSProperties, useState, useCallback, useRef, ReactNode, useEffect, useLayoutEffect } from "react";
-import AutoSizeComponent from "./AutoSizeComponent";
-import moment, { Moment } from 'moment'
-import { LocalizeString } from 'ez-localize'
+import React, { CSSProperties, useState, useCallback, useRef, ReactNode, useEffect, useLayoutEffect } from "react"
+import AutoSizeComponent from "./AutoSizeComponent"
+import moment, { Moment } from "moment"
+import { LocalizeString } from "ez-localize"
 
 /** Row of a GANTT chart */
 export interface GanttChartRow {
@@ -140,18 +140,18 @@ export function GanttChart(props: {
     }
   }
 
-
   /** Render a single label in left pane */
   const renderLabel = (row: GanttChartRow, index: number) => {
     // Determine if can move left (indented and previous is previous level)
-    const canMoveLeft = props.onMoveRowLeft && row.level > 0 && index > 0 && props.rows[index - 1].level == row.level - 1
+    const canMoveLeft =
+      props.onMoveRowLeft && row.level > 0 && index > 0 && props.rows[index - 1].level == row.level - 1
 
     // Determine if can move right (previous is same level)
     const canMoveRight = props.onMoveRowRight && index > 0 && props.rows[index - 1].level == row.level
 
     // Determine if can move up (exists previous of same level before one of previous level)
     let canMoveUp: boolean = false
-    for (let i = index - 1 ; i >= 0 ; i--) {
+    for (let i = index - 1; i >= 0; i--) {
       if (props.rows[i].level < row.level) {
         break
       }
@@ -163,7 +163,7 @@ export function GanttChart(props: {
 
     // Determine if can move down (exists next of same level before one of next level)
     let canMoveDown: boolean = false
-    for (let i = index + 1 ; i < props.rows.length ; i++) {
+    for (let i = index + 1; i < props.rows.length; i++) {
       if (props.rows[i].level < row.level) {
         break
       }
@@ -174,94 +174,160 @@ export function GanttChart(props: {
     }
 
     // Determine if dropdown menu should be shown
-    const showMenu = canMoveLeft || canMoveRight || canMoveUp || canMoveDown 
-      || props.onInsertRowBelow != null || props.onInsertRowAbove != null || props.onInsertChildRow != null
-      || props.onRemoveRow != null
+    const showMenu =
+      canMoveLeft ||
+      canMoveRight ||
+      canMoveUp ||
+      canMoveDown ||
+      props.onInsertRowBelow != null ||
+      props.onInsertRowAbove != null ||
+      props.onInsertChildRow != null ||
+      props.onRemoveRow != null
 
-    return <div 
-      key={index} 
-      className="gantt-label"
-      style={{...labelStyle, paddingLeft: row.level * 10, position: "relative", paddingRight: 25 }}>
-        <span style={{ fontSize: 12 }} onClick={() => { if (props.onRowClick) { props.onRowClick(index) }}}>{row.label}</span>
-        { showMenu ? 
+    return (
+      <div
+        key={index}
+        className="gantt-label"
+        style={{ ...labelStyle, paddingLeft: row.level * 10, position: "relative", paddingRight: 25 }}
+      >
+        <span
+          style={{ fontSize: 12 }}
+          onClick={() => {
+            if (props.onRowClick) {
+              props.onRowClick(index)
+            }
+          }}
+        >
+          {row.label}
+        </span>
+        {showMenu ? (
           <div className="menu" style={{ position: "absolute", right: 5, top: 1 }}>
-            <div style={{ cursor: "pointer", visibility: hoverIndex == index ? "visible" : "hidden" }} data-toggle="dropdown">
-              <i className="fa fa-caret-square-o-down text-primary"/>
+            <div
+              style={{ cursor: "pointer", visibility: hoverIndex == index ? "visible" : "hidden" }}
+              data-toggle="dropdown"
+            >
+              <i className="fa fa-caret-square-o-down text-primary" />
             </div>
             <ul className="dropdown-menu" style={{ marginTop: 0 }}>
-              { props.onInsertRowAbove != null ?
-                <li><a onClick={() => props.onInsertRowAbove!(index) }><i className="fa fa-fw text-muted fa-chevron-up"/> {props.T("Add Above")}</a>
+              {props.onInsertRowAbove != null ? (
+                <li>
+                  <a onClick={() => props.onInsertRowAbove!(index)}>
+                    <i className="fa fa-fw text-muted fa-chevron-up" /> {props.T("Add Above")}
+                  </a>
                 </li>
-              : null }
-              { props.onInsertRowBelow != null ?
-                <li><a onClick={() => props.onInsertRowBelow!(index) }><i className="fa fa-fw text-muted fa-chevron-down"/> {props.T("Add Below")}</a>
+              ) : null}
+              {props.onInsertRowBelow != null ? (
+                <li>
+                  <a onClick={() => props.onInsertRowBelow!(index)}>
+                    <i className="fa fa-fw text-muted fa-chevron-down" /> {props.T("Add Below")}
+                  </a>
                 </li>
-              : null }                              
-              { props.onInsertChildRow != null ?
-                <li><a onClick={() => props.onInsertChildRow!(index) }><i className="fa fa-fw text-muted fa-chevron-right"/> {props.T("Add Subitem")}</a>
+              ) : null}
+              {props.onInsertChildRow != null ? (
+                <li>
+                  <a onClick={() => props.onInsertChildRow!(index)}>
+                    <i className="fa fa-fw text-muted fa-chevron-right" /> {props.T("Add Subitem")}
+                  </a>
                 </li>
-              : null }                              
-              { canMoveUp ? <li key="moveUp">
-                <a onClick={() => props.onMoveRowUp!(index) }><i className="fa fa-fw text-muted fa-arrow-up"/> {props.T("Move Up")}</a>
-                </li> : null }
-              { canMoveDown ? <li key="moveDown">
-                <a onClick={() => props.onMoveRowDown!(index) }><i className="fa fa-fw text-muted fa-arrow-down"/> {props.T("Move Down")}</a>
-                </li> : null }
-              { canMoveLeft ? <li key="moveLeft">
-                <a onClick={() => props.onMoveRowLeft!(index) }><i className="fa fa-fw text-muted fa-arrow-left"/> {props.T("Move Left")}</a>
-                </li> : null }
-              { canMoveRight ? <li key="moveRight">
-                <a onClick={() => props.onMoveRowRight!(index) }><i className="fa fa-fw text-muted fa-arrow-right"/> {props.T("Move Right")}</a>
-                </li> : null }
-              { props.onRemoveRow ? <li key="removeRow">
-                <a onClick={() => props.onRemoveRow!(index) }><i className="fa fa-fw text-muted fa-remove"/> {props.T("Remove")}</a>
-              </li> : null }
+              ) : null}
+              {canMoveUp ? (
+                <li key="moveUp">
+                  <a onClick={() => props.onMoveRowUp!(index)}>
+                    <i className="fa fa-fw text-muted fa-arrow-up" /> {props.T("Move Up")}
+                  </a>
+                </li>
+              ) : null}
+              {canMoveDown ? (
+                <li key="moveDown">
+                  <a onClick={() => props.onMoveRowDown!(index)}>
+                    <i className="fa fa-fw text-muted fa-arrow-down" /> {props.T("Move Down")}
+                  </a>
+                </li>
+              ) : null}
+              {canMoveLeft ? (
+                <li key="moveLeft">
+                  <a onClick={() => props.onMoveRowLeft!(index)}>
+                    <i className="fa fa-fw text-muted fa-arrow-left" /> {props.T("Move Left")}
+                  </a>
+                </li>
+              ) : null}
+              {canMoveRight ? (
+                <li key="moveRight">
+                  <a onClick={() => props.onMoveRowRight!(index)}>
+                    <i className="fa fa-fw text-muted fa-arrow-right" /> {props.T("Move Right")}
+                  </a>
+                </li>
+              ) : null}
+              {props.onRemoveRow ? (
+                <li key="removeRow">
+                  <a onClick={() => props.onRemoveRow!(index)}>
+                    <i className="fa fa-fw text-muted fa-remove" /> {props.T("Remove")}
+                  </a>
+                </li>
+              ) : null}
             </ul>
           </div>
-        : null }
-    </div>  
+        ) : null}
+      </div>
+    )
   }
 
-  return <div style={{ position: "relative" }} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} onClick={handleClick} ref={containerRef}>
-    <style>
-      {`@media print { .no-print { display: none } }}`}
-    </style>
-    {/* Background highlight hovered row */}
-    <div key="hover-row">
-      { hoverIndex != null ? 
-        <div 
-          style={{ left: 0, right: 0, top: headerHeight + rowHeight * hoverIndex, height: rowHeight, position: "absolute", backgroundColor: "#EEE" }}/>  
-      : null }
-    </div>
-    <div key="main" style={{ display: "grid", gridTemplateColumns: "auto 1fr" }}>
-      <div key="left" style={{ paddingLeft: 5, paddingTop: headerHeight, marginBottom: scrollBarHeight }}>
-        { props.rows.map(renderLabel) }
-        { props.onAddRow ? 
-          <div key="add" className="no-print">
-            <a style={{ fontSize: 12, cursor: "pointer" }} onClick={props.onAddRow}>
-              { props.addRowLabel ? props.addRowLabel : <i className="fa fa-plus"/> }
-            </a>
-          </div>
-        : null }
-      </div>
-      <AutoSizeComponent key="right" injectWidth={true} injectHeight={true}>
-        {(size) => {
-          if (!size.width || !size.height) {
-            // Placeholder until width is known
-            return <div/>
-          }
-          return <GanttBarArea 
-            width={size.width - 5}
-            height={size.height}
-            startDate={props.startDate}
-            endDate={props.endDate}
-            rows={props.rows}
-            onRowClick={props.onRowClick}
+  return (
+    <div
+      style={{ position: "relative" }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+      ref={containerRef}
+    >
+      <style>{`@media print { .no-print { display: none } }}`}</style>
+      {/* Background highlight hovered row */}
+      <div key="hover-row">
+        {hoverIndex != null ? (
+          <div
+            style={{
+              left: 0,
+              right: 0,
+              top: headerHeight + rowHeight * hoverIndex,
+              height: rowHeight,
+              position: "absolute",
+              backgroundColor: "#EEE"
+            }}
           />
-        }}
-      </AutoSizeComponent>
-    </div>    
-  </div>
+        ) : null}
+      </div>
+      <div key="main" style={{ display: "grid", gridTemplateColumns: "auto 1fr" }}>
+        <div key="left" style={{ paddingLeft: 5, paddingTop: headerHeight, marginBottom: scrollBarHeight }}>
+          {props.rows.map(renderLabel)}
+          {props.onAddRow ? (
+            <div key="add" className="no-print">
+              <a style={{ fontSize: 12, cursor: "pointer" }} onClick={props.onAddRow}>
+                {props.addRowLabel ? props.addRowLabel : <i className="fa fa-plus" />}
+              </a>
+            </div>
+          ) : null}
+        </div>
+        <AutoSizeComponent key="right" injectWidth={true} injectHeight={true}>
+          {(size) => {
+            if (!size.width || !size.height) {
+              // Placeholder until width is known
+              return <div />
+            }
+            return (
+              <GanttBarArea
+                width={size.width - 5}
+                height={size.height}
+                startDate={props.startDate}
+                endDate={props.endDate}
+                rows={props.rows}
+                onRowClick={props.onRowClick}
+              />
+            )
+          }}
+        </AutoSizeComponent>
+      </div>
+    </div>
+  )
 }
 
 /** Area of the Gantt chart that contains the bars */
@@ -300,9 +366,12 @@ function GanttBarArea(props: {
   const [scale, setScale] = useState(initialScale)
 
   /** Function to convert a date into pixels at current scale */
-  const dateToPx = useCallback((date: Moment) => {
-    return Math.floor(date.diff(startDate, "days") * scale) + 0.5
-  }, [scale, props.startDate])
+  const dateToPx = useCallback(
+    (date: Moment) => {
+      return Math.floor(date.diff(startDate, "days") * scale) + 0.5
+    },
+    [scale, props.startDate]
+  )
 
   /** Allow zooming using mouse wheel */
   const handleWheel = (ev: React.WheelEvent) => {
@@ -314,11 +383,9 @@ function GanttBarArea(props: {
     if (ev.deltaY > 0) {
       // Prevent scaling down
       newScale = Math.max(initialScale, scale / 1.1)
-    }
-    else if (ev.deltaY < 0) {
+    } else if (ev.deltaY < 0) {
       newScale = scale * 1.1
-    }
-    else {
+    } else {
       return
     }
 
@@ -329,7 +396,7 @@ function GanttBarArea(props: {
     const x = ev.clientX - containerRef.current.getBoundingClientRect().left + containerRef.current.scrollLeft
 
     // Determine offset needed to keep mouse position in same place
-    const diffX = (x / scale * newScale) - x
+    const diffX = (x / scale) * newScale - x
     scrollLeftBy.current = diffX
   }
 
@@ -340,81 +407,58 @@ function GanttBarArea(props: {
       scrollLeftBy.current = 0
     }
   })
-  
+
   /** Draw a bar of the GANTT chart */
   const renderBar = (row: GanttChartRow, index: number) => {
     // Draw bars for actual ranges
     if (row.startDate && row.endDate && row.startDate != row.endDate) {
       const rowStartDate = moment(row.startDate, "YYYY-MM-DD")
       const rowEndDate = moment(row.endDate, "YYYY-MM-DD")
-      return <rect 
-        key={index}
-        x={dateToPx(rowStartDate)} 
-        y={headerHeight + 5 + rowHeight * index} 
-        width={dateToPx(rowEndDate) - dateToPx(rowStartDate)} 
-        height={11}
-        rx={4}
-        color={row.color}
-        fill={row.color}
-      />
+      return (
+        <rect
+          key={index}
+          x={dateToPx(rowStartDate)}
+          y={headerHeight + 5 + rowHeight * index}
+          width={dateToPx(rowEndDate) - dateToPx(rowStartDate)}
+          height={11}
+          rx={4}
+          color={row.color}
+          fill={row.color}
+        />
+      )
     }
     // Diamonds for single dates
     else if (row.startDate || row.endDate) {
       const rowDate = moment(row.startDate || row.endDate, "YYYY-MM-DD")
       const x = dateToPx(rowDate)
-      const y = headerHeight + rowHeight * index + (rowHeight / 2)
+      const y = headerHeight + rowHeight * index + rowHeight / 2
       const size = 7
-      return <polygon 
-        key={index}
-        points={[x - size, y, x, y - size, x + size, y, x, y + size].join(" ")}
-        fill={row.color} />
-    }
-    else {
+      return (
+        <polygon key={index} points={[x - size, y, x, y - size, x + size, y, x, y + size].join(" ")} fill={row.color} />
+      )
+    } else {
       return null
     }
   }
 
   const todayPx = dateToPx(moment())
 
-  return <div 
-    style={{ overflowX: "auto", position: "relative", height: "100%" }}
-    ref={containerRef}
-    onWheel={handleWheel}>
-    <svg width={totalDays * scale} height={props.height - scrollBarHeight}>
-      <DayWeekScale 
-        dateToPx={dateToPx}
-        startDate={startDate} 
-        endDate={endDate} 
-        height={props.height}
-        scale={scale}
-      />
-      <MonthScale 
-        dateToPx={dateToPx}
-        startDate={startDate} 
-        endDate={endDate} 
-        height={props.height}
-      />
-      <YearScale 
-        dateToPx={dateToPx}
-        startDate={startDate} 
-        endDate={endDate}
-        height={props.height}
-      />
-      <line key="today" x1={todayPx} y1={32} x2={todayPx} y2={props.height} stroke="#3CF" />
+  return (
+    <div style={{ overflowX: "auto", position: "relative", height: "100%" }} ref={containerRef} onWheel={handleWheel}>
+      <svg width={totalDays * scale} height={props.height - scrollBarHeight}>
+        <DayWeekScale dateToPx={dateToPx} startDate={startDate} endDate={endDate} height={props.height} scale={scale} />
+        <MonthScale dateToPx={dateToPx} startDate={startDate} endDate={endDate} height={props.height} />
+        <YearScale dateToPx={dateToPx} startDate={startDate} endDate={endDate} height={props.height} />
+        <line key="today" x1={todayPx} y1={32} x2={todayPx} y2={props.height} stroke="#3CF" />
 
-      { props.rows.map(renderBar)}
-    </svg>
-
-  </div>
+        {props.rows.map(renderBar)}
+      </svg>
+    </div>
+  )
 }
 
 /** Display scale at top for each year */
-function YearScale(props: {
-  startDate: Moment
-  endDate: Moment
-  dateToPx: (date: Moment) => number
-  height: number
-}) {
+function YearScale(props: { startDate: Moment; endDate: Moment; dateToPx: (date: Moment) => number; height: number }) {
   const { startDate, endDate } = props
 
   const date = moment(startDate)
@@ -428,32 +472,32 @@ function YearScale(props: {
     const itemEnd = moment(date)
     if (itemEnd.isAfter(endDate)) {
       segs.push([itemStart, endDate])
-    }
-    else {
+    } else {
       segs.push([itemStart, itemEnd])
     }
   }
 
-  return <g>
-    { segs.map((seg, i) => {
-      const left = props.dateToPx(seg[0])
-      const right = props.dateToPx(seg[1])
-      return <g key={i}>
-        <line key="left" x1={left} y1={0} x2={left} y2={props.height} stroke="#DDD" strokeWidth={1} />
-        <line key="right" x1={right} y1={0} x2={right} y2={props.height} stroke="#DDD" strokeWidth={1} />
-        <text text-anchor="middle" x={(left + right) / 2} y={8} fill="#333" fontSize={9}>{ seg[0].format("YYYY") }</text>
-      </g>
-    })}
-  </g>
+  return (
+    <g>
+      {segs.map((seg, i) => {
+        const left = props.dateToPx(seg[0])
+        const right = props.dateToPx(seg[1])
+        return (
+          <g key={i}>
+            <line key="left" x1={left} y1={0} x2={left} y2={props.height} stroke="#DDD" strokeWidth={1} />
+            <line key="right" x1={right} y1={0} x2={right} y2={props.height} stroke="#DDD" strokeWidth={1} />
+            <text text-anchor="middle" x={(left + right) / 2} y={8} fill="#333" fontSize={9}>
+              {seg[0].format("YYYY")}
+            </text>
+          </g>
+        )
+      })}
+    </g>
+  )
 }
 
 /** Display scale at top for each month */
-function MonthScale(props: {
-  startDate: Moment
-  endDate: Moment
-  dateToPx: (date: Moment) => number
-  height: number
-}) {
+function MonthScale(props: { startDate: Moment; endDate: Moment; dateToPx: (date: Moment) => number; height: number }) {
   const { startDate, endDate } = props
 
   const date = moment(startDate)
@@ -467,23 +511,28 @@ function MonthScale(props: {
     const itemEnd = moment(date)
     if (itemEnd.isAfter(endDate)) {
       segs.push([itemStart, endDate])
-    }
-    else {
+    } else {
       segs.push([itemStart, itemEnd])
     }
   }
 
-  return <g>
-    { segs.map((seg, i) => {
-      const left = props.dateToPx(seg[0])
-      const right = props.dateToPx(seg[1])
-      return <g key={i}>
-        <line key="left" x1={left} y1={11} x2={left} y2={props.height} stroke="#DDD" strokeWidth={1} />
-        <line key="right" x1={right} y1={11} x2={right} y2={props.height} stroke="#DDD" strokeWidth={1} />
-        <text key="text" text-anchor="middle" x={(left + right) / 2} y={21} fill="#666" fontSize={9}>{ seg[0].format("MMM") }</text>
-      </g>
-    })}
-  </g>
+  return (
+    <g>
+      {segs.map((seg, i) => {
+        const left = props.dateToPx(seg[0])
+        const right = props.dateToPx(seg[1])
+        return (
+          <g key={i}>
+            <line key="left" x1={left} y1={11} x2={left} y2={props.height} stroke="#DDD" strokeWidth={1} />
+            <line key="right" x1={right} y1={11} x2={right} y2={props.height} stroke="#DDD" strokeWidth={1} />
+            <text key="text" text-anchor="middle" x={(left + right) / 2} y={21} fill="#666" fontSize={9}>
+              {seg[0].format("MMM")}
+            </text>
+          </g>
+        )
+      })}
+    </g>
+  )
 }
 
 /** Display scale at top for each week or day (if scale permits) */
@@ -518,15 +567,21 @@ function DayWeekScale(props: {
     }
   }
 
-  return <g>
-    { segs.map((seg, i) => {
-      const left = props.dateToPx(seg[0])
-      const right = props.dateToPx(seg[1])
-      return <g key={i}>
-        <line key="left" x1={left} y1={22} x2={left} y2={props.height} stroke="#F6F6F6" strokeWidth={1} />
-        <line key="right" x1={right} y1={22} x2={right} y2={props.height} stroke="#F6F6F6" strokeWidth={1} />
-        <text key="text" text-anchor="middle" x={(left + right) / 2} y={31} fill="#AAA" fontSize={9}>{ seg[0].format("DD") }</text>
-      </g>
-    })}
-  </g>
+  return (
+    <g>
+      {segs.map((seg, i) => {
+        const left = props.dateToPx(seg[0])
+        const right = props.dateToPx(seg[1])
+        return (
+          <g key={i}>
+            <line key="left" x1={left} y1={22} x2={left} y2={props.height} stroke="#F6F6F6" strokeWidth={1} />
+            <line key="right" x1={right} y1={22} x2={right} y2={props.height} stroke="#F6F6F6" strokeWidth={1} />
+            <text key="text" text-anchor="middle" x={(left + right) / 2} y={31} fill="#AAA" fontSize={9}>
+              {seg[0].format("DD")}
+            </text>
+          </g>
+        )
+      })}
+    </g>
+  )
 }

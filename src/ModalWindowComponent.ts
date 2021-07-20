@@ -1,97 +1,97 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-let ModalWindowComponent;
-import PropTypes from 'prop-types';
-import React from 'react';
-import ReactDOM from 'react-dom';
-const R = React.createElement;
-import _ from 'lodash';
+let ModalWindowComponent
+import PropTypes from "prop-types"
+import React from "react"
+import ReactDOM from "react-dom"
+const R = React.createElement
+import _ from "lodash"
 
 // Modal window that fills screen
-export default ModalWindowComponent = (function() {
+export default ModalWindowComponent = (function () {
   ModalWindowComponent = class ModalWindowComponent extends React.Component {
     static initClass() {
-      this.propTypes = { 
+      this.propTypes = {
         isOpen: PropTypes.bool.isRequired,
         onRequestClose: PropTypes.func,
         backgroundColor: PropTypes.string,
-        outerPadding: PropTypes.number,  // Outer padding default 40
+        outerPadding: PropTypes.number, // Outer padding default 40
         innerPadding: PropTypes.number
-      };
-      
+      }
+
       // Static version that displays a modal until the onClose is called.
       // modalFunc takes close function as a single parameter and returns a ModalWindowComponent
       this.show = (modalFunc, onClose) => {
         // Create temporary div to render into
-        const tempDiv = document.createElement("div");
-  
+        const tempDiv = document.createElement("div")
+
         // Create close function
         const close = () => {
           // Unrender
-          ReactDOM.unmountComponentAtNode(tempDiv);
-  
+          ReactDOM.unmountComponentAtNode(tempDiv)
+
           // Remove div
-          tempDiv.remove();
-  
+          tempDiv.remove()
+
           // Call onClose
           if (onClose) {
-            return onClose();
+            return onClose()
           }
-        };
-  
-        const popupElem = modalFunc(close);
-        return ReactDOM.render(popupElem, tempDiv);
-      };
-        // Inner padding default 20
+        }
+
+        const popupElem = modalFunc(close)
+        return ReactDOM.render(popupElem, tempDiv)
+      }
+      // Inner padding default 20
     }
 
     constructor(props) {
-      super(props);
+      super(props)
 
       // Add special region to body
-      this.modalNode = document.createElement("div");
+      this.modalNode = document.createElement("div")
 
       // append is not supported everywhere https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append#Browser_compatibility
       if (document.fullscreenElement) {
-        document.fullscreenElement.appendChild(this.modalNode);
-      } else {  
-        document.body.appendChild(this.modalNode);
+        document.fullscreenElement.appendChild(this.modalNode)
+      } else {
+        document.body.appendChild(this.modalNode)
       }
     }
 
     componentWillUnmount() {
-      return this.modalNode.remove();
+      return this.modalNode.remove()
     }
 
-    render() { 
-      return ReactDOM.createPortal(R(InnerModalComponent, this.props), this.modalNode);
+    render() {
+      return ReactDOM.createPortal(R(InnerModalComponent, this.props), this.modalNode)
     }
-  };
-  ModalWindowComponent.initClass();
-  return ModalWindowComponent;    
-})();
+  }
+  ModalWindowComponent.initClass()
+  return ModalWindowComponent
+})()
 
 // Content must be rendered at body level to prevent weird behaviour, so this is the inner component
 class InnerModalComponent extends React.Component {
   static initClass() {
-    this.propTypes = { 
+    this.propTypes = {
       isOpen: PropTypes.bool.isRequired,
       onRequestClose: PropTypes.func,
-      outerPadding: PropTypes.number,  // Outer padding default 40
-      innerPadding: PropTypes.number,  // Inner padding default 20
+      outerPadding: PropTypes.number, // Outer padding default 40
+      innerPadding: PropTypes.number, // Inner padding default 20
       backgroundColor: PropTypes.string
-    };
-  
+    }
+
     this.defaultProps = {
       outerPadding: 40,
       innerPadding: 20,
       backgroundColor: "white"
-    };
+    }
   }
 
   render() {
     if (!this.props.isOpen) {
-      return null;
+      return null
     }
 
     const overlayStyle = {
@@ -102,7 +102,7 @@ class InnerModalComponent extends React.Component {
       bottom: 0,
       zIndex: 1040, // Same as bootstrap modals
       backgroundColor: "rgba(0, 0, 0, 0.7)"
-    };
+    }
 
     const windowStyle = {
       position: "fixed",
@@ -114,7 +114,7 @@ class InnerModalComponent extends React.Component {
       backgroundColor: this.props.backgroundColor,
       borderRadius: 10,
       border: "solid 1px #AAA"
-    };
+    }
 
     const contentStyle = {
       position: "absolute",
@@ -122,8 +122,8 @@ class InnerModalComponent extends React.Component {
       right: this.props.innerPadding,
       top: this.props.innerPadding,
       bottom: this.props.innerPadding,
-      overflowY: "auto"  // Allow scrolling
-    };
+      overflowY: "auto" // Allow scrolling
+    }
 
     const closeStyle = {
       position: "absolute",
@@ -131,19 +131,26 @@ class InnerModalComponent extends React.Component {
       top: 8,
       color: "#888",
       cursor: "pointer"
-    };
+    }
 
-    return R('div', {className: "modal-window-component"},
-      R('style', null, 'body { overflow-y: hidden }'),
-      R('div', {style: overlayStyle, onClick: this.props.onRequestClose, className: "modal-window-component-overlay"}),
-      R('div', {style: windowStyle, className: "modal-window-component-window"},
-        R('div', {style: contentStyle},
-          this.props.children),
-        this.props.onRequestClose ?
-          R('div', {style: closeStyle},
-            R('i', {className: "fa fa-remove", onClick: this.props.onRequestClose})) : undefined
+    return R(
+      "div",
+      { className: "modal-window-component" },
+      R("style", null, "body { overflow-y: hidden }"),
+      R("div", {
+        style: overlayStyle,
+        onClick: this.props.onRequestClose,
+        className: "modal-window-component-overlay"
+      }),
+      R(
+        "div",
+        { style: windowStyle, className: "modal-window-component-window" },
+        R("div", { style: contentStyle }, this.props.children),
+        this.props.onRequestClose
+          ? R("div", { style: closeStyle }, R("i", { className: "fa fa-remove", onClick: this.props.onRequestClose }))
+          : undefined
       )
-    );
+    )
   }
 }
-InnerModalComponent.initClass();
+InnerModalComponent.initClass()

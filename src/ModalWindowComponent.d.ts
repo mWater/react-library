@@ -1,9 +1,9 @@
-import { default as React, Component } from 'react'
+import { default as React, Component } from "react"
 
 declare class ModalWindowComponent extends Component<{
   /** True to display modal window */
   isOpen: boolean
-  
+
   /** Called when close X is clicked */
   onRequestClose?: () => void
 

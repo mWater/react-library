@@ -1,11 +1,11 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-import PropTypes from 'prop-types';
-import _ from 'lodash';
-import React from 'react';
-import uuid from 'uuid';
-const R = React.createElement;
-import ReorderableListItemComponent from "./ReorderableListItemComponent";
+import PropTypes from "prop-types"
+import _ from "lodash"
+import React from "react"
+import uuid from "uuid"
+const R = React.createElement
+import ReorderableListItemComponent from "./ReorderableListItemComponent"
 
 // Reorderable component for nested items
 // Currently supports reordering within the same list
@@ -20,101 +20,100 @@ class ReorderableListComponent extends React.Component {
       listId: PropTypes.string, // a uniqid for the list
       getItemId: PropTypes.func.isRequired, // function which should return the identifier of the current item, gets passed the current item
       element: PropTypes.object
-    };
-  
-    this.defaultProps =
-      {element: R('div', null)};
-     // the element to render this component as
+    }
+
+    this.defaultProps = { element: R("div", null) }
+    // the element to render this component as
   }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
-      order: null,   // Ordered list of ids. Only present when dragging
+      order: null, // Ordered list of ids. Only present when dragging
       listId: this.props.listId ? this.props.listId : uuid()
-    };
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const newOrder = _.map(nextProps.items, item => this.props.getItemId(item));
-    const oldOrder = _.map(this.props.items, item => this.props.getItemId(item));
+    const newOrder = _.map(nextProps.items, (item) => this.props.getItemId(item))
+    const oldOrder = _.map(this.props.items, (item) => this.props.getItemId(item))
 
     // If order changed, reset order
     if (!_.isEqual(newOrder, oldOrder)) {
-      this.setState({order: null});
+      this.setState({ order: null })
     }
-      
-    return this.setState({listId: nextProps.listId ? nextProps.listId : uuid()});
+
+    return this.setState({ listId: nextProps.listId ? nextProps.listId : uuid() })
   }
 
   // Put beforeId right before id
   handlePutBefore = (id, beforeId) => {
-    let order = _.map(this.props.items, item => this.props.getItemId(item));
+    let order = _.map(this.props.items, (item) => this.props.getItemId(item))
 
     // Remove beforeId and splice in
-    order = _.without(order, beforeId);
-    const index = order.indexOf(id);
-    order.splice(index, 0, beforeId);
+    order = _.without(order, beforeId)
+    const index = order.indexOf(id)
+    order.splice(index, 0, beforeId)
 
     // Set state if different
     if (!_.isEqual(order, this.state.order)) {
-      return this.setState({order});
+      return this.setState({ order })
     }
-  };
+  }
 
   // Put afterId right after id
   handlePutAfter = (id, afterId) => {
-    let order = _.map(this.props.items, item => this.props.getItemId(item));
+    let order = _.map(this.props.items, (item) => this.props.getItemId(item))
 
     // Remove afterId and splice in
-    order = _.without(order, afterId);
-    const index = order.indexOf(id);
-    order.splice(index + 1, 0, afterId);
+    order = _.without(order, afterId)
+    const index = order.indexOf(id)
+    order.splice(index + 1, 0, afterId)
 
     // Set state if different
     if (!_.isEqual(order, this.state.order)) {
-      return this.setState({order});
+      return this.setState({ order })
     }
-  };
+  }
 
   handleEndDrag = () => {
     if (!this.state.order) {
-      return;
+      return
     }
 
-    const order = this.state.order.slice();
-    this.setState({order: null});
-    return this.props.onReorder(this.fixOrder(this.props.items.slice(), order));
-  };
+    const order = this.state.order.slice()
+    this.setState({ order: null })
+    return this.props.onReorder(this.fixOrder(this.props.items.slice(), order))
+  }
 
   // Re-arrange items to match the order of order (list of ids)
   // If order is null, return list
   fixOrder = (items, order) => {
     if (!order) {
-      return items;
+      return items
     }
 
     return items.sort((left, right) => {
       if (order.indexOf(this.props.getItemId(left)) < order.indexOf(this.props.getItemId(right))) {
-        return -1;
+        return -1
       }
       if (order.indexOf(this.props.getItemId(left)) > order.indexOf(this.props.getItemId(right))) {
-        return 1;
+        return 1
       }
-      return 0;
-    });
-  };
+      return 0
+    })
+  }
 
   render() {
-    const items = this.props.items.slice();
-    this.fixOrder(items, this.state.order);
+    const items = this.props.items.slice()
+    this.fixOrder(items, this.state.order)
 
     return React.cloneElement(
       this.props.element,
       null,
       _.map(items, (item, index) => {
-        return R(ReorderableListItemComponent, { 
+        return R(ReorderableListItemComponent, {
           key: this.props.getItemId(item),
           item,
           index,
@@ -124,11 +123,11 @@ class ReorderableListComponent extends React.Component {
           onPutAfter: this.handlePutAfter,
           onPutBefore: this.handlePutBefore,
           onEndDrag: this.handleEndDrag
-        });
-    })
-    );
+        })
+      })
+    )
   }
 }
-ReorderableListComponent.initClass();
+ReorderableListComponent.initClass()
 
-export default ReorderableListComponent;
+export default ReorderableListComponent

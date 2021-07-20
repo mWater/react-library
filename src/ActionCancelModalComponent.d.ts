@@ -1,4 +1,4 @@
-import { default as React, Component } from 'react'
+import { default as React, Component } from "react"
 
 declare class ActionCancelModalComponent extends Component<{
   /** Title of modal */

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { ReactNode } from "react";
+import * as React from "react"
+import { ReactNode } from "react"
 
 type TextInputProps = TextInputPropsNull | TextInputPropsNoNull
 
@@ -26,7 +26,7 @@ export class TextInput extends React.Component<TextInputProps> {
 }
 
 export class NumberInput extends React.Component<{
-  decimal: boolean,
+  decimal: boolean
   value?: number | null
   onChange?: (value: number | null) => void
   style?: object
@@ -35,15 +35,15 @@ export class NumberInput extends React.Component<{
   onEnter?: () => void
   /** Force an exact number of decimal places, rounding value as necessary */
   decimalPlaces?: number
-  placeholder?: string  
+  placeholder?: string
 }> {
   focus(): void
 }
 
 export class Select<T> extends React.Component<{
-  value: T | null,
-  onChange?: (value: T | null) => void,
-  options: Array<{ value: T | null, label: string }>,
+  value: T | null
+  onChange?: (value: T | null) => void
+  options: Array<{ value: T | null; label: string }>
   size?: "lg" | "sm"
   nullLabel?: string
   style?: object
@@ -60,23 +60,22 @@ export class Checkbox extends React.Component<{
 
 export class Radio extends React.Component<{
   /** Value to display */
-  value: any     
+  value: any
 
   /** Value that radio button represents. If equal to value, button is checked */
-  radioValue: any  
-  
+  radioValue: any
+
   /** Called with radio value */
   onChange: (value: any) => void
-  
+
   /** Makes horizontal */
   inline?: boolean
 }> {}
 
-
 export class Toggle<T> extends React.Component<{
   value: T | null
-  onChange?: (value: T | null) => void,
-  options: Array<{ value: T | null, label: ReactNode }>,
+  onChange?: (value: T | null) => void
+  options: Array<{ value: T | null; label: ReactNode }>
   size?: "xs" | "sm" | "lg"
   allowReset?: boolean
 }> {}
@@ -86,13 +85,13 @@ export class FormGroup extends React.Component<{
   /** Label to display */
   label: ReactNode
   /** True to mute label */
-  labelMuted?: boolean  
+  labelMuted?: boolean
   /** Hint to append to label. Makes label faded if only hint presented */
   hint?: ReactNode
   /** Help block at bottom */
   help?: ReactNode
   /** True to display as success */
-  hasSuccess?: boolean 
+  hasSuccess?: boolean
   /** True to display as warning */
   hasWarning?: boolean
   /** True to display as error */
@@ -104,11 +103,11 @@ export class CollapsibleSection extends React.Component<{
   initiallyOpen?: boolean
 
   /** Label to display */
-  label: ReactNode  
+  label: ReactNode
 
   /** True to mute label */
   labelMuted?: boolean
 
   /** Hint to append to label. Makes label faded if only hint presented */
-  hint?: ReactNode 
-}>{}
+  hint?: ReactNode
+}> {}

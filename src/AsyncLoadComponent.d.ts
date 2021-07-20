@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import { Component } from "react"
 
 /** React component that asynchronously loads something into state from the props
  * Handles the common case of wanting to load something but having to deal with the complexities

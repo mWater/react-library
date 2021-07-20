@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import { Component } from "react"
 
 declare class VerticalLayoutComponent extends Component<{
   /** Height of component */

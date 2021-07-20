@@ -1,9 +1,9 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-let ReactElementPrinter;
-import _ from 'lodash';
-import $ from 'jquery';
-import ReactDOM from 'react-dom';
+let ReactElementPrinter
+import _ from "lodash"
+import $ from "jquery"
+import ReactDOM from "react-dom"
 
 // Prints a React element. Requires font-awesome for spinner and jquery
 export default ReactElementPrinter = class ReactElementPrinter {
@@ -69,39 +69,42 @@ export default ReactElementPrinter = class ReactElementPrinter {
   }
 
 </style>\
-`);
+`)
 
-    $("body").append(extraCss);
+    $("body").append(extraCss)
 
     // Add special region to body
-    $("body").append('<div id="react_element_printer"></div>');
+    $("body").append('<div id="react_element_printer"></div>')
 
     // Add warning that printing
-    $("body").append(`\
+    $("body").append(
+      `\
 <div id="react_element_printer_splash">
   <div style="font-size: 30pt;">
     <i class="fa fa-spinner fa-spin"></i>\
-` + (options.text || "") + `\
+` +
+        (options.text || "") +
+        `\
   </div>
 </div>\
-`);
+`
+    )
 
     // Render element into special region
     return ReactDOM.render(element, $("#react_element_printer").get(0), () => {
       // Wait for element to render
       return _.delay(() => {
         // Call print
-        window.print();
+        window.print()
 
         // Unmount component
-        ReactDOM.unmountComponentAtNode($("#react_element_printer").get(0));
+        ReactDOM.unmountComponentAtNode($("#react_element_printer").get(0))
 
         // Remove rest of nodes
-        $("#react_element_printer").remove();
-        $("#react_element_printer_css").remove();
-        return $("#react_element_printer_splash").remove();
-      }
-      , options.delay || 1000);
-      });
+        $("#react_element_printer").remove()
+        $("#react_element_printer_css").remove()
+        return $("#react_element_printer_splash").remove()
+      }, options.delay || 1000)
+    })
   }
-};
+}

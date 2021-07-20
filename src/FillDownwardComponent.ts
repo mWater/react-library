@@ -1,55 +1,65 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
-let FillDownwardComponent;
-import React from 'react';
-import ReactDOM from 'react-dom';
-const R = React.createElement;
+let FillDownwardComponent
+import React from "react"
+import ReactDOM from "react-dom"
+const R = React.createElement
 
 // Component which sets its height to automatically fill all remaining vertical space
 export default FillDownwardComponent = class FillDownwardComponent extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = { height: null };
+    super(props)
+    this.state = { height: null }
   }
 
   componentDidMount() {
     // Listen for changes
-    window.addEventListener('resize', this.updateSize);
-    return this.updateSize();
+    window.addEventListener("resize", this.updateSize)
+    return this.updateSize()
   }
 
   componentWillUnmount() {
     // Stop listening to resize events
-    return window.removeEventListener('resize', this.updateSize);
+    return window.removeEventListener("resize", this.updateSize)
   }
 
   updateSize = () => {
-    const {
-      self
-    } = this;
+    const { self } = this
     if (!self) {
-      return;
+      return
     }
 
     // Get vertical position of self
-    const vpos = self.getBoundingClientRect().top + window.scrollY;
+    const vpos = self.getBoundingClientRect().top + window.scrollY
 
     // Get vertical space remaining
-    const height = window.innerHeight - vpos;
+    const height = window.innerHeight - vpos
 
     // Limit to 50 at smallest
-    return this.setState({height: Math.max(height, 50)});
-  };
+    return this.setState({ height: Math.max(height, 50) })
+  }
 
   render() {
     // If height is not known, render placeholder
     if (!this.state.height) {
-      return R('div', {style: { height: 100, position: "relative" }, ref: c => { return this.self = c; }});
+      return R("div", {
+        style: { height: 100, position: "relative" },
+        ref: (c) => {
+          return (this.self = c)
+        }
+      })
     }
 
     // Render with correct height
-    return R('div', {style: { height: this.state.height, position: "relative" }, ref: (c => { return this.self = c; })},
-      this.props.children);
+    return R(
+      "div",
+      {
+        style: { height: this.state.height, position: "relative" },
+        ref: (c) => {
+          return (this.self = c)
+        }
+      },
+      this.props.children
+    )
   }
-};
-
+}
