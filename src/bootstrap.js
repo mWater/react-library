@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 let Button, Checkbox, CollapsibleSection, FormGroup, Icon, NavPills, NumberInput, Radio, Select, TextInput, Toggle;
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -116,11 +118,6 @@ export { _FormGroup as FormGroup };
 
 let _Checkbox = Checkbox = (function() {
   Checkbox = class Checkbox extends React.Component {
-    constructor(...args) {
-      super(...args);
-      this.handleChange = this.handleChange.bind(this);
-    }
-
     static initClass() {
       this.propTypes = {
         value: PropTypes.bool,
@@ -131,13 +128,13 @@ let _Checkbox = Checkbox = (function() {
        // Uses null for false
     }
 
-    handleChange(ev) {
+    handleChange = ev => {
       if (this.props.nullForFalse) {
         return this.props.onChange(ev.target.checked || null);
       } else {
         return this.props.onChange(ev.target.checked);
       }
-    }
+    };
 
     render() {
       if (this.props.inline) {
@@ -207,11 +204,6 @@ export { _Radio as Radio };
 // all work as possible options.
 let _Select = Select = (function() {
   Select = class Select extends React.Component {
-    constructor(...args) {
-      super(...args);
-      this.handleChange = this.handleChange.bind(this);
-    }
-
     static initClass() {
       this.propTypes = {
         value: PropTypes.any,
@@ -228,10 +220,10 @@ let _Select = Select = (function() {
         // True to make auto-width, inline
     }
 
-    handleChange(ev) {
+    handleChange = ev => {
       const value = JSON.parse(ev.target.value);
       return this.props.onChange(value);
-    }
+    };
 
     render() {
       const options = this.props.options.slice();
@@ -263,11 +255,6 @@ export { _Select as Select };
 
 let _TextInput = TextInput = (function() {
   TextInput = class TextInput extends React.Component {
-    constructor(...args) {
-      super(...args);
-      this.handleChange = this.handleChange.bind(this);
-    }
-
     static initClass() {
       this.propTypes = {
         value: PropTypes.string,
@@ -280,7 +267,7 @@ let _TextInput = TextInput = (function() {
            // Will be merged with style of input box
     }
 
-    handleChange(ev) {
+    handleChange = ev => {
       let {
         value
       } = ev.target;
@@ -289,7 +276,7 @@ let _TextInput = TextInput = (function() {
       }
 
       return this.props.onChange(value);
-    }
+    };
 
     focus() {
       return this.input?.focus();
@@ -336,9 +323,6 @@ let _NumberInput = NumberInput = (function() {
     }
 
     constructor(props) {
-      this.handleKeyDown = this.handleKeyDown.bind(this);
-      this.handleBlur = this.handleBlur.bind(this);
-      this.getNumericValue = this.getNumericValue.bind(this);
       super(props);
 
       // Parsing happens on blur
@@ -378,7 +362,7 @@ let _NumberInput = NumberInput = (function() {
       return this.input?.focus();
     }
 
-    handleKeyDown(ev) {
+    handleKeyDown = ev => {
       // When pressing ENTER or TAB
       if (ev.keyCode === 13) {
         // First parse value as if blur will be done
@@ -400,9 +384,9 @@ let _NumberInput = NumberInput = (function() {
           return ev.preventDefault();
         }
       }
-    }
+    };
 
-    handleBlur() {
+    handleBlur = () => {
       // Parse and set value if valid
       if (this.isValid()) {
         const val = this.getNumericValue();
@@ -410,9 +394,9 @@ let _NumberInput = NumberInput = (function() {
           return this.props.onChange?.(val);
         }
       }
-    }
+    };
 
-    getNumericValue() {
+    getNumericValue = () => {
       let val = this.props.decimal ? parseFloat(this.state.inputText) : parseInt(this.state.inputText);
       if (isNaN(val)) {
         return null;
@@ -424,7 +408,7 @@ let _NumberInput = NumberInput = (function() {
       }
     
       return val;
-    }
+    };
 
     // Check regex matching of numbers
     isValid() {
@@ -512,7 +496,6 @@ let _CollapsibleSection = CollapsibleSection = (function() {
     }
 
     constructor(props) {
-      this.handleToggle = this.handleToggle.bind(this);
       super(props);
 
       this.state = {
@@ -520,9 +503,9 @@ let _CollapsibleSection = CollapsibleSection = (function() {
       };
     }
 
-    handleToggle() {
+    handleToggle = () => {
       return this.setState({open: !this.state.open});
-    }
+    };
 
     render() {
       return R('div', {className: "form-group"},
@@ -593,11 +576,6 @@ export { _NavPills as NavPills };
 // Button toggle component
 let _Toggle = Toggle = (function() {
   Toggle = class Toggle extends React.Component {
-    constructor(...args) {
-      super(...args);
-      this.renderOption = this.renderOption.bind(this);
-    }
-
     static initClass() {
       this.propTypes = {
         value: PropTypes.any,
@@ -608,7 +586,7 @@ let _Toggle = Toggle = (function() {
       };
     }
 
-    renderOption(option, index) {
+    renderOption = (option, index) => {
       const value = ((this.props.value === option.value) && this.props.allowReset) ? null : option.value;
       const btnClasses = classnames("btn", {
         "btn-default": !(this.props.value === option.value),
@@ -628,7 +606,7 @@ let _Toggle = Toggle = (function() {
 
       return R('button', props,
         option.label);
-    }
+    };
 
     render() {
       return R('div', {className: `btn-group ${this.props.size ? `btn-group-${this.props.size}` : ""}`},

@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 import React from 'react';
 import ReactDOM from 'react-dom';
 const R = React.createElement;
@@ -13,7 +15,7 @@ import PopoverHelpComponent from './PopoverHelpComponent';
 import { default as PopupHelpComponent } from './PopupHelpComponent';
 import FillDownwardComponent from './FillDownwardComponent';
 import AutoSizeComponent from './AutoSizeComponent';
-import ui from './bootstrap';
+import * as ui from './bootstrap';
 import ReactElementPrinter from './ReactElementPrinter';
 import { GridComponentDemo } from './GridComponentDemo';
 import { GanttChartDemo } from './GanttChartDemo';
@@ -41,16 +43,11 @@ class Block2 extends React.Component {
 
 
 class ReactElementPrinterSample extends React.Component {
-  constructor(...args) {
-    super(...args);
-    this.handlePrint = this.handlePrint.bind(this);
-  }
-
-  handlePrint() {
+  handlePrint = () => {
     const printer = new ReactElementPrinter();
     const elem = R('h1', null, "Print this!");
     return printer.print(elem, {});
-  }
+  };
 
   render() {
     return R('div', null,
@@ -61,27 +58,24 @@ class ReactElementPrinterSample extends React.Component {
 
 class ModalWindowSample extends React.Component {
   constructor(props) {
-    this.startEditing = this.startEditing.bind(this);
-    this.finishEditing = this.finishEditing.bind(this);
-    this.handleModalClose = this.handleModalClose.bind(this);
     super(props);
     this.state = {
       editing: false
     };
   }
 
-  startEditing() {
+  startEditing = () => {
     return this.setState({editing: true});
-  }
+  };
 
-  finishEditing() {
+  finishEditing = () => {
     return this.setState({editing: false});
-  }
+  };
 
-  handleModalClose() {
+  handleModalClose = () => {
     this.finishEditing();
     return console.log("editing finished");
-  }
+  };
 
   render() {
     const sizes = ["large", "small", ""];
@@ -100,27 +94,24 @@ class ModalWindowSample extends React.Component {
 
 class ModalPopupSample extends React.Component {
   constructor(props) {
-    this.startEditing = this.startEditing.bind(this);
-    this.finishEditing = this.finishEditing.bind(this);
-    this.handleModalClose = this.handleModalClose.bind(this);
     super(props);
     this.state = {
       editing: false
     };
   }
 
-  startEditing() {
+  startEditing = () => {
     return this.setState({editing: true});
-  }
+  };
 
-  finishEditing() {
+  finishEditing = () => {
     return this.setState({editing: false});
-  }
+  };
 
-  handleModalClose() {
+  handleModalClose = () => {
     this.finishEditing();
     return console.log("editing finished");
-  }
+  };
 
   render() {
     return R('div', null,
@@ -182,9 +173,6 @@ class SortableSampleItem extends React.Component {
 
 class SortableSample extends React.Component {
   constructor(props) {
-    this.renderItem = this.renderItem.bind(this);
-    this.updateOrder = this.updateOrder.bind(this);
-    this.addNewItem = this.addNewItem.bind(this);
     super(props);
     this.state = {
       items: [{
@@ -254,7 +242,7 @@ class SortableSample extends React.Component {
     };
   }
 
-  renderItem(item, index, connectDragSource, connectDragPreview, connectDropTarget ) {
+  renderItem = (item, index, connectDragSource, connectDragPreview, connectDropTarget) => {
     return R(SortableSampleItem, {
       item,
       index,
@@ -265,9 +253,9 @@ class SortableSample extends React.Component {
       renderItem: this.renderItem,
       getItemId: this.getItemId
     });
-  }
+  };
 
-  updateOrder(reorderedList) {
+  updateOrder = reorderedList => {
     const item = reorderedList[0];
 
     if (item.parent === null) {
@@ -278,7 +266,7 @@ class SortableSample extends React.Component {
       node.children = reorderedList;
       return this.setState({items});
     }
-  }
+  };
 
   findNodeById(items, id) {
     for (let index = 0; index < items.length; index++) {
@@ -301,7 +289,7 @@ class SortableSample extends React.Component {
     return item.id;
   }
 
-  addNewItem() {
+  addNewItem = () => {
     const items = this.state.items.splice(0);
     const id = uuid();
     items.push({
@@ -310,7 +298,7 @@ class SortableSample extends React.Component {
       parent: null
     });
     return this.setState({items});
-  }
+  };
 
   render() {
     const id = uuid();

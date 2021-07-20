@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 let Divider;
 import PropTypes from 'prop-types';
 
@@ -16,11 +18,6 @@ const R = React.createElement;
 
 export default Divider = (function() {
   Divider = class Divider extends React.Component {
-    constructor(...args) {
-      super(...args);
-      this.onMouseDown = this.onMouseDown.bind(this);
-    }
-
     static initClass() {
     
       this.propTypes = {
@@ -32,9 +29,9 @@ export default Divider = (function() {
       return {split: 'vertical'};
     }
 
-    onMouseDown(event) { 
+    onMouseDown = event => { 
       return this.props.onMouseDown(event);
-    }
+    };
 
     render() {
       const classNames = ["divider"];

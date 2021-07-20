@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import React from 'react';
@@ -50,11 +52,13 @@ const itemTarget = {
   }
 };
 
-const collectTarget = (connect, monitor) => ({
-  connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver() && monitor.canDrop(),
-  canDrop: monitor.canDrop()
-});
+function collectTarget(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver() && monitor.canDrop(),
+    canDrop: monitor.canDrop()
+  };
+}
 
 const itemSource = {
   beginDrag(props, monitor, component) {
@@ -75,11 +79,13 @@ const itemSource = {
   }
 };
 
-const collectSource = (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
-  connectDragPreview: connect.dragPreview(),
-  isDragging: monitor.isDragging()
-});
+function collectSource(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
+    isDragging: monitor.isDragging()
+  };
+}
 
 class ReorderableListItemComponent extends React.Component {
   static initClass() {

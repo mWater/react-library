@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 let FillDownwardComponent;
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -6,7 +8,6 @@ const R = React.createElement;
 // Component which sets its height to automatically fill all remaining vertical space
 export default FillDownwardComponent = class FillDownwardComponent extends React.Component {
   constructor(props) {
-    this.updateSize = this.updateSize.bind(this);
     super(props);
     this.state = { height: null };
   }
@@ -22,7 +23,7 @@ export default FillDownwardComponent = class FillDownwardComponent extends React
     return window.removeEventListener('resize', this.updateSize);
   }
 
-  updateSize() {
+  updateSize = () => {
     const {
       self
     } = this;
@@ -38,7 +39,7 @@ export default FillDownwardComponent = class FillDownwardComponent extends React
 
     // Limit to 50 at smallest
     return this.setState({height: Math.max(height, 50)});
-  }
+  };
 
   render() {
     // If height is not known, render placeholder

@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 let TestComponent;
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -29,7 +31,7 @@ export default TestComponent = class TestComponent {
   findDOMNodesByText(pattern) {
     const matches = [];
 
-    var findRecursively = function(node) {
+    function findRecursively(node) {
       // Recurse to children
       if (node.nodeType === 1) {
         return (() => {
@@ -45,7 +47,7 @@ export default TestComponent = class TestComponent {
           return result;
         })();
       }
-    };
+    }
 
     findRecursively(ReactDOM.findDOMNode(this.comp));
     return matches;

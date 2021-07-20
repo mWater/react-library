@@ -1,10 +1,12 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 let NumberInputComponent;
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import React from 'react';
 const R = React.createElement;
 
-import ui from './bootstrap';
+import * as ui from './bootstrap';
 
 // Number input component that handles parsing and maintains state when number is invalid
 export default NumberInputComponent = (function() {

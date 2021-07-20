@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import React from 'react';
@@ -26,10 +28,6 @@ class ReorderableListComponent extends React.Component {
   }
 
   constructor(props) {
-    this.handlePutBefore = this.handlePutBefore.bind(this);
-    this.handlePutAfter = this.handlePutAfter.bind(this);
-    this.handleEndDrag = this.handleEndDrag.bind(this);
-    this.fixOrder = this.fixOrder.bind(this);
     super(props);
 
     this.state = {
@@ -51,7 +49,7 @@ class ReorderableListComponent extends React.Component {
   }
 
   // Put beforeId right before id
-  handlePutBefore(id, beforeId) {
+  handlePutBefore = (id, beforeId) => {
     let order = _.map(this.props.items, item => this.props.getItemId(item));
 
     // Remove beforeId and splice in
@@ -63,10 +61,10 @@ class ReorderableListComponent extends React.Component {
     if (!_.isEqual(order, this.state.order)) {
       return this.setState({order});
     }
-  }
+  };
 
   // Put afterId right after id
-  handlePutAfter(id, afterId) {
+  handlePutAfter = (id, afterId) => {
     let order = _.map(this.props.items, item => this.props.getItemId(item));
 
     // Remove afterId and splice in
@@ -78,9 +76,9 @@ class ReorderableListComponent extends React.Component {
     if (!_.isEqual(order, this.state.order)) {
       return this.setState({order});
     }
-  }
+  };
 
-  handleEndDrag() {
+  handleEndDrag = () => {
     if (!this.state.order) {
       return;
     }
@@ -88,11 +86,11 @@ class ReorderableListComponent extends React.Component {
     const order = this.state.order.slice();
     this.setState({order: null});
     return this.props.onReorder(this.fixOrder(this.props.items.slice(), order));
-  }
+  };
 
   // Re-arrange items to match the order of order (list of ids)
   // If order is null, return list
-  fixOrder(items, order) {
+  fixOrder = (items, order) => {
     if (!order) {
       return items;
     }
@@ -106,7 +104,7 @@ class ReorderableListComponent extends React.Component {
       }
       return 0;
     });
-  }
+  };
 
   render() {
     const items = this.props.items.slice();

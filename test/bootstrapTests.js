@@ -1,8 +1,10 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 import { createElement as R } from 'react';
 import sinon from 'sinon';
 import enzyme from 'enzyme';
 import { assert } from 'chai';
-import bootstrap from '../src/bootstrap';
+import * as bootstrap from '../src/bootstrap';
 
 describe("bootstrap", () => describe("NumberInput", function() {
   it("converts number to text", function() {

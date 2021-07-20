@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 let AsyncLoadComponent;
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -12,9 +14,8 @@ const R = React.createElement;
 // DO NOT call @setState or reference @props in load
 export default AsyncLoadComponent = class AsyncLoadComponent extends React.Component {
   constructor(props) {
-    this.isLoading = this.isLoading.bind(this);
     super(props);
-    
+
     this.state = { 
       loading: false
     };
@@ -27,7 +28,7 @@ export default AsyncLoadComponent = class AsyncLoadComponent extends React.Compo
     this._loadSeqCompleted = 0;
   }
 
-  isLoading() { return this.state.loading; }
+  isLoading = () => { return this.state.loading; };
 
   // Override to determine if a load is needed. Not called on mounting
   isLoadNeeded(newProps, oldProps) { throw new Error("Not implemented"); }

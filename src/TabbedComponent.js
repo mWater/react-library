@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 let TabbedComponent;
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -19,27 +21,24 @@ export default TabbedComponent = (function() {
     }
 
     constructor(props) {
-      this.handleClick = this.handleClick.bind(this);
-      this.handleRemove = this.handleRemove.bind(this);
-      this.renderTab = this.renderTab.bind(this);
       super(props);
       this.state = { tabId: this.props.initialTabId };
     }
 
-    handleClick(tabId) {
+    handleClick = tabId => {
       if (this.props.onTabClick != null) {
         return this.props.onTabClick(tabId);
       } else {
         return this.setState({tabId});
       }
-    }
+    };
 
-    handleRemove(tab, ev) {
+    handleRemove = (tab, ev) => {
       ev.stopPropagation();
       return tab.onRemove();
-    }
+    };
 
-    renderTab(tab) {
+    renderTab = tab => {
       let tabId;
       if (this.props.tabId != null) {
         ({
@@ -58,7 +57,7 @@ export default TabbedComponent = (function() {
               R('span', {className: "fa fa-times"})) : undefined
         )
       );
-    }
+    };
 
     render() {
       let tabId;

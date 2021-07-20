@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 let VerticalLayoutComponent;
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -18,7 +20,6 @@ export default VerticalLayoutComponent = (function() {
     }
 
     constructor(props) {
-      this.recalculateSize = this.recalculateSize.bind(this);
       super(props);
       this.state = { availableHeight: 0 };
     }
@@ -33,7 +34,7 @@ export default VerticalLayoutComponent = (function() {
       return this.recalculateSize(this.props);
     }
 
-    recalculateSize(props) {
+    recalculateSize = props => {
       // Calculate available height 
       let availableHeight = props.height;
 
@@ -46,7 +47,7 @@ export default VerticalLayoutComponent = (function() {
       }
 
       return this.setState({availableHeight});
-    }
+    };
 
     // Get a subcomponent
     getComponent(key) {

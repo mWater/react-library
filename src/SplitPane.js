@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 let SplitPane;
 import PropTypes from 'prop-types';
 
@@ -42,9 +44,6 @@ export default SplitPane = (function() {
     }
 
     constructor(props) {
-      this.onMouseUp = this.onMouseUp.bind(this);
-      this.onMouseDown = this.onMouseDown.bind(this);
-      this.onMouseMove = this.onMouseMove.bind(this);
       super(props);
       this.state = { 
         resizing: false,
@@ -56,19 +55,19 @@ export default SplitPane = (function() {
       return {split: 'vertical'};
     }
 
-    onMouseUp() { 
+    onMouseUp = () => { 
       if (this.state.resizing) {
         this.setState({resizing: false});
         return this.props.onResize?.(this.state.firstPaneSize);
       }
-    }
+    };
 
-    onMouseDown(event) {
+    onMouseDown = event => {
       const dragStartAt = this.props.split === "vertical" ? event.clientX : event.clientY;
       return this.setState({ resizing: true, dragStartAt });
-    }
+    };
 
-    onMouseMove(event) {
+    onMouseMove = event => {
       if (this.state.resizing) {
         let currentPosition, firstPaneSize;
         if (this.props.split === "vertical") {
@@ -86,8 +85,8 @@ export default SplitPane = (function() {
           return this.setState({firstPaneSize: newSize});
         }
       }
-    }
-        
+    };
+
 
     render() {
       const classNames = ["splitpane"];
