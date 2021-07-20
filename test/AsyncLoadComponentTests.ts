@@ -6,23 +6,23 @@ import AsyncLoadComponent from "../src/AsyncLoadComponent"
 
 // Test version
 class TestAsyncLoadComponent extends AsyncLoadComponent {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.callbacks = []
     this.setstates = []
   }
 
   // Override to determine if a load is needed. Not called on mounting
-  isLoadNeeded(newProps, oldProps) {
+  isLoadNeeded(newProps: any, oldProps: any) {
     return this.loadNeeded
   }
 
   // Call callback with state changes
-  load(props, prevProps, callback) {
+  load(props: any, prevProps: any, callback: any) {
     return this.callbacks.push(callback)
   }
 
-  setState(state, callback) {
+  setState(state: any, callback: any) {
     this.setstates.push(state)
     if (callback) {
       return callback()

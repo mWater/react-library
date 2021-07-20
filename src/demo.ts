@@ -53,7 +53,7 @@ class ReactElementPrinterSample extends React.Component {
 }
 
 class ModalWindowSample extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = {
       editing: false
@@ -96,7 +96,7 @@ class ModalWindowSample extends React.Component {
 }
 
 class ModalPopupSample extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = {
       editing: false
@@ -137,7 +137,7 @@ class ModalPopupSample extends React.Component {
 }
 
 class SortableSampleItem extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = {
       value: Math.floor(Math.random() * 1000) + "!"
@@ -193,7 +193,7 @@ class SortableSampleItem extends React.Component {
 }
 
 class SortableSample extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = {
       items: [
@@ -264,7 +264,7 @@ class SortableSample extends React.Component {
     }
   }
 
-  renderItem = (item, index, connectDragSource, connectDragPreview, connectDropTarget) => {
+  renderItem = (item: any, index: any, connectDragSource: any, connectDragPreview: any, connectDropTarget: any) => {
     return R(SortableSampleItem, {
       item,
       index,
@@ -277,7 +277,7 @@ class SortableSample extends React.Component {
     })
   }
 
-  updateOrder = (reorderedList) => {
+  updateOrder = (reorderedList: any) => {
     const item = reorderedList[0]
 
     if (item.parent === null) {
@@ -290,7 +290,7 @@ class SortableSample extends React.Component {
     }
   }
 
-  findNodeById(items, id) {
+  findNodeById(items: any, id: any) {
     for (let index = 0; index < items.length; index++) {
       const value = items[index]
       if (value.id === id) {
@@ -307,7 +307,7 @@ class SortableSample extends React.Component {
     return false
   }
 
-  getItemId(item) {
+  getItemId(item: any) {
     return item.id
   }
 
@@ -348,7 +348,7 @@ class SortableSample extends React.Component {
 }
 
 class BlocksComponent extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = {
       items: [
@@ -359,9 +359,9 @@ class BlocksComponent extends React.Component {
     }
   }
 
-  renderItem(item, index, connectDragSource, connectDragPreview, connectDropTarget) {
+  renderItem(item: any, index: any, connectDragSource: any, connectDragPreview: any, connectDropTarget: any) {
     let elem
-    const wrapBorder = (e, inline = false) =>
+    const wrapBorder = (e: any, inline = false) =>
       R(
         "div",
         {
@@ -424,27 +424,27 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
       "Start",
       R(ReorderableListComponent, {
         items: this.state.items,
-        onReorder: (items) => this.setState({ items }),
+        onReorder: (items: any) => this.setState({ items }),
         renderItem: this.renderItem,
-        getItemId(item) {
+        getItemId(item: any) {
           return item.id
         }
       }),
       "End"
-    )
+    );
   }
 }
 
 class AutoSizeTestComponent extends React.Component {
   render() {
-    return R(AutoSizeComponent, { injectHeight: true }, (size) => {
+    return R(AutoSizeComponent, { injectHeight: true }, (size: any) => {
       return R("div", { style: { height: size.height + 1, backgroundColor: "#FDF" } }, JSON.stringify(size))
-    })
+    });
   }
 }
 
 class ToggleTestComponent extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = {
       action: "keep"
@@ -459,18 +459,18 @@ class ToggleTestComponent extends React.Component {
         { value: "nd", label: "Not duplicate" },
         { value: "ignore", label: "Ignore" }
       ],
-      onChange: (action) => {
+      onChange: (action: any) => {
         console.log(action)
         return this.setState({ action })
       },
       size: "xs"
-    })
+    });
   }
 }
 // allowReset: true
 
 class ReorderDemo extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = {
       items: ["red", "green", "blue"]
@@ -480,14 +480,14 @@ class ReorderDemo extends React.Component {
   render() {
     return R(ReorderableListComponent, {
       items: this.state.items,
-      onReorder: (items) => this.setState({ items }),
+      onReorder: (items: any) => this.setState({ items }),
       // function which renders the item, gets passed the current item and react dnd connectors
       // signature: function(item, index, connectDragSource, connectDragPreview, connectDropTarget)
-      renderItem: (item, index, connectDragSource, connectDragPreview, connectDropTarget) => {
+      renderItem: (item: any, index: any, connectDragSource: any, connectDragPreview: any, connectDropTarget: any) => {
         return connectDragSource(connectDragPreview(connectDropTarget(R("div", null, item))))
       },
-      getItemId: (item) => item
-    })
+      getItemId: (item: any) => item
+    });
   }
 }
 

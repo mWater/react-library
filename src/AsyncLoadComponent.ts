@@ -13,7 +13,7 @@ const R = React.createElement
 // Sets state of loading to true/false appropriately
 // DO NOT call @setState or reference @props in load
 export default AsyncLoadComponent = class AsyncLoadComponent extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
 
     this.state = {
@@ -33,12 +33,12 @@ export default AsyncLoadComponent = class AsyncLoadComponent extends React.Compo
   }
 
   // Override to determine if a load is needed. Not called on mounting
-  isLoadNeeded(newProps, oldProps) {
+  isLoadNeeded(newProps: any, oldProps: any) {
     throw new Error("Not implemented")
   }
 
   // Call callback with state changes
-  load(props, prevProps, callback) {
+  load(props: any, prevProps: any, callback: any) {
     throw new Error("Not implemented")
   }
 
@@ -47,13 +47,13 @@ export default AsyncLoadComponent = class AsyncLoadComponent extends React.Compo
     return this._performLoad(this.props, this.props)
   }
 
-  _performLoad(newProps, oldProps) {
+  _performLoad(newProps: any, oldProps: any) {
     this._loadSeqStarted += 1
 
     const seq = this._loadSeqStarted
 
     // Create callback
-    const callback = (state) => {
+    const callback = (state: any) => {
       // Check if unmounted
       if (!this._mounted) {
         return
@@ -85,7 +85,7 @@ export default AsyncLoadComponent = class AsyncLoadComponent extends React.Compo
     return this._performLoad(this.props, {})
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: any) {
     if (this.isLoadNeeded(nextProps, this.props)) {
       return this._performLoad(nextProps, this.props)
     }

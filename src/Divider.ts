@@ -27,7 +27,7 @@ export default Divider = (function () {
       return { split: "vertical" }
     }
 
-    onMouseDown = (event) => {
+    onMouseDown = (event: any) => {
       return this.props.onMouseDown(event)
     }
 

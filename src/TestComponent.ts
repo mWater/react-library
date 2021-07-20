@@ -10,12 +10,12 @@ import _ from "lodash"
 // Test component that can be created, have its element changed, have clicks and other actions simulated
 // Used for unit testing React components
 export default TestComponent = class TestComponent {
-  constructor(elem) {
+  constructor(elem: any) {
     this.div = document.createElement("div")
     this.comp = ReactDOM.render(elem, this.div)
   }
 
-  setElement(elem) {
+  setElement(elem: any) {
     return ReactDOM.render(elem, this.div)
   }
 
@@ -28,10 +28,10 @@ export default TestComponent = class TestComponent {
   }
 
   // Finds DOM node by pattern (optional)
-  findDOMNodesByText(pattern) {
-    const matches = []
+  findDOMNodesByText(pattern: any) {
+    const matches: any = []
 
-    function findRecursively(node) {
+    function findRecursively(node: any) {
       // Recurse to children
       if (node.nodeType === 1) {
         return (() => {
@@ -54,12 +54,12 @@ export default TestComponent = class TestComponent {
   }
 
   // Finds a DOM node by pattern
-  findDOMNodeByText(pattern) {
+  findDOMNodeByText(pattern: any) {
     return this.findDOMNodesByText(pattern)[0]
   }
 
   // Find a subcomponent by a pattern (deprecated)
-  findComponentByText(pattern) {
+  findComponentByText(pattern: any) {
     return this.findDOMNodesByText(pattern)
   }
 
@@ -68,20 +68,20 @@ export default TestComponent = class TestComponent {
     return ReactTestUtils.findRenderedDOMComponentWithTag(this.comp, "input")
   }
 
-  findComponentById(id) {
+  findComponentById(id: any) {
     return ReactTestUtils.findAllInRenderedTree(this.comp, (c) => c.id === id)[0]
   }
 
-  static click(comp) {
+  static click(comp: any) {
     return ReactTestUtils.Simulate.click(comp)
   }
-  static pressEnter(comp) {
+  static pressEnter(comp: any) {
     return ReactTestUtils.Simulate.keyDown(comp, { key: "Enter", keyCode: 13, which: 13 })
   }
-  static pressTab(comp) {
+  static pressTab(comp: any) {
     return ReactTestUtils.Simulate.keyDown(comp, { key: "Tab", keyCode: 9, which: 9 })
   }
-  static changeValue(comp, value) {
+  static changeValue(comp: any, value: any) {
     comp.value = value
     return ReactTestUtils.Simulate.change(comp)
   }

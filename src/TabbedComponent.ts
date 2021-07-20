@@ -20,12 +20,12 @@ export default TabbedComponent = (function () {
       // Set to be called back when a tab is clicked (tabId) instead of setting internal state
     }
 
-    constructor(props) {
+    constructor(props: any) {
       super(props)
       this.state = { tabId: this.props.initialTabId }
     }
 
-    handleClick = (tabId) => {
+    handleClick = (tabId: any) => {
       if (this.props.onTabClick != null) {
         return this.props.onTabClick(tabId)
       } else {
@@ -33,12 +33,12 @@ export default TabbedComponent = (function () {
       }
     }
 
-    handleRemove = (tab, ev) => {
+    handleRemove = (tab: any, ev: any) => {
       ev.stopPropagation()
       return tab.onRemove()
     }
 
-    renderTab = (tab) => {
+    renderTab = (tab: any) => {
       let tabId
       if (this.props.tabId != null) {
         ;({ tabId } = this.props)

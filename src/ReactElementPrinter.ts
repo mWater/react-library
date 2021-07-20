@@ -10,7 +10,7 @@ export default ReactElementPrinter = class ReactElementPrinter {
   // Options include:
   // delay: ms to wait before printing to allow elements to render
   // text: text to display next to spinner
-  print(element, options) {
+  print(element: any, options: any) {
     // Add special CSS printing rules
     const extraCss = $(`\
 <style id="react_element_printer_css">

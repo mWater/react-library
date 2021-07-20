@@ -26,7 +26,7 @@ class ReorderableListComponent extends React.Component {
     // the element to render this component as
   }
 
-  constructor(props) {
+  constructor(props: any) {
     super(props)
 
     this.state = {
@@ -35,7 +35,7 @@ class ReorderableListComponent extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: any) {
     const newOrder = _.map(nextProps.items, (item) => this.props.getItemId(item))
     const oldOrder = _.map(this.props.items, (item) => this.props.getItemId(item))
 
@@ -48,7 +48,7 @@ class ReorderableListComponent extends React.Component {
   }
 
   // Put beforeId right before id
-  handlePutBefore = (id, beforeId) => {
+  handlePutBefore = (id: any, beforeId: any) => {
     let order = _.map(this.props.items, (item) => this.props.getItemId(item))
 
     // Remove beforeId and splice in
@@ -63,7 +63,7 @@ class ReorderableListComponent extends React.Component {
   }
 
   // Put afterId right after id
-  handlePutAfter = (id, afterId) => {
+  handlePutAfter = (id: any, afterId: any) => {
     let order = _.map(this.props.items, (item) => this.props.getItemId(item))
 
     // Remove afterId and splice in
@@ -89,12 +89,12 @@ class ReorderableListComponent extends React.Component {
 
   // Re-arrange items to match the order of order (list of ids)
   // If order is null, return list
-  fixOrder = (items, order) => {
+  fixOrder = (items: any, order: any) => {
     if (!order) {
       return items
     }
 
-    return items.sort((left, right) => {
+    return items.sort((left: any, right: any) => {
       if (order.indexOf(this.props.getItemId(left)) < order.indexOf(this.props.getItemId(right))) {
         return -1
       }
@@ -102,7 +102,7 @@ class ReorderableListComponent extends React.Component {
         return 1
       }
       return 0
-    })
+    });
   }
 
   render() {

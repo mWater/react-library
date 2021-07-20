@@ -144,7 +144,7 @@ let _Checkbox = (Checkbox = (function () {
       // Uses null for false
     }
 
-    handleChange = (ev) => {
+    handleChange = (ev: any) => {
       if (this.props.nullForFalse) {
         return this.props.onChange(ev.target.checked || null)
       } else {
@@ -260,7 +260,7 @@ let _Select = (Select = (function () {
       // True to make auto-width, inline
     }
 
-    handleChange = (ev) => {
+    handleChange = (ev: any) => {
       const value = JSON.parse(ev.target.value)
       return this.props.onChange(value)
     }
@@ -316,7 +316,7 @@ let _TextInput = (TextInput = (function () {
       // Will be merged with style of input box
     }
 
-    handleChange = (ev) => {
+    handleChange = (ev: any) => {
       let { value } = ev.target
       if (this.props.emptyNull) {
         value = value || null
@@ -374,7 +374,7 @@ let _NumberInput = (NumberInput = (function () {
       // The maximum number allowed
     }
 
-    constructor(props) {
+    constructor(props: any) {
       super(props)
 
       // Parsing happens on blur
@@ -383,7 +383,7 @@ let _NumberInput = (NumberInput = (function () {
       }
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps: any) {
       // If different, override text
       if (nextProps.value !== this.props.value) {
         return this.setState({ inputText: this.formatInput(nextProps) })
@@ -391,7 +391,7 @@ let _NumberInput = (NumberInput = (function () {
     }
 
     // Format the input based on props
-    formatInput(props) {
+    formatInput(props: any) {
       // Blank
       if (props.value == null) {
         return ""
@@ -414,7 +414,7 @@ let _NumberInput = (NumberInput = (function () {
       return this.input?.focus()
     }
 
-    handleKeyDown = (ev) => {
+    handleKeyDown = (ev: any) => {
       // When pressing ENTER or TAB
       if (ev.keyCode === 13) {
         // First parse value as if blur will be done
@@ -548,7 +548,7 @@ let _CollapsibleSection = (CollapsibleSection = (function () {
       // Hint to append to label. Makes label faded if only hint presented
     }
 
-    constructor(props) {
+    constructor(props: any) {
       super(props)
 
       this.state = {
@@ -646,7 +646,7 @@ let _Toggle = (Toggle = (function () {
       }
     }
 
-    renderOption = (option, index) => {
+    renderOption = (option: any, index: any) => {
       const value = this.props.value === option.value && this.props.allowReset ? null : option.value
       const btnClasses = classnames("btn", {
         "btn-default": !(this.props.value === option.value),

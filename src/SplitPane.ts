@@ -42,7 +42,7 @@ export default SplitPane = (function () {
       }
     }
 
-    constructor(props) {
+    constructor(props: any) {
       super(props)
       this.state = {
         resizing: false,
@@ -61,12 +61,12 @@ export default SplitPane = (function () {
       }
     }
 
-    onMouseDown = (event) => {
+    onMouseDown = (event: any) => {
       const dragStartAt = this.props.split === "vertical" ? event.clientX : event.clientY
       return this.setState({ resizing: true, dragStartAt })
     }
 
-    onMouseMove = (event) => {
+    onMouseMove = (event: any) => {
       if (this.state.resizing) {
         let currentPosition, firstPaneSize
         if (this.props.split === "vertical") {

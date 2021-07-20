@@ -22,7 +22,7 @@ export default ModalPopupComponent = (function () {
 
       // Static version that displays a modal until the onClose is called.
       // modalFunc takes close function as a single parameter and returns a ModalWindowComponent
-      this.show = (modalFunc, onClose) => {
+      this.show = (modalFunc: any, onClose: any) => {
         // Create temporary div to render into
         const tempDiv = document.createElement("div")
 
@@ -46,7 +46,7 @@ export default ModalPopupComponent = (function () {
       // For setting arbitary width of the modal
     }
 
-    constructor(props) {
+    constructor(props: any) {
       super(props)
 
       // Add special region to body

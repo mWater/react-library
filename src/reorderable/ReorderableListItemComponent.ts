@@ -10,7 +10,7 @@ import { DropTarget } from "react-dnd"
 
 const itemTarget = {
   // Called when an item hovers over this component
-  hover(props, monitor, component) {
+  hover(props: any, monitor: any, component: any) {
     // Hovering over self does nothing
     const hoveringId = monitor.getItem().id
     const myId = props.getItemId(props.item)
@@ -46,13 +46,13 @@ const itemTarget = {
     }
   },
 
-  canDrop(props, monitor) {
+  canDrop(props: any, monitor: any) {
     // If the list ID of the item being dragged is not the same as the list ID of current component, do nothing
     return props.constrainTo === monitor.getItem().constrainTo
   }
 }
 
-function collectTarget(connect, monitor) {
+function collectTarget(connect: any, monitor: any) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver() && monitor.canDrop(),
@@ -61,7 +61,7 @@ function collectTarget(connect, monitor) {
 }
 
 const itemSource = {
-  beginDrag(props, monitor, component) {
+  beginDrag(props: any, monitor: any, component: any) {
     return {
       id: props.getItemId(props.item),
       constrainTo: props.constrainTo,
@@ -70,16 +70,16 @@ const itemSource = {
     }
   },
 
-  isDragging(props, monitor) {
+  isDragging(props: any, monitor: any) {
     return props.getItemId(props.item) === monitor.getItem().id
   },
 
-  endDrag(props, monitor, component) {
+  endDrag(props: any, monitor: any, component: any) {
     return props.onEndDrag()
   }
 }
 
-function collectSource(connect, monitor) {
+function collectSource(connect: any, monitor: any) {
   return {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),

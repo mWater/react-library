@@ -24,7 +24,11 @@ export default AutoSizeComponent = (function () {
       return R(
         ReactResizeDetector,
         { handleWidth: this.props.injectWidth, handleHeight: this.props.injectHeight },
-        ({ width, height, targetRef }) => {
+        ({
+          width,
+          height,
+          targetRef
+        }: any) => {
           // Set style of outer div
           let innerElem
           const style = {}
@@ -57,7 +61,7 @@ export default AutoSizeComponent = (function () {
           // Call children to get element if function
           return R("div", { style, ref: targetRef }, innerElem)
         }
-      )
+      );
     }
   }
   AutoSizeComponent.initClass()

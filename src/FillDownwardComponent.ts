@@ -7,7 +7,7 @@ const R = React.createElement
 
 // Component which sets its height to automatically fill all remaining vertical space
 export default FillDownwardComponent = class FillDownwardComponent extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = { height: null }
   }

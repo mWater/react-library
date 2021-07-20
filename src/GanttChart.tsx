@@ -308,7 +308,7 @@ export function GanttChart(props: {
           ) : null}
         </div>
         <AutoSizeComponent key="right" injectWidth={true} injectHeight={true}>
-          {(size) => {
+          {(size: any) => {
             if (!size.width || !size.height) {
               // Placeholder until width is known
               return <div />
@@ -327,7 +327,7 @@ export function GanttChart(props: {
         </AutoSizeComponent>
       </div>
     </div>
-  )
+  );
 }
 
 /** Area of the Gantt chart that contains the bars */

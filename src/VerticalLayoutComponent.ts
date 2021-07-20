@@ -19,12 +19,12 @@ export default VerticalLayoutComponent = (function () {
       // Fraction to allocate for fractional heights. Should total 1.0. Keyed by key
     }
 
-    constructor(props) {
+    constructor(props: any) {
       super(props)
       this.state = { availableHeight: 0 }
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps: any) {
       if (nextProps.height !== this.props.height) {
         return this.recalculateSize(nextProps)
       }
@@ -34,7 +34,7 @@ export default VerticalLayoutComponent = (function () {
       return this.recalculateSize(this.props)
     }
 
-    recalculateSize = (props) => {
+    recalculateSize = (props: any) => {
       // Calculate available height
       let availableHeight = props.height
 
@@ -54,7 +54,7 @@ export default VerticalLayoutComponent = (function () {
     }
 
     // Get a subcomponent
-    getComponent(key) {
+    getComponent(key: any) {
       return this[key]
     }
 
@@ -81,7 +81,7 @@ export default VerticalLayoutComponent = (function () {
                   { style: { height, overflowY: "auto" } },
                   React.cloneElement(child, {
                     height,
-                    ref: (c) => {
+                    ref: (c: any) => {
                       this[child.key] = c
                       // Call existing ref
                       if (child.ref) {
@@ -90,18 +90,18 @@ export default VerticalLayoutComponent = (function () {
                     }
                   })
                 )
-              )
+              );
             }
             // Otherwise don't show until available height is known
             return null
           }
           return React.cloneElement(child, {
-            ref: (c) => {
+            ref: (c: any) => {
               return (this[child.key] = c)
             }
-          })
+          });
         })
-      )
+      );
     }
   }
   VerticalLayoutComponent.initClass()
