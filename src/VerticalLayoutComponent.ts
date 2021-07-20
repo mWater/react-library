@@ -4,8 +4,11 @@ import React from "react"
 const R = React.createElement
 
 interface VerticalLayoutComponentProps {
+  /** Height of component */
   height: number
-  relativeHeights: any
+
+  /** Fraction to allocate for fractional heights. Should total 1.0. Keyed by key of child */
+  relativeHeights: { [key: string]: number }
 }
 
 interface VerticalLayoutComponentState {

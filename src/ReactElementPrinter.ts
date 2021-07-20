@@ -1,13 +1,15 @@
 import _ from "lodash"
 import $ from "jquery"
 import ReactDOM from "react-dom"
+import { ReactElement } from "react"
 
-// Prints a React element. Requires font-awesome for spinner and jquery
+/** Prints a React element. Requires font-awesome for spinner and jquery */
 export default class ReactElementPrinter {
-  // Options include:
-  // delay: ms to wait before printing to allow elements to render
-  // text: text to display next to spinner
-  print(element: any, options: any) {
+  /** 
+   * delay: ms to wait before printing to allow elements to render 
+   * text: text to display next to spinner
+   */
+  print(element: ReactElement, options: { delay?: number; text?: string }): void {
     // Add special CSS printing rules
     const extraCss = $(`\
 <style id="react_element_printer_css">
@@ -88,7 +90,7 @@ export default class ReactElementPrinter {
     )
 
     // Render element into special region
-    return ReactDOM.render(element, $("#react_element_printer").get(0), () => {
+    ReactDOM.render(element, $("#react_element_printer").get(0), () => {
       // Wait for element to render
       return _.delay(() => {
         // Call print

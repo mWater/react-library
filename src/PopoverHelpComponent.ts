@@ -1,21 +1,22 @@
 import PropTypes from "prop-types"
 import _ from "lodash"
-import React from "react"
+import React, { ReactNode } from "react"
 const R = React.createElement
 
 import Popover from "react-bootstrap/lib/Popover"
 import OverlayTrigger from "react-bootstrap/lib/OverlayTrigger"
 
 interface PopoverHelpComponentProps {
-  /** "top", "right", "bottom", "left" */
-  placement?: string
-  /** "hover", "click" */
-  trigger?: string
-  /** Defaults to gray question circle */
-  content?: any
+  placement?: "top" | "right" | "bottom" | "left"
+
+  /** hover is default */
+  trigger?: "hover" | "click"
+
+  /** Override content. Defaults to gray question circle */
+  content?: ReactNode
 }
 
-// Shows a popover when help icon is clicked. Needs bootstrap
+/** Shows a popover when help icon is clicked. Needs bootstrap */
 export default class PopoverHelpComponent extends React.Component<PopoverHelpComponentProps> {
   static defaultProps = {
     placement: "top",

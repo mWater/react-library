@@ -1,22 +1,27 @@
 import PropTypes from "prop-types"
 import _ from "lodash"
-import React from "react"
+import React, { ReactNode } from "react"
 const R = React.createElement
 
 interface TabbedComponentProps {
   /** Array of { id, label, elem, onRemove (optional) } */
-  tabs: any
+  tabs: Array<{ id: string; label: ReactNode; elem: ReactNode; onRemove?: () => void }>
+
   /** Initially selected id of tab */
   initialTabId?: string
-  /** Selected id of tab */
+
+  /** Selected id of tab if controlled component */
   tabId?: string
+
   /** Set to have a plus to add a tab */
-  onAddTab?: any
-  onTabClick?: any
+  onAddTab?: () => void
+
+  /** Set to be called back when a tab is clicked (tabId) instead of setting internal state */
+  onTabClick?: (tabId: string) => void
 }
 
 // Simple bootstrap tabbed component
-export default class TabbedComponent extends React.Component<TabbedComponentProps> {
+export default class TabbedComponent extends React.Component<TabbedComponentProps, { tabId?: string }> {
   constructor(props: any) {
     super(props)
     this.state = { tabId: this.props.initialTabId }

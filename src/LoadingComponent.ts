@@ -1,14 +1,13 @@
-import PropTypes from "prop-types"
-import React from "react"
+import React, { ReactNode } from "react"
 const R = React.createElement
 
 interface LoadingComponentProps {
   /** Defaults to 100% */
-  width?: any
+  width?: string | number
   /** Defaults to 100% */
-  height?: any
+  height?: string | number
   /** Defaults to Loading... */
-  label?: any
+  label?: ReactNode
 }
 
 // Displays a spinner with loading in the center

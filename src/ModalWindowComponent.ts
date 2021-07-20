@@ -5,11 +5,16 @@ const R = React.createElement
 import _ from "lodash"
 
 interface ModalWindowComponentProps {
+  /** True to display modal window */
   isOpen: boolean
-  onRequestClose?: any
+
+  /** Called when close X is clicked */
+  onRequestClose?: () => void
+
   backgroundColor?: string
   /** Outer padding default 40 */
   outerPadding?: number
+  /** Inner padding default 20 */
   innerPadding?: number
 }
 

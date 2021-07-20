@@ -7,7 +7,9 @@ import { default as ReactResizeDetector } from "react-resize-detector"
 interface AutoSizeComponentProps {
   /** True to inject width */
   injectWidth?: boolean
+  /** True to inject height */
   injectHeight?: boolean
+  children: (size: { width?: number; height?: number }) => React.ReactElement<any>
 }
 
 // Automatically injects the width or height of the DOM element into the

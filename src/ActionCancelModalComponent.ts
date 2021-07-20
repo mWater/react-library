@@ -5,22 +5,23 @@ import _ from "lodash"
 import ModalPopupComponent from "./ModalPopupComponent"
 
 interface ActionCancelModalComponentProps {
-  /** Title of modal. Any react element */
-  title?: any
+  /** Title of modal */
+  title?: React.ReactNode
   /** Action button. Defaults to "Save" */
-  actionLabel?: any
+  actionLabel?: React.ReactNode
   /** Cancel button. Defaults to "Cancel" if action, "Close" otherwise */
-  cancelLabel?: any
-  /** Called when action button is clicked */
-  onAction?: any
-  /** Called when cancel is clicked */
-  onCancel?: any
-  /** Big red destuctive action in footer. Not present if null */
-  onDelete?: any
+  cancelLabel?: React.ReactNode
   /** Label of delete button. Default "Delete" */
-  deleteLabel?: any
+  deleteLabel?: React.ReactNode
+  /** Called when action button is clicked */
+  onAction?: () => void
+  /** Called when cancel is clicked */
+  onCancel?: () => void
+  /** Big red destuctive action in footer. Not present if null */
+  onDelete?: () => void
   /** "large" for large, "full" for full width */
-  size?: string
+  size?: "large" | "full"
+  /** True for action button to show spinner and be disabled */
   actionBusy?: boolean
 }
 

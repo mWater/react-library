@@ -6,15 +6,15 @@ import _ from "lodash"
 
 interface ModalPopupComponentProps {
   /** Header of modal. Any react element */
-  header?: any
+  header?: React.ReactNode
   /** Footer of modal. Any react element */
-  footer?: any
-  /** "large" for large, "full" for full-width */
-  size?: string
+  footer?: React.ReactNode
+  /** Size of modal. Default is "normal" */
+  size?: "large" | "full" | "normal" | "small"
   /** True to show close 'x' at top right */
   showCloseX?: boolean
   /** callback function to be called when close is requested */
-  onClose?: any
+  onClose?: () => void
   width?: number
 }
 
