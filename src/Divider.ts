@@ -1,6 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-let Divider
 import PropTypes from "prop-types"
 
 //
@@ -15,35 +12,29 @@ import React from "react"
 
 const R = React.createElement
 
-export default Divider = (function () {
-  Divider = class Divider extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        split: PropTypes.oneOf(["vertical", "horizontal"])
-      }
-    }
-
-    static defaultProps() {
-      return { split: "vertical" }
-    }
-
-    onMouseDown = (event: any) => {
-      return this.props.onMouseDown(event)
-    }
-
-    render() {
-      const classNames = ["divider"]
-
-      if (this.props.split === "vertical") {
-        classNames.push("vertical")
-      }
-      if (this.props.split === "horizontal") {
-        classNames.push("horizontal")
-      }
-
-      return R("div", { className: classNames.join(" "), onMouseDown: this.onMouseDown })
-    }
+export default class Divider extends React.Component {
+  static propTypes = {
+    split: PropTypes.oneOf(["vertical", "horizontal"])
   }
-  Divider.initClass()
-  return Divider
-})()
+
+  static defaultProps() {
+    return { split: "vertical" }
+  }
+
+  onMouseDown = (event: any) => {
+    return this.props.onMouseDown(event)
+  }
+
+  render() {
+    const classNames = ["divider"]
+
+    if (this.props.split === "vertical") {
+      classNames.push("vertical")
+    }
+    if (this.props.split === "horizontal") {
+      classNames.push("horizontal")
+    }
+
+    return R("div", { className: classNames.join(" "), onMouseDown: this.onMouseDown })
+  }
+}

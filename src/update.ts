@@ -22,7 +22,7 @@ export default function (value: any, onChange: any, args: any) {
     return function (v: any) {
       newValue = immutable.set(value, args[0], v)
       return onChange(newValue)
-    };
+    }
   } else if (args.length === 2) {
     newValue = immutable.set(value, args[0], args[1])
     return onChange(newValue)

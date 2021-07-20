@@ -87,28 +87,37 @@ function collectSource(connect: any, monitor: any) {
   }
 }
 
-class ReorderableListItemComponent extends React.Component {
-  static initClass() {
-    this.propTypes = {
-      item: PropTypes.any.isRequired, // the item from reorderable list
-      isDragging: PropTypes.bool.isRequired, // internally used for tracking if an item is being dragged
-      isOver: PropTypes.bool.isRequired, // internally used to check if an item is over the current component
-      canDrop: PropTypes.bool.isRequired, // internally used as a flag it the item being dragged can be dropped in place of the item it is over
-      connectDragSource: PropTypes.func.isRequired, // the drag source connector, supplied by React DND
-      connectDropTarget: PropTypes.func.isRequired, // the drop target connector, supplied by React DND
-      connectDragPreview: PropTypes.func.isRequired, // the drag preview connector, supplied by React DND
-      onPutBefore: PropTypes.func.isRequired, // Call with (id, beforeId)
-      onPutAfter: PropTypes.func.isRequired, // Call with (id, afterId)
-      onEndDrag: PropTypes.func.isRequired, // Called when drag is complete
-      index: PropTypes.number.isRequired, // index of the current item
+interface ReorderableListItemComponentProps {
+  /** the item from reorderable list */
+  item: any
+  /** internally used for tracking if an item is being dragged */
+  isDragging: boolean
+  /** internally used to check if an item is over the current component */
+  isOver: boolean
+  /** internally used as a flag it the item being dragged can be dropped in place of the item it is over */
+  canDrop: boolean
+  /** the drag source connector, supplied by React DND */
+  connectDragSource: any
+  /** the drop target connector, supplied by React DND */
+  connectDropTarget: any
+  /** the drag preview connector, supplied by React DND */
+  connectDragPreview: any
+  /** Call with (id, beforeId) */
+  onPutBefore: any
+  /** Call with (id, afterId) */
+  onPutAfter: any
+  /** Called when drag is complete */
+  onEndDrag: any
+  /** index of the current item */
+  index: number
+  /** function to render the current item, passed by ReorderableListComponent */
+  renderItem: any
+  /** the ID of the list where reordering is constrained to */
+  constrainTo: string
+  getItemId: any
+}
 
-      renderItem: PropTypes.func.isRequired, // function to render the current item, passed by ReorderableListComponent
-      constrainTo: PropTypes.string.isRequired, // the ID of the list where reordering is constrained to
-      getItemId: PropTypes.func.isRequired
-    }
-    // function to return the identifier of the current item
-  }
-
+class ReorderableListItemComponent extends React.Component<ReorderableListItemComponentProps> {
   render() {
     return this.props.renderItem(
       this.props.item,
@@ -119,7 +128,6 @@ class ReorderableListItemComponent extends React.Component {
     )
   }
 }
-ReorderableListItemComponent.initClass()
 
 export default _.flow(
   DragSource("form-item", itemSource, collectSource),

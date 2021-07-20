@@ -7,24 +7,29 @@ import uuid from "uuid"
 const R = React.createElement
 import ReorderableListItemComponent from "./ReorderableListItemComponent"
 
+interface ReorderableListComponentProps {
+  /** items to be reordered */
+  items: any
+  /** callback function, called when an item is dropped, gets passed the reordered item list */
+  onReorder: any
+  /** function which renders the item, gets passed the current item and react dnd connectors */
+  renderItem: any
+  /** a uniqid for the list */
+  listId?: string
+  /** function which should return the identifier of the current item, gets passed the current item */
+  getItemId: any
+  element?: any
+}
+
+interface ReorderableListComponentState {
+  order: any
+  listId: any
+}
+
 // Reorderable component for nested items
 // Currently supports reordering within the same list
-class ReorderableListComponent extends React.Component {
-  static initClass() {
-    this.propTypes = {
-      items: PropTypes.array.isRequired, // items to be reordered
-      onReorder: PropTypes.func.isRequired, // callback function, called when an item is dropped, gets passed the reordered item list
-      // function which renders the item, gets passed the current item and react dnd connectors
-      // signature: function(item, index, connectDragSource, connectDragPreview, connectDropTarget)
-      renderItem: PropTypes.func.isRequired,
-      listId: PropTypes.string, // a uniqid for the list
-      getItemId: PropTypes.func.isRequired, // function which should return the identifier of the current item, gets passed the current item
-      element: PropTypes.object
-    }
-
-    this.defaultProps = { element: R("div", null) }
-    // the element to render this component as
-  }
+class ReorderableListComponent extends React.Component<ReorderableListComponentProps, ReorderableListComponentState> {
+  static defaultProps = { element: R("div", null) }
 
   constructor(props: any) {
     super(props)
@@ -102,7 +107,7 @@ class ReorderableListComponent extends React.Component {
         return 1
       }
       return 0
-    });
+    })
   }
 
   render() {
@@ -128,6 +133,5 @@ class ReorderableListComponent extends React.Component {
     )
   }
 }
-ReorderableListComponent.initClass()
 
 export default ReorderableListComponent

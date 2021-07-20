@@ -1,92 +1,81 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-let ModalWindowComponent
 import PropTypes from "prop-types"
 import React from "react"
 import ReactDOM from "react-dom"
 const R = React.createElement
 import _ from "lodash"
 
+interface ModalWindowComponentProps {
+  isOpen: boolean
+  onRequestClose?: any
+  backgroundColor?: string
+  /** Outer padding default 40 */
+  outerPadding?: number
+  innerPadding?: number
+}
+
 // Modal window that fills screen
-export default ModalWindowComponent = (function () {
-  ModalWindowComponent = class ModalWindowComponent extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        isOpen: PropTypes.bool.isRequired,
-        onRequestClose: PropTypes.func,
-        backgroundColor: PropTypes.string,
-        outerPadding: PropTypes.number, // Outer padding default 40
-        innerPadding: PropTypes.number
-      }
+export default class ModalWindowComponent extends React.Component<ModalWindowComponentProps> {
+  static show = (modalFunc: any, onClose: any) => {
+    // Create temporary div to render into
+    const tempDiv = document.createElement("div")
 
-      // Static version that displays a modal until the onClose is called.
-      // modalFunc takes close function as a single parameter and returns a ModalWindowComponent
-      this.show = (modalFunc: any, onClose: any) => {
-        // Create temporary div to render into
-        const tempDiv = document.createElement("div")
+    // Create close function
+    const close = () => {
+      // Unrender
+      ReactDOM.unmountComponentAtNode(tempDiv)
 
-        // Create close function
-        const close = () => {
-          // Unrender
-          ReactDOM.unmountComponentAtNode(tempDiv)
+      // Remove div
+      tempDiv.remove()
 
-          // Remove div
-          tempDiv.remove()
-
-          // Call onClose
-          if (onClose) {
-            return onClose()
-          }
-        }
-
-        const popupElem = modalFunc(close)
-        return ReactDOM.render(popupElem, tempDiv)
-      }
-      // Inner padding default 20
-    }
-
-    constructor(props: any) {
-      super(props)
-
-      // Add special region to body
-      this.modalNode = document.createElement("div")
-
-      // append is not supported everywhere https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append#Browser_compatibility
-      if (document.fullscreenElement) {
-        document.fullscreenElement.appendChild(this.modalNode)
-      } else {
-        document.body.appendChild(this.modalNode)
+      // Call onClose
+      if (onClose) {
+        return onClose()
       }
     }
 
-    componentWillUnmount() {
-      return this.modalNode.remove()
-    }
+    const popupElem = modalFunc(close)
+    return ReactDOM.render(popupElem, tempDiv)
+  }
 
-    render() {
-      return ReactDOM.createPortal(R(InnerModalComponent, this.props), this.modalNode)
+  constructor(props: any) {
+    super(props)
+
+    // Add special region to body
+    this.modalNode = document.createElement("div")
+
+    // append is not supported everywhere https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append#Browser_compatibility
+    if (document.fullscreenElement) {
+      document.fullscreenElement.appendChild(this.modalNode)
+    } else {
+      document.body.appendChild(this.modalNode)
     }
   }
-  ModalWindowComponent.initClass()
-  return ModalWindowComponent
-})()
+
+  componentWillUnmount() {
+    return this.modalNode.remove()
+  }
+
+  render() {
+    return ReactDOM.createPortal(R(InnerModalComponent, this.props), this.modalNode)
+  }
+}
+
+interface InnerModalComponentProps {
+  isOpen: boolean
+  onRequestClose?: any
+  /** Outer padding default 40 */
+  outerPadding?: number
+  /** Inner padding default 20 */
+  innerPadding?: number
+  backgroundColor?: string
+}
 
 // Content must be rendered at body level to prevent weird behaviour, so this is the inner component
-class InnerModalComponent extends React.Component {
-  static initClass() {
-    this.propTypes = {
-      isOpen: PropTypes.bool.isRequired,
-      onRequestClose: PropTypes.func,
-      outerPadding: PropTypes.number, // Outer padding default 40
-      innerPadding: PropTypes.number, // Inner padding default 20
-      backgroundColor: PropTypes.string
-    }
-
-    this.defaultProps = {
-      outerPadding: 40,
-      innerPadding: 20,
-      backgroundColor: "white"
-    }
+class InnerModalComponent extends React.Component<InnerModalComponentProps> {
+  static defaultProps = {
+    outerPadding: 40,
+    innerPadding: 20,
+    backgroundColor: "white"
   }
 
   render() {
@@ -153,4 +142,3 @@ class InnerModalComponent extends React.Component {
     )
   }
 }
-InnerModalComponent.initClass()

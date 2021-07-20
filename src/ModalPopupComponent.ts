@@ -1,90 +1,86 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-let ModalPopupComponent
 import PropTypes from "prop-types"
 import React from "react"
 import ReactDOM from "react-dom"
 const R = React.createElement
 import _ from "lodash"
 
+interface ModalPopupComponentProps {
+  /** Header of modal. Any react element */
+  header?: any
+  /** Footer of modal. Any react element */
+  footer?: any
+  /** "large" for large, "full" for full-width */
+  size?: string
+  /** True to show close 'x' at top right */
+  showCloseX?: boolean
+  /** callback function to be called when close is requested */
+  onClose?: any
+  width?: number
+}
+
 // Modal popup based on react
-export default ModalPopupComponent = (function () {
-  ModalPopupComponent = class ModalPopupComponent extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        header: PropTypes.node, // Header of modal. Any react element
-        footer: PropTypes.node, // Footer of modal. Any react element
-        size: PropTypes.string, // "large" for large, "full" for full-width
-        showCloseX: PropTypes.bool, // True to show close 'x' at top right
-        onClose: PropTypes.func, // callback function to be called when close is requested
-        width: PropTypes.number
-      }
+export default class ModalPopupComponent extends React.Component<ModalPopupComponentProps> {
+  static show = (modalFunc: any, onClose: any) => {
+    // Create temporary div to render into
+    const tempDiv = document.createElement("div")
 
-      // Static version that displays a modal until the onClose is called.
-      // modalFunc takes close function as a single parameter and returns a ModalWindowComponent
-      this.show = (modalFunc: any, onClose: any) => {
-        // Create temporary div to render into
-        const tempDiv = document.createElement("div")
+    // Create close function
+    const close = () => {
+      // Unrender
+      ReactDOM.unmountComponentAtNode(tempDiv)
 
-        // Create close function
-        const close = () => {
-          // Unrender
-          ReactDOM.unmountComponentAtNode(tempDiv)
+      // Remove div
+      tempDiv.remove()
 
-          // Remove div
-          tempDiv.remove()
-
-          // Call onClose
-          if (onClose) {
-            return onClose()
-          }
-        }
-
-        const popupElem = modalFunc(close)
-        return ReactDOM.render(popupElem, tempDiv)
-      }
-      // For setting arbitary width of the modal
-    }
-
-    constructor(props: any) {
-      super(props)
-
-      // Add special region to body
-      this.modalNode = document.createElement("div")
-
-      // append is not supported everywhere https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append#Browser_compatibility
-      if (document.fullscreenElement) {
-        document.fullscreenElement.appendChild(this.modalNode)
-      } else {
-        document.body.appendChild(this.modalNode)
+      // Call onClose
+      if (onClose) {
+        return onClose()
       }
     }
 
-    componentWillUnmount() {
-      return this.modalNode.remove()
-    }
+    const popupElem = modalFunc(close)
+    return ReactDOM.render(popupElem, tempDiv)
+  }
 
-    render() {
-      return ReactDOM.createPortal(R(InnerModalComponent, this.props), this.modalNode)
+  constructor(props: any) {
+    super(props)
+
+    // Add special region to body
+    this.modalNode = document.createElement("div")
+
+    // append is not supported everywhere https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append#Browser_compatibility
+    if (document.fullscreenElement) {
+      document.fullscreenElement.appendChild(this.modalNode)
+    } else {
+      document.body.appendChild(this.modalNode)
     }
   }
-  ModalPopupComponent.initClass()
-  return ModalPopupComponent
-})()
+
+  componentWillUnmount() {
+    return this.modalNode.remove()
+  }
+
+  render() {
+    return ReactDOM.createPortal(R(InnerModalComponent, this.props), this.modalNode)
+  }
+}
+
+interface InnerModalComponentProps {
+  /** Header of modal. Any react element */
+  header?: any
+  /** Footer of modal. Any react element */
+  footer?: any
+  /** "large" for large, "full" for full-width */
+  size?: string
+  /** True to show close 'x' at top right */
+  showCloseX?: boolean
+  /** callback function to be called when close is requested */
+  onClose?: any
+  width?: number
+}
 
 // Content must be rendered at body level to prevent weird behaviour, so this is the inner component
-class InnerModalComponent extends React.Component {
-  static initClass() {
-    this.propTypes = {
-      header: PropTypes.node, // Header of modal. Any react element
-      footer: PropTypes.node, // Footer of modal. Any react element
-      size: PropTypes.string, // "large" for large, "full" for full-width
-      showCloseX: PropTypes.bool, // True to show close 'x' at top right
-      onClose: PropTypes.func, // callback function to be called when close is requested
-      width: PropTypes.number
-    }
-  }
-
+class InnerModalComponent extends React.Component<InnerModalComponentProps> {
   render() {
     let dialogStyle
     let dialogClass = "modal-dialog"
@@ -167,4 +163,3 @@ class InnerModalComponent extends React.Component {
     )
   }
 }
-InnerModalComponent.initClass()

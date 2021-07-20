@@ -1,13 +1,10 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-let SampleComponent
 import React from "react"
 import SplitPane from "./SplitPane"
 import AutoSizeComponent from "./AutoSizeComponent"
 const R = React.createElement
 
 // This is a nice sample component
-export default SampleComponent = class SampleComponent extends React.Component {
+export default class SampleComponent extends React.Component {
   render() {
     const style1 = {
       height: 300,

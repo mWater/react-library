@@ -1,6 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-let AsyncLoadComponent
 import React from "react"
 import ReactDOM from "react-dom"
 const R = React.createElement
@@ -12,7 +9,7 @@ const R = React.createElement
 // and load to perform load and call setState with callback value.
 // Sets state of loading to true/false appropriately
 // DO NOT call @setState or reference @props in load
-export default AsyncLoadComponent = class AsyncLoadComponent extends React.Component {
+export default class AsyncLoadComponent extends React.Component {
   constructor(props: any) {
     super(props)
 

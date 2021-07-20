@@ -1,6 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-let TestComponent
 import React from "react"
 import ReactDOM from "react-dom"
 import ReactTestUtils from "react-dom/test-utils"
@@ -9,7 +6,7 @@ import _ from "lodash"
 
 // Test component that can be created, have its element changed, have clicks and other actions simulated
 // Used for unit testing React components
-export default TestComponent = class TestComponent {
+export default class TestComponent {
   constructor(elem: any) {
     this.div = document.createElement("div")
     this.comp = ReactDOM.render(elem, this.div)

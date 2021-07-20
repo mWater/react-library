@@ -17,17 +17,15 @@ export function Spinner() {
 // Standard button
 let _Button = (Button = (function () {
   Button = class Button extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        type: PropTypes.string.isRequired, // e.g. "primary"
-        onClick: PropTypes.func,
-        disabled: PropTypes.bool,
-        active: PropTypes.bool,
-        size: PropTypes.string // e.g. "sm", "xs"
-      }
-
-      this.defaultProps = { type: "default" }
+    static propTypes = {
+      type: PropTypes.string.isRequired, // e.g. "primary"
+      onClick: PropTypes.func,
+      disabled: PropTypes.bool,
+      active: PropTypes.bool,
+      size: PropTypes.string // e.g. "sm", "xs"
     }
+
+    static defaultProps = { type: "default" }
 
     render() {
       return R(
@@ -47,7 +45,6 @@ let _Button = (Button = (function () {
       )
     }
   }
-  Button.initClass()
   return Button
 })())
 
@@ -56,10 +53,7 @@ export { _Button as Button }
 // Icon, either font-awesome or glyphicon
 let _Icon = (Icon = (function () {
   Icon = class Icon extends React.Component {
-    static initClass() {
-      this.propTypes = { id: PropTypes.string.isRequired }
-      // e.g. "fa-check", 'glyphicon-ok', 'fa-check fa-fw'
-    }
+    static propTypes = { id: PropTypes.string.isRequired }
 
     render() {
       if (this.props.id.match(/^fa-/)) {
@@ -71,7 +65,6 @@ let _Icon = (Icon = (function () {
       }
     }
   }
-  Icon.initClass()
   return Icon
 })())
 
@@ -80,17 +73,14 @@ export { _Icon as Icon }
 // Indented form group with a label, optional help text. Label and indented contents
 let _FormGroup = (FormGroup = (function () {
   FormGroup = class FormGroup extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        label: PropTypes.node, // Label to display
-        labelMuted: PropTypes.bool, // True to mute label
-        hint: PropTypes.node, // Hint to append to label. Makes label faded if only hint presented
-        help: PropTypes.node, // Help block at bottom
-        hasSuccess: PropTypes.bool, // True to display as success
-        hasWarning: PropTypes.bool, // True to display as warning
-        hasError: PropTypes.bool
-      }
-      // True to display as error
+    static propTypes = {
+      label: PropTypes.node, // Label to display
+      labelMuted: PropTypes.bool, // True to mute label
+      hint: PropTypes.node, // Hint to append to label. Makes label faded if only hint presented
+      help: PropTypes.node, // Help block at bottom
+      hasSuccess: PropTypes.bool, // True to display as success
+      hasWarning: PropTypes.bool, // True to display as warning
+      hasError: PropTypes.bool
     }
 
     render() {
@@ -126,7 +116,6 @@ let _FormGroup = (FormGroup = (function () {
       )
     }
   }
-  FormGroup.initClass()
   return FormGroup
 })())
 
@@ -134,14 +123,11 @@ export { _FormGroup as FormGroup }
 
 let _Checkbox = (Checkbox = (function () {
   Checkbox = class Checkbox extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        value: PropTypes.bool,
-        onChange: PropTypes.func,
-        inline: PropTypes.bool, // Makes horizontal
-        nullForFalse: PropTypes.bool
-      }
-      // Uses null for false
+    static propTypes = {
+      value: PropTypes.bool,
+      onChange: PropTypes.func,
+      inline: PropTypes.bool, // Makes horizontal
+      nullForFalse: PropTypes.bool
     }
 
     handleChange = (ev: any) => {
@@ -182,7 +168,6 @@ let _Checkbox = (Checkbox = (function () {
       }
     }
   }
-  Checkbox.initClass()
   return Checkbox
 })())
 
@@ -190,14 +175,11 @@ export { _Checkbox as Checkbox }
 
 let _Radio = (Radio = (function () {
   Radio = class Radio extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        value: PropTypes.any, // Value to display
-        radioValue: PropTypes.any, // Value that radio button represents. If equal to value, button is checked
-        onChange: PropTypes.func, // Called with radio value
-        inline: PropTypes.bool
-      }
-      // Makes horizontal
+    static propTypes = {
+      value: PropTypes.any, // Value to display
+      radioValue: PropTypes.any, // Value that radio button represents. If equal to value, button is checked
+      onChange: PropTypes.func, // Called with radio value
+      inline: PropTypes.bool
     }
 
     render() {
@@ -232,7 +214,6 @@ let _Radio = (Radio = (function () {
       }
     }
   }
-  Radio.initClass()
   return Radio
 })())
 
@@ -242,22 +223,19 @@ export { _Radio as Radio }
 // all work as possible options.
 let _Select = (Select = (function () {
   Select = class Select extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        value: PropTypes.any,
-        onChange: PropTypes.func,
-        options: PropTypes.arrayOf(
-          PropTypes.shape({
-            value: PropTypes.any, // Can be any JS type that has a consistent stringification (boolean, null, string, number)
-            label: PropTypes.string
-          })
-        ),
-        size: PropTypes.string, // "sm" or "lg"
-        nullLabel: PropTypes.string, // True to make extra option of null with the label. Can be ""
-        style: PropTypes.object, // Will be merged with style of select box
-        inline: PropTypes.bool
-      }
-      // True to make auto-width, inline
+    static propTypes = {
+      value: PropTypes.any,
+      onChange: PropTypes.func,
+      options: PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.any, // Can be any JS type that has a consistent stringification (boolean, null, string, number)
+          label: PropTypes.string
+        })
+      ),
+      size: PropTypes.string, // "sm" or "lg"
+      nullLabel: PropTypes.string, // True to make extra option of null with the label. Can be ""
+      style: PropTypes.object, // Will be merged with style of select box
+      inline: PropTypes.bool
     }
 
     handleChange = (ev: any) => {
@@ -296,7 +274,6 @@ let _Select = (Select = (function () {
       )
     }
   }
-  Select.initClass()
   return Select
 })())
 
@@ -304,16 +281,13 @@ export { _Select as Select }
 
 let _TextInput = (TextInput = (function () {
   TextInput = class TextInput extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        value: PropTypes.string,
-        onChange: PropTypes.func,
-        placeholder: PropTypes.string,
-        size: PropTypes.string, // "sm" or "lg"
-        emptyNull: PropTypes.bool, // True to make empty null
-        style: PropTypes.object
-      }
-      // Will be merged with style of input box
+    static propTypes = {
+      value: PropTypes.string,
+      onChange: PropTypes.func,
+      placeholder: PropTypes.string,
+      size: PropTypes.string, // "sm" or "lg"
+      emptyNull: PropTypes.bool, // True to make empty null
+      style: PropTypes.object
     }
 
     handleChange = (ev: any) => {
@@ -348,7 +322,6 @@ let _TextInput = (TextInput = (function () {
       })
     }
   }
-  TextInput.initClass()
   return TextInput
 })())
 
@@ -357,21 +330,18 @@ export { _TextInput as TextInput }
 // Number input component that handles parsing and maintains state when number is invalid
 let _NumberInput = (NumberInput = (function () {
   NumberInput = class NumberInput extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        decimal: PropTypes.bool.isRequired,
-        value: PropTypes.number,
-        onChange: PropTypes.func,
-        style: PropTypes.object, // Will be merged with style of input box
-        size: PropTypes.string, // "sm", "lg"
-        onTab: PropTypes.func,
-        onEnter: PropTypes.func,
-        decimalPlaces: PropTypes.number, // Force an exact number of decimal places, rounding value as necessary
-        placeholder: PropTypes.string,
-        min: PropTypes.number, // The minimum number allowed
-        max: PropTypes.number
-      }
-      // The maximum number allowed
+    static propTypes = {
+      decimal: PropTypes.bool.isRequired,
+      value: PropTypes.number,
+      onChange: PropTypes.func,
+      style: PropTypes.object, // Will be merged with style of input box
+      size: PropTypes.string, // "sm", "lg"
+      onTab: PropTypes.func,
+      onEnter: PropTypes.func,
+      decimalPlaces: PropTypes.number, // Force an exact number of decimal places, rounding value as necessary
+      placeholder: PropTypes.string,
+      min: PropTypes.number, // The minimum number allowed
+      max: PropTypes.number
     }
 
     constructor(props: any) {
@@ -529,7 +499,6 @@ let _NumberInput = (NumberInput = (function () {
       })
     }
   }
-  NumberInput.initClass()
   return NumberInput
 })())
 
@@ -538,14 +507,11 @@ export { _NumberInput as NumberInput }
 // Indented section than can be opened and closed. Defaults closed
 let _CollapsibleSection = (CollapsibleSection = (function () {
   CollapsibleSection = class CollapsibleSection extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        initiallyOpen: PropTypes.bool,
-        label: PropTypes.node, // Label to display
-        labelMuted: PropTypes.bool, // True to mute label
-        hint: PropTypes.node
-      }
-      // Hint to append to label. Makes label faded if only hint presented
+    static propTypes = {
+      initiallyOpen: PropTypes.bool,
+      label: PropTypes.node, // Label to display
+      labelMuted: PropTypes.bool, // True to mute label
+      hint: PropTypes.node
     }
 
     constructor(props: any) {
@@ -587,7 +553,6 @@ let _CollapsibleSection = (CollapsibleSection = (function () {
       )
     }
   }
-  CollapsibleSection.initClass()
   return CollapsibleSection
 })())
 
@@ -596,20 +561,17 @@ export { _CollapsibleSection as CollapsibleSection }
 // Displays bootstrap pills with one active
 let _NavPills = (NavPills = (function () {
   NavPills = class NavPills extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        pills: PropTypes.arrayOf(
-          PropTypes.shape({
-            id: PropTypes.string.isRequired, // Id of the tab
-            label: PropTypes.node.isRequired, // Label of the tab
-            href: PropTypes.string // href optional
-          })
-        ),
+    static propTypes = {
+      pills: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired, // Id of the tab
+          label: PropTypes.node.isRequired, // Label of the tab
+          href: PropTypes.string // href optional
+        })
+      ),
 
-        activePill: PropTypes.string,
-        onPillClick: PropTypes.func
-      }
-      // Called with id
+      activePill: PropTypes.string,
+      onPillClick: PropTypes.func
     }
 
     render() {
@@ -626,7 +588,6 @@ let _NavPills = (NavPills = (function () {
       )
     }
   }
-  NavPills.initClass()
   return NavPills
 })())
 
@@ -635,15 +596,13 @@ export { _NavPills as NavPills }
 // Button toggle component
 let _Toggle = (Toggle = (function () {
   Toggle = class Toggle extends React.Component {
-    static initClass() {
-      this.propTypes = {
-        value: PropTypes.any,
-        options: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.any, label: PropTypes.node.isRequired }))
-          .isRequired,
-        onChange: PropTypes.func,
-        size: PropTypes.string, // "xs", "sm", "lg"
-        allowReset: PropTypes.bool
-      }
+    static propTypes = {
+      value: PropTypes.any,
+      options: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.any, label: PropTypes.node.isRequired }))
+        .isRequired,
+      onChange: PropTypes.func,
+      size: PropTypes.string, // "xs", "sm", "lg"
+      allowReset: PropTypes.bool
     }
 
     renderOption = (option: any, index: any) => {
@@ -675,7 +634,6 @@ let _Toggle = (Toggle = (function () {
       )
     }
   }
-  Toggle.initClass()
   return Toggle
 })())
 

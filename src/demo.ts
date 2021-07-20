@@ -431,7 +431,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
         }
       }),
       "End"
-    );
+    )
   }
 }
 
@@ -439,7 +439,7 @@ class AutoSizeTestComponent extends React.Component {
   render() {
     return R(AutoSizeComponent, { injectHeight: true }, (size: any) => {
       return R("div", { style: { height: size.height + 1, backgroundColor: "#FDF" } }, JSON.stringify(size))
-    });
+    })
   }
 }
 
@@ -464,7 +464,7 @@ class ToggleTestComponent extends React.Component {
         return this.setState({ action })
       },
       size: "xs"
-    });
+    })
   }
 }
 // allowReset: true
@@ -487,7 +487,7 @@ class ReorderDemo extends React.Component {
         return connectDragSource(connectDragPreview(connectDropTarget(R("div", null, item))))
       },
       getItemId: (item: any) => item
-    });
+    })
   }
 }
 

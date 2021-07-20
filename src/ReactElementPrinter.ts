@@ -1,12 +1,9 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-let ReactElementPrinter
 import _ from "lodash"
 import $ from "jquery"
 import ReactDOM from "react-dom"
 
 // Prints a React element. Requires font-awesome for spinner and jquery
-export default ReactElementPrinter = class ReactElementPrinter {
+export default class ReactElementPrinter {
   // Options include:
   // delay: ms to wait before printing to allow elements to render
   // text: text to display next to spinner

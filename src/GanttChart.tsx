@@ -327,7 +327,7 @@ export function GanttChart(props: {
         </AutoSizeComponent>
       </div>
     </div>
-  );
+  )
 }
 
 /** Area of the Gantt chart that contains the bars */
