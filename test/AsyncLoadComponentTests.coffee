@@ -4,8 +4,8 @@ AsyncLoadComponent = require '../src/AsyncLoadComponent'
 
 # Test version
 class TestAsyncLoadComponent extends AsyncLoadComponent
-  constructor: ->
-    super
+  constructor: (props) ->
+    super(props)
     @callbacks = []
     @setstates = []
 

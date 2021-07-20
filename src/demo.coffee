@@ -122,22 +122,23 @@ class SortableSampleItem extends React.Component
       display: "inline-block"
       cursor: "move"
 
-    @props.connectDragPreview(@props.connectDropTarget(R 'tr', null,
-      R 'td', {style: itemStyle},
-        @props.connectDragSource(R 'span', {style: handleStyle})
-        R 'span', null,
-          @props.item.id
-          @state.value
-        R 'div', null,
-          R 'table', null,
-            R ReorderableListComponent, {
-              items: @props.item.children
-              onReorder: @props.updateOrder
-              getItemId: @props.getItemId
-              renderItem: @props.renderItem
-              element: R 'tbody', style: { background: 'red'}
-            }
-      )
+    @props.connectDragPreview(
+      @props.connectDropTarget(R('tr', null,
+        R 'td', {style: itemStyle},
+          @props.connectDragSource(R 'span', {style: handleStyle})
+          R 'span', null,
+            @props.item.id
+            @state.value
+          R 'div', null,
+            R 'table', null,
+              R ReorderableListComponent, {
+                items: @props.item.children
+                onReorder: @props.updateOrder
+                getItemId: @props.getItemId
+                renderItem: @props.renderItem
+                element: R('tbody', style: { background: 'red'})
+              }
+        ))
     )
 
 class SortableSample extends React.Component
