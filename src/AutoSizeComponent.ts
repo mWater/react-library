@@ -1,6 +1,4 @@
-import PropTypes from "prop-types"
-import React from "react"
-import ReactDOM from "react-dom"
+import React, { CSSProperties } from "react"
 const R = React.createElement
 import { default as ReactResizeDetector } from "react-resize-detector"
 
@@ -23,7 +21,7 @@ export default class AutoSizeComponent extends React.Component<AutoSizeComponent
       ({ width, height, targetRef }: any) => {
         // Set style of outer div
         let innerElem
-        const style = {}
+        const style: CSSProperties = {}
         if (this.props.injectWidth) {
           style.width = "100%"
         }
@@ -36,7 +34,7 @@ export default class AutoSizeComponent extends React.Component<AutoSizeComponent
           return R("div", { style, ref: targetRef })
         }
 
-        const overrides = {}
+        const overrides: any = {}
         if (this.props.injectWidth) {
           overrides.width = width
         }
@@ -47,7 +45,8 @@ export default class AutoSizeComponent extends React.Component<AutoSizeComponent
         if (typeof this.props.children === "function") {
           innerElem = this.props.children(overrides)
         } else {
-          innerElem = React.cloneElement(React.Children.only(this.props.children), overrides)
+          // DEPRECATED 
+          innerElem = React.cloneElement(React.Children.only(this.props.children as any), overrides)
         }
 
         // Call children to get element if function

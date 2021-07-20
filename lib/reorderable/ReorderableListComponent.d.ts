@@ -1,30 +1,31 @@
-import React, { ReactNode, ReactElement } from "react"
-
-/** Reorderable component for nested items
- * Currently supports reordering within the same list */
-export default class ReorderableListComponent<T> extends React.Component<{
-  /** items to be reordered */
-  items: T[] 
-  
-  /** callback function, called when an item is dropped, gets passed the reordered item list */
-  onReorder: (items: T[]) => void  
-
-  /** function which renders the item, gets passed the current item and react dnd connectors
-   * signature: function(item, index, connectDragSource, connectDragPreview, connectDropTarget) */
-  renderItem: (
-    item: T, 
-    index: number, 
-    connectDragSource: (node: ReactNode) => ReactNode,
-    connectDragPreview: (node: ReactNode) => ReactNode,
-    connectDropTarget: (node: ReactNode) => ReactNode
-  ) => ReactNode
-
-  /** function which should return the identifier of the current item, gets passed the current item. Used for key */
-  getItemId: (item: T) => any
-
-  /** a unique id for the list */
-  listId?: string 
-
-  /** the element to render this component as. Default is div */
-  element?: ReactElement 
-}> {}
+import React from "react";
+interface ReorderableListComponentProps {
+    /** items to be reordered */
+    items: any;
+    /** callback function, called when an item is dropped, gets passed the reordered item list */
+    onReorder: any;
+    /** function which renders the item, gets passed the current item and react dnd connectors */
+    renderItem: any;
+    /** a uniqid for the list */
+    listId?: string;
+    /** function which should return the identifier of the current item, gets passed the current item */
+    getItemId: any;
+    element?: any;
+}
+interface ReorderableListComponentState {
+    order: any;
+    listId: any;
+}
+declare class ReorderableListComponent extends React.Component<ReorderableListComponentProps, ReorderableListComponentState> {
+    static defaultProps: {
+        element: React.DetailedReactHTMLElement<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+    };
+    constructor(props: any);
+    componentWillReceiveProps(nextProps: any): void;
+    handlePutBefore: (id: any, beforeId: any) => void;
+    handlePutAfter: (id: any, afterId: any) => void;
+    handleEndDrag: () => any;
+    fixOrder: (items: any, order: any) => any;
+    render(): React.DetailedReactHTMLElement<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+}
+export default ReorderableListComponent;

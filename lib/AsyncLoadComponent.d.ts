@@ -1,5 +1,4 @@
-import { Component } from 'react'
-
+import { Component } from "react";
 /** React component that asynchronously loads something into state from the props
  * Handles the common case of wanting to load something but having to deal with the complexities
  * of multiple updates, unmounting, componentWillReceiveProps vs componentDidMount, etc.
@@ -8,16 +7,19 @@ import { Component } from 'react'
  * Sets state of loading to true/false appropriately (automatically part of state)
  * DO NOT call setState or reference props in load
  */
-export default class AsyncLoadComponent<P, S> extends Component<P, S> {
-  /** Override to determine if a load is needed. Not called on mounting */
-  isLoadNeeded(newProps: P, oldProps: P): boolean
-
-  /** Call callback with state changes */
-  load(props: P, prevProps: P, callback: (stateUpdate: Partial<S>) => void): void
-
-  /** Call to force load */
-  forceLoad(): void
-
-  /** Check if mid-loading */
-  isLoading(): boolean
+export default abstract class AsyncLoadComponent<P, S extends {
+    loading: boolean;
+}> extends Component<P, S> {
+    _mounted: boolean;
+    _loadSeqStarted: number;
+    _loadSeqCompleted: number;
+    constructor(props: P);
+    isLoading: () => S["loading"];
+    abstract isLoadNeeded(newProps: any, oldProps: any): boolean;
+    abstract load(props: any, prevProps: any, callback: any): void;
+    forceLoad(): void;
+    _performLoad(newProps: any, oldProps: any): void;
+    componentWillMount(): void;
+    componentWillReceiveProps(nextProps: any): void;
+    componentWillUnmount(): boolean;
 }

@@ -1,6 +1,4 @@
-import $ from "jquery"
-import PropTypes from "prop-types"
-import React from "react"
+import React, { ReactElement } from "react"
 const R = React.createElement
 
 interface VerticalLayoutComponentProps {
@@ -50,7 +48,7 @@ export default class VerticalLayoutComponent extends React.Component<
       }
 
       const node = this[child.key]
-      availableHeight -= $(node).outerHeight()
+      availableHeight -= node.offsetHeight
     }
 
     return this.setState({ availableHeight })
@@ -66,7 +64,7 @@ export default class VerticalLayoutComponent extends React.Component<
     return R(
       "div",
       { style: { height: this.props.height } },
-      React.Children.map(this.props.children, (child) => {
+      React.Children.map(this.props.children, (child: any) => {
         if (!child) {
           return
         }
@@ -85,7 +83,7 @@ export default class VerticalLayoutComponent extends React.Component<
                 React.cloneElement(child, {
                   height,
                   ref: (c: any) => {
-                    this[child.key] = c
+                    this[child.key!] = c
                     // Call existing ref
                     if (child.ref) {
                       return child.ref(c)

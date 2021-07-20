@@ -3,7 +3,9 @@ import ReactDOM from "react-dom"
 const R = React.createElement
 
 // Component which sets its height to automatically fill all remaining vertical space
-export default class FillDownwardComponent extends React.Component {
+export default class FillDownwardComponent extends React.Component<{}, { height: number | null }> {
+  self: any
+
   constructor(props: any) {
     super(props)
     this.state = { height: null }

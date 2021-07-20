@@ -1,21 +1,26 @@
-import React from "react"
+import React, { Component } from "react"
 import ReactDOM from "react-dom"
 const R = React.createElement
 
-// React component that asynchronously loads something into state from the props
-// Handles the common case of wanting to load something but having to deal with the complexities
-// of multiple updates, unmounting, componentWillReceiveProps vs componentDidMount, etc.
-// To use, override isLoadNeeded to determine if a prop change requires a load
-// and load to perform load and call setState with callback value.
-// Sets state of loading to true/false appropriately
-// DO NOT call @setState or reference @props in load
-export default class AsyncLoadComponent extends React.Component {
-  constructor(props: any) {
+/** React component that asynchronously loads something into state from the props
+ * Handles the common case of wanting to load something but having to deal with the complexities
+ * of multiple updates, unmounting, componentWillReceiveProps vs componentDidMount, etc.
+ * To use, override isLoadNeeded to determine if a prop change requires a load
+ * and load to perform load and call setState with callback value.
+ * Sets state of loading to true/false appropriately (automatically part of state)
+ * DO NOT call setState or reference props in load
+ */
+export default abstract class AsyncLoadComponent<P, S extends { loading: boolean }> extends Component<P, S> {
+  _mounted: boolean
+  _loadSeqStarted: number
+  _loadSeqCompleted: number
+
+  constructor(props: P) {
     super(props)
 
     this.state = {
       loading: false
-    }
+    } as S
 
     // Keep track if mounted
     this._mounted = false
@@ -30,14 +35,10 @@ export default class AsyncLoadComponent extends React.Component {
   }
 
   // Override to determine if a load is needed. Not called on mounting
-  isLoadNeeded(newProps: any, oldProps: any) {
-    throw new Error("Not implemented")
-  }
+  abstract isLoadNeeded(newProps: any, oldProps: any): boolean
 
   // Call callback with state changes
-  load(props: any, prevProps: any, callback: any) {
-    throw new Error("Not implemented")
-  }
+  abstract load(props: any, prevProps: any, callback: any): void
 
   // Call to force load
   forceLoad() {

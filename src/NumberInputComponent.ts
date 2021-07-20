@@ -5,7 +5,7 @@ const R = React.createElement
 
 import * as ui from "./bootstrap"
 
-interface NumberInputComponentProps {
+export interface NumberInputComponentProps {
   decimal?: boolean
   value?: number
   onChange: any
@@ -19,15 +19,14 @@ interface NumberInputComponentProps {
 
 // Number input component that handles parsing and maintains state when number is invalid
 export default class NumberInputComponent extends React.Component<NumberInputComponentProps> {
-  static defaultProps = { decimal: true }
 
   render() {
     return React.createElement(ui.NumberInput, {
-      decimal: this.props.decimal,
+      decimal: this.props.decimal || false,
       value: this.props.value,
       onChange: this.props.onChange,
       style: this.props.style,
-      size: this.props.small ? "sm" : null
+      size: this.props.small ? "sm" : undefined
     })
   }
 }

@@ -9,23 +9,21 @@ import PropTypes from "prop-types"
 //
 // The first pane gets an added class "first"
 
-import React from "react"
+import React, { CSSProperties } from "react"
 
 const R = React.createElement
 
-export default class Pane extends React.Component {
-  static propTypes = {
-    split: PropTypes.oneOf(["vertical", "horizontal"]),
-    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  }
-
+export default class Pane extends React.Component<{
+  split?: "vertical" | "horizontal"
+  width?: number | string
+}> {
   static defaultProps() {
     return { split: "vertical" }
   }
 
   render() {
     const classNames = ["pane"]
-    const style = {
+    const style: CSSProperties = {
       flex: "0 0 auto",
       position: "relative"
     }

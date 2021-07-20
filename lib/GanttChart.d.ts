@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { LocalizeString } from 'ez-localize';
+import { LocalizeString } from "ez-localize";
 /** Row of a GANTT chart */
 export interface GanttChartRow {
     /** Label to left */

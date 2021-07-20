@@ -20,6 +20,8 @@ interface ModalPopupComponentProps {
 
 // Modal popup based on react
 export default class ModalPopupComponent extends React.Component<ModalPopupComponentProps> {
+  modalNode: any
+  
   static show = (modalFunc: any, onClose: any) => {
     // Create temporary div to render into
     const tempDiv = document.createElement("div")

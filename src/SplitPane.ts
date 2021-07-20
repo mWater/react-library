@@ -13,30 +13,32 @@ import PropTypes from "prop-types"
 // Vertical splitpane gets the classes "splitpane vertical"
 // Horizontal splitpane divider gets the classes "splitpane horizontal"
 
-import React from "react"
+import React, { CSSProperties } from "react"
 
 const R = React.createElement
 import Pane from "./Pane"
 import Divider from "./Divider"
 import ReactDOM from "react-dom"
 
-export default class SplitPane extends React.Component {
-  static propTypes = {
-    // The split type "vertical" or "horizontal"
-    split: PropTypes.oneOf(["vertical", "horizontal"]),
+export interface SplitPaneProps {
+  // The split type "vertical" or "horizontal"
+  split: "vertical" | "horizontal"
 
-    // Size of the first pane. Takes a string with percentage value ("20%") or a number in pixels (300)
-    firstPaneSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  // Size of the first pane. Takes a string with percentage value ("20%") or a number in pixels (300)
+  firstPaneSize?: string | number
 
-    // Minimum size of the first pane. The first pane cannot be resized past this size. Takes a number in pixels
-    minFirstPaneSize: PropTypes.number,
+  // Minimum size of the first pane. The first pane cannot be resized past this size. Takes a number in pixels
+  minFirstPaneSize?: number
 
-    // Callback function that will be called when the resizing is done.
-    // The current size of the firstpane is passed as first argument
-    onResize: PropTypes.func
-  }
+  // Callback function that will be called when the resizing is done.
+  // The current size of the firstpane is passed as first argument
+  onResize: (size?: number | string) => void
+}
 
-  constructor(props: any) {
+export default class SplitPane extends React.Component<SplitPaneProps, { resizing: boolean, firstPaneSize?: string | number, dragStartAt?: any }> {
+  firstPane: any
+
+  constructor(props: SplitPaneProps) {
     super(props)
     this.state = {
       resizing: false,
@@ -64,17 +66,17 @@ export default class SplitPane extends React.Component {
     if (this.state.resizing) {
       let currentPosition, firstPaneSize
       if (this.props.split === "vertical") {
-        firstPaneSize = ReactDOM.findDOMNode(this.firstPane).offsetWidth
+        firstPaneSize = ReactDOM.findDOMNode(this.firstPane)!.offsetWidth
         currentPosition = event.clientX
       } else {
-        firstPaneSize = ReactDOM.findDOMNode(this.firstPane).offsetHeight
+        firstPaneSize = ReactDOM.findDOMNode(this.firstPane)!.offsetHeight
         currentPosition = event.clientY
       }
 
       const newSize = firstPaneSize - (this.state.dragStartAt - currentPosition)
       this.setState({ dragStartAt: currentPosition })
 
-      if (this.props.minFirstPaneSize < newSize) {
+      if (this.props.minFirstPaneSize != null && this.props.minFirstPaneSize < newSize) {
         return this.setState({ firstPaneSize: newSize })
       }
     }
@@ -82,7 +84,7 @@ export default class SplitPane extends React.Component {
 
   render() {
     const classNames = ["splitpane"]
-    const style = {
+    const style: CSSProperties = {
       display: "flex",
       flex: 1,
       height: "100%",
@@ -116,10 +118,10 @@ export default class SplitPane extends React.Component {
             return (this.firstPane = c)
           }
         },
-        this.props.children[0]
+        this.props.children![0]
       ),
       React.createElement(Divider, { ref: "divider", split: this.props.split, onMouseDown: this.onMouseDown }),
-      React.createElement(Pane, { split: this.props.split, ref: "rightPane" }, this.props.children[1])
+      React.createElement(Pane, { split: this.props.split, ref: "rightPane" }, this.props.children![1])
     )
   }
 }
