@@ -1,34 +1,54 @@
-PropTypes = require('prop-types')
-#
-# Divider
-# 
-# Internally used by SplitPane to create the draggable divider between 2 panes
-#
-# Vertical splitpane divider gets the classes "divider vertical"
-# Horizontal splitpane divider gets the classes "divider horizontal"
+let Divider;
+import PropTypes from 'prop-types';
+
+//
+// Divider
+// 
+// Internally used by SplitPane to create the draggable divider between 2 panes
+//
+// Vertical splitpane divider gets the classes "divider vertical"
+// Horizontal splitpane divider gets the classes "divider horizontal"
 
 
-React = require 'react'
-R = React.createElement
+import React from 'react';
 
-module.exports = class Divider extends React.Component
-  
-  @propTypes: {
-    split: PropTypes.oneOf(['vertical', 'horizontal'])
-  }
+const R = React.createElement;
 
-  @defaultProps: ->
-    split: 'vertical'
+export default Divider = (function() {
+  Divider = class Divider extends React.Component {
+    constructor(...args) {
+      super(...args);
+      this.onMouseDown = this.onMouseDown.bind(this);
+    }
 
-  onMouseDown: (event) => 
-    @props.onMouseDown(event)
+    static initClass() {
+    
+      this.propTypes = {
+        split: PropTypes.oneOf(['vertical', 'horizontal'])
+      };
+    }
 
-  render: ->
-    classNames = ["divider"]
+    static defaultProps() {
+      return {split: 'vertical'};
+    }
 
-    if @props.split is "vertical"
-      classNames.push("vertical")
-    if @props.split is "horizontal"
-      classNames.push("horizontal")
+    onMouseDown(event) { 
+      return this.props.onMouseDown(event);
+    }
+
+    render() {
+      const classNames = ["divider"];
+
+      if (this.props.split === "vertical") {
+        classNames.push("vertical");
+      }
+      if (this.props.split === "horizontal") {
+        classNames.push("horizontal");
+      }
       
-    R 'div', {className: classNames.join(" "), onMouseDown: @onMouseDown}
+      return R('div', {className: classNames.join(" "), onMouseDown: this.onMouseDown});
+    }
+  };
+  Divider.initClass();
+  return Divider;
+})();

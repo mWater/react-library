@@ -1,26 +1,32 @@
 
-assert = require('chai').assert
-update = require '../src/update'
+import { assert } from 'chai';
+import update from '../src/update';
 
-describe "update", ->
-  beforeEach ->
-    @newValue = null
+describe("update", function() {
+  beforeEach(function() {
+    this.newValue = null;
 
-    @value = { x: 1 }
-    @onChange = (newValue) => @newValue = newValue
+    this.value = { x: 1 };
+    return this.onChange = newValue => { return this.newValue = newValue; };
+  });
 
-  it "updates using object", ->
-    update(@value, @onChange, [{ y: 2 }])
-    assert.deepEqual @newValue, { x: 1, y: 2 }
+  it("updates using object", function() {
+    update(this.value, this.onChange, [{ y: 2 }]);
+    return assert.deepEqual(this.newValue, { x: 1, y: 2 });
+});
 
-  it "updates using function builder", ->
-    update(@value, @onChange, ["y"])(2)
-    assert.deepEqual @newValue, { x: 1, y: 2 }
+  it("updates using function builder", function() {
+    update(this.value, this.onChange, ["y"])(2);
+    return assert.deepEqual(this.newValue, { x: 1, y: 2 });
+});
 
-  it "updates using path directly", ->
-    update(@value, @onChange, ["y", 2])
-    assert.deepEqual @newValue, { x: 1, y: 2 }
+  it("updates using path directly", function() {
+    update(this.value, this.onChange, ["y", 2]);
+    return assert.deepEqual(this.newValue, { x: 1, y: 2 });
+});
 
-  it "updates using path directly", ->
-    update(@value, @onChange, ["y.z", 2])
-    assert.deepEqual @newValue, { x: 1, y: { z: 2 } }
+  return it("updates using path directly", function() {
+    update(this.value, this.onChange, ["y.z", 2]);
+    return assert.deepEqual(this.newValue, { x: 1, y: { z: 2 } });
+});
+});

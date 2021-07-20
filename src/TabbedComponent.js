@@ -1,58 +1,95 @@
-PropTypes = require('prop-types')
-_ = require 'lodash'
-React = require 'react'
-R = React.createElement
+let TabbedComponent;
+import PropTypes from 'prop-types';
+import _ from 'lodash';
+import React from 'react';
+const R = React.createElement;
 
-# Simple bootstrap tabbed component
-module.exports = class TabbedComponent extends React.Component
-  @propTypes:
-    tabs: PropTypes.array.isRequired # Array of { id, label, elem, onRemove (optional) }
-    initialTabId: PropTypes.string # Initially selected id of tab
-    tabId: PropTypes.string # Selected id of tab
-    onAddTab: PropTypes.func    # Set to have a plus to add a tab
-    onTabClick: PropTypes.func    # Set to be called back when a tab is clicked (tabId) instead of setting internal state
+// Simple bootstrap tabbed component
+export default TabbedComponent = (function() {
+  TabbedComponent = class TabbedComponent extends React.Component {
+    static initClass() {
+      this.propTypes = {
+        tabs: PropTypes.array.isRequired, // Array of { id, label, elem, onRemove (optional) }
+        initialTabId: PropTypes.string, // Initially selected id of tab
+        tabId: PropTypes.string, // Selected id of tab
+        onAddTab: PropTypes.func,    // Set to have a plus to add a tab
+        onTabClick: PropTypes.func
+      };
+          // Set to be called back when a tab is clicked (tabId) instead of setting internal state
+    }
 
-  constructor: (props) ->
-    super(props)
-    @state = { tabId: @props.initialTabId }
+    constructor(props) {
+      this.handleClick = this.handleClick.bind(this);
+      this.handleRemove = this.handleRemove.bind(this);
+      this.renderTab = this.renderTab.bind(this);
+      super(props);
+      this.state = { tabId: this.props.initialTabId };
+    }
 
-  handleClick: (tabId) =>
-    if @props.onTabClick?
-      @props.onTabClick(tabId)
-    else
-      @setState(tabId: tabId)
+    handleClick(tabId) {
+      if (this.props.onTabClick != null) {
+        return this.props.onTabClick(tabId);
+      } else {
+        return this.setState({tabId});
+      }
+    }
 
-  handleRemove: (tab, ev) =>
-    ev.stopPropagation()
-    tab.onRemove()
+    handleRemove(tab, ev) {
+      ev.stopPropagation();
+      return tab.onRemove();
+    }
 
-  renderTab: (tab) =>
-    if @props.tabId?
-      tabId = @props.tabId
-    else
-      tabId =  @state.tabId
-    R 'li', key: tab.id, className: (if tabId == tab.id then "active"),
-      R 'a', onClick: @handleClick.bind(null, tab.id), style: { cursor: "pointer" },
-        tab.label
-        if tab.onRemove
-          R 'button', type: "button", className: "btn btn-xs btn-link", onClick: @handleRemove.bind(null, tab),
-            R 'span', className: "fa fa-times"
+    renderTab(tab) {
+      let tabId;
+      if (this.props.tabId != null) {
+        ({
+          tabId
+        } = this.props);
+      } else {
+        ({
+          tabId
+        } = this.state);
+      }
+      return R('li', {key: tab.id, className: (tabId === tab.id ? "active" : undefined)},
+        R('a', {onClick: this.handleClick.bind(null, tab.id), style: { cursor: "pointer" }},
+          tab.label,
+          tab.onRemove ?
+            R('button', {type: "button", className: "btn btn-xs btn-link", onClick: this.handleRemove.bind(null, tab)},
+              R('span', {className: "fa fa-times"})) : undefined
+        )
+      );
+    }
 
-  render: ->
-    if @props.tabId?
-      tabId = @props.tabId
-    else
-      tabId =  @state.tabId
-    currentTab = _.findWhere(@props.tabs, id: tabId)
+    render() {
+      let tabId;
+      if (this.props.tabId != null) {
+        ({
+          tabId
+        } = this.props);
+      } else {
+        ({
+          tabId
+        } = this.state);
+      }
+      const currentTab = _.findWhere(this.props.tabs, {id: tabId});
 
-    R 'div', null,
-      R 'ul', key: "tabs", className: "nav nav-tabs", style: { marginBottom: 10 },
-        _.map(@props.tabs, @renderTab)
-        if @props.onAddTab
-          R 'li', key: "_add", 
-            R 'a', onClick: @props.onAddTab, style: { cursor: "pointer" },
-              R 'i', className: "fa fa-plus"
+      return R('div', null,
+        R('ul', {key: "tabs", className: "nav nav-tabs", style: { marginBottom: 10 }},
+          _.map(this.props.tabs, this.renderTab),
+          this.props.onAddTab ?
+            R('li', {key: "_add"}, 
+              R('a', {onClick: this.props.onAddTab, style: { cursor: "pointer" }},
+                R('i', {className: "fa fa-plus"}))
+            ) : undefined
+        ),
 
-      R 'div', key: "currentTab", 
-        if currentTab
-          currentTab.elem
+        R('div', {key: "currentTab"}, 
+          currentTab ?
+            currentTab.elem : undefined
+        )
+      );
+    }
+  };
+  TabbedComponent.initClass();
+  return TabbedComponent;
+})();

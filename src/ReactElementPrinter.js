@@ -1,15 +1,16 @@
-_ = require 'lodash'
-$ = require 'jquery'
-ReactDOM = require 'react-dom'
+let ReactElementPrinter;
+import _ from 'lodash';
+import $ from 'jquery';
+import ReactDOM from 'react-dom';
 
-# Prints a React element. Requires font-awesome for spinner and jquery
-module.exports = class ReactElementPrinter
-  # Options include:
-  # delay: ms to wait before printing to allow elements to render
-  # text: text to display next to spinner
-  print: (element, options) ->
-    # Add special CSS printing rules
-    extraCss = $('''
+// Prints a React element. Requires font-awesome for spinner and jquery
+export default ReactElementPrinter = class ReactElementPrinter {
+  // Options include:
+  // delay: ms to wait before printing to allow elements to render
+  // text: text to display next to spinner
+  print(element, options) {
+    // Add special CSS printing rules
+    const extraCss = $(`\
 <style id="react_element_printer_css">
   @media print {
     /* Hide body and get rid of margins */
@@ -65,37 +66,40 @@ module.exports = class ReactElementPrinter
     }
   }
 
-</style>
-      ''')
+</style>\
+`);
 
-    $("body").append(extraCss)
+    $("body").append(extraCss);
 
-    # Add special region to body
-    $("body").append('<div id="react_element_printer"></div>')
+    // Add special region to body
+    $("body").append('<div id="react_element_printer"></div>');
 
-    # Add warning that printing
-    $("body").append('''
-      <div id="react_element_printer_splash">
-        <div style="font-size: 30pt;">
-          <i class="fa fa-spinner fa-spin"></i>
-          ''' + (options.text or "") + '''
-        </div>
-      </div>
-    ''')
+    // Add warning that printing
+    $("body").append(`\
+<div id="react_element_printer_splash">
+  <div style="font-size: 30pt;">
+    <i class="fa fa-spinner fa-spin"></i>\
+` + (options.text || "") + `\
+  </div>
+</div>\
+`);
 
-    # Render element into special region
-    ReactDOM.render(element, $("#react_element_printer").get(0), =>
-      # Wait for element to render
-      _.delay () =>
-        # Call print
-        window.print()
+    // Render element into special region
+    return ReactDOM.render(element, $("#react_element_printer").get(0), () => {
+      // Wait for element to render
+      return _.delay(() => {
+        // Call print
+        window.print();
 
-        # Unmount component
-        ReactDOM.unmountComponentAtNode($("#react_element_printer").get(0))
+        // Unmount component
+        ReactDOM.unmountComponentAtNode($("#react_element_printer").get(0));
 
-        # Remove rest of nodes
-        $("#react_element_printer").remove()
-        $("#react_element_printer_css").remove()
-        $("#react_element_printer_splash").remove()
-      , options.delay or 1000
-      )
+        // Remove rest of nodes
+        $("#react_element_printer").remove();
+        $("#react_element_printer_css").remove();
+        return $("#react_element_printer_splash").remove();
+      }
+      , options.delay || 1000);
+      });
+  }
+};

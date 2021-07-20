@@ -1,76 +1,90 @@
-React = require 'react'
-ReactDOM = require 'react-dom'
-R = React.createElement
+let AsyncLoadComponent;
+import React from 'react';
+import ReactDOM from 'react-dom';
+const R = React.createElement;
 
-# React component that asynchronously loads something into state from the props
-# Handles the common case of wanting to load something but having to deal with the complexities
-# of multiple updates, unmounting, componentWillReceiveProps vs componentDidMount, etc.
-# To use, override isLoadNeeded to determine if a prop change requires a load
-# and load to perform load and call setState with callback value.
-# Sets state of loading to true/false appropriately
-# DO NOT call @setState or reference @props in load
-module.exports = class AsyncLoadComponent extends React.Component
-  constructor: (props) ->
-    super(props)
+// React component that asynchronously loads something into state from the props
+// Handles the common case of wanting to load something but having to deal with the complexities
+// of multiple updates, unmounting, componentWillReceiveProps vs componentDidMount, etc.
+// To use, override isLoadNeeded to determine if a prop change requires a load
+// and load to perform load and call setState with callback value.
+// Sets state of loading to true/false appropriately
+// DO NOT call @setState or reference @props in load
+export default AsyncLoadComponent = class AsyncLoadComponent extends React.Component {
+  constructor(props) {
+    this.isLoading = this.isLoading.bind(this);
+    super(props);
     
-    @state = { 
+    this.state = { 
       loading: false
-    }
+    };
 
-    # Keep track if mounted
-    @_mounted = false
+    // Keep track if mounted
+    this._mounted = false;
 
-    # Keep track of load number started and completed to ignore old ones
-    @_loadSeqStarted = 0
-    @_loadSeqCompleted = 0
+    // Keep track of load number started and completed to ignore old ones
+    this._loadSeqStarted = 0;
+    this._loadSeqCompleted = 0;
+  }
 
-  isLoading: => @state.loading
+  isLoading() { return this.state.loading; }
 
-  # Override to determine if a load is needed. Not called on mounting
-  isLoadNeeded: (newProps, oldProps) -> throw new Error("Not implemented")
+  // Override to determine if a load is needed. Not called on mounting
+  isLoadNeeded(newProps, oldProps) { throw new Error("Not implemented"); }
 
-  # Call callback with state changes
-  load: (props, prevProps, callback) -> throw new Error("Not implemented")
+  // Call callback with state changes
+  load(props, prevProps, callback) { throw new Error("Not implemented"); }
 
-  # Call to force load
-  forceLoad: ->
-    @_performLoad(@props, @props)
+  // Call to force load
+  forceLoad() {
+    return this._performLoad(this.props, this.props);
+  }
 
-  _performLoad: (newProps, oldProps) ->
-    @_loadSeqStarted += 1
+  _performLoad(newProps, oldProps) {
+    this._loadSeqStarted += 1;
 
-    seq = @_loadSeqStarted
+    const seq = this._loadSeqStarted;
 
-    # Create callback
-    callback = (state) =>
-      # Check if unmounted
-      if not @_mounted
-        return
+    // Create callback
+    const callback = state => {
+      // Check if unmounted
+      if (!this._mounted) {
+        return;
+      }
 
-      # Check if out of date
-      if seq < @_loadSeqCompleted
-        return
+      // Check if out of date
+      if (seq < this._loadSeqCompleted) {
+        return;
+      }
 
-      @_loadSeqCompleted = seq 
+      this._loadSeqCompleted = seq; 
 
-      # Apply state
-      @setState(state)
+      // Apply state
+      this.setState(state);
   
-      # Check if latest
-      if seq == @_loadSeqStarted
-        @setState(loading: false)
+      // Check if latest
+      if (seq === this._loadSeqStarted) {
+        return this.setState({loading: false});
+      }
+    };
 
-    @setState(loading: true, =>
-      @load(newProps, oldProps, callback)
-    )
+    return this.setState({loading: true}, () => {
+      return this.load(newProps, oldProps, callback);
+    });
+  }
 
-  componentWillMount: ->
-    @_mounted = true
-    @_performLoad(@props, {})
+  componentWillMount() {
+    this._mounted = true;
+    return this._performLoad(this.props, {});
+  }
 
-  componentWillReceiveProps: (nextProps) ->
-    if @isLoadNeeded(nextProps, @props)
-      @_performLoad(nextProps, @props)
+  componentWillReceiveProps(nextProps) {
+    if (this.isLoadNeeded(nextProps, this.props)) {
+      return this._performLoad(nextProps, this.props);
+    }
+  }
 
-  componentWillUnmount: ->
-    @_mounted = false
+  componentWillUnmount() {
+    return this._mounted = false;
+  }
+};

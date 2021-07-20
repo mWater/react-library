@@ -1,61 +1,78 @@
-React = require('react')
-ReactDOM = require('react-dom')
-ReactTestUtils = require('react-dom/test-utils')
-R = React.createElement
-_ = require 'lodash'
+let TestComponent;
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactTestUtils from 'react-dom/test-utils';
+const R = React.createElement;
+import _ from 'lodash';
 
-# Test component that can be created, have its element changed, have clicks and other actions simulated
-# Used for unit testing React components
-module.exports = class TestComponent
-  constructor: (elem) ->
-    @div = document.createElement('div')
-    @comp = ReactDOM.render(elem, @div)
+// Test component that can be created, have its element changed, have clicks and other actions simulated
+// Used for unit testing React components
+export default TestComponent = class TestComponent {
+  constructor(elem) {
+    this.div = document.createElement('div');
+    this.comp = ReactDOM.render(elem, this.div);
+  }
 
-  setElement: (elem) ->
-    ReactDOM.render(elem, @div)
+  setElement(elem) {
+    return ReactDOM.render(elem, this.div);
+  }
 
-  getComponent: ->
-    return @comp
+  getComponent() {
+    return this.comp;
+  }
 
-  destroy: ->
-    ReactDOM.unmountComponentAtNode(@div)
+  destroy() {
+    return ReactDOM.unmountComponentAtNode(this.div);
+  }
 
-  # Finds DOM node by pattern (optional)
-  findDOMNodesByText: (pattern) ->
-    matches = []
+  // Finds DOM node by pattern (optional)
+  findDOMNodesByText(pattern) {
+    const matches = [];
 
-    findRecursively = (node) ->
-      # Recurse to children
-      if node.nodeType == 1
-        for subnode in node.childNodes
-          # Check text match
-          if subnode.nodeType == 3 and subnode.nodeValue.match(pattern)
-            matches.push(node)
+    var findRecursively = function(node) {
+      // Recurse to children
+      if (node.nodeType === 1) {
+        return (() => {
+          const result = [];
+          for (let subnode of node.childNodes) {
+          // Check text match
+            if ((subnode.nodeType === 3) && subnode.nodeValue.match(pattern)) {
+              matches.push(node);
+            }
 
-          findRecursively(subnode)
+            result.push(findRecursively(subnode));
+          }
+          return result;
+        })();
+      }
+    };
 
-    findRecursively(ReactDOM.findDOMNode(@comp))
-    return matches
+    findRecursively(ReactDOM.findDOMNode(this.comp));
+    return matches;
+  }
 
-  # Finds a DOM node by pattern
-  findDOMNodeByText: (pattern) ->
-    return @findDOMNodesByText(pattern)[0]
+  // Finds a DOM node by pattern
+  findDOMNodeByText(pattern) {
+    return this.findDOMNodesByText(pattern)[0];
+  }
 
-  # Find a subcomponent by a pattern (deprecated)
-  findComponentByText: (pattern) -> return @findDOMNodesByText(pattern)
+  // Find a subcomponent by a pattern (deprecated)
+  findComponentByText(pattern) { return this.findDOMNodesByText(pattern); }
 
-  # Find input field
-  findInput: ->
-    return ReactTestUtils.findRenderedDOMComponentWithTag(@comp, "input")
+  // Find input field
+  findInput() {
+    return ReactTestUtils.findRenderedDOMComponentWithTag(this.comp, "input");
+  }
 
-  findComponentById: (id) ->
-    return ReactTestUtils.findAllInRenderedTree(@comp, (c) ->
-      c.id == id
-    )[0]
+  findComponentById(id) {
+    return ReactTestUtils.findAllInRenderedTree(this.comp, c => c.id === id)[0];
+  }
 
-  @click: (comp) -> ReactTestUtils.Simulate.click(comp)
-  @pressEnter: (comp) -> ReactTestUtils.Simulate.keyDown(comp, {key: "Enter", keyCode: 13, which: 13})
-  @pressTab: (comp) -> ReactTestUtils.Simulate.keyDown(comp, {key: "Tab", keyCode: 9, which: 9})
-  @changeValue: (comp, value) -> 
-    comp.value = value
-    ReactTestUtils.Simulate.change(comp)
+  static click(comp) { return ReactTestUtils.Simulate.click(comp); }
+  static pressEnter(comp) { return ReactTestUtils.Simulate.keyDown(comp, {key: "Enter", keyCode: 13, which: 13}); }
+  static pressTab(comp) { return ReactTestUtils.Simulate.keyDown(comp, {key: "Tab", keyCode: 9, which: 9}); }
+  static changeValue(comp, value) { 
+    comp.value = value;
+    return ReactTestUtils.Simulate.change(comp);
+  }
+};

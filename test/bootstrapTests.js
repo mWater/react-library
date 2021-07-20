@@ -1,60 +1,67 @@
-R = require('react').createElement
-sinon = require 'sinon'
-enzyme = require 'enzyme'
-assert = require('chai').assert
+import { createElement as R } from 'react';
+import sinon from 'sinon';
+import enzyme from 'enzyme';
+import { assert } from 'chai';
+import bootstrap from '../src/bootstrap';
 
-bootstrap = require '../src/bootstrap'
+describe("bootstrap", () => describe("NumberInput", function() {
+  it("converts number to text", function() {
+    const onChange = sinon.spy();
+    const wrapper = enzyme.shallow(R(bootstrap.NumberInput, {decimal: true, value: null, onChange}));
+    wrapper.find("input").props().onChange({ target: { value: "2.3"}});
+    wrapper.find("input").props().onBlur();
 
-describe "bootstrap", ->
-  describe "NumberInput", ->
-    it "converts number to text", ->
-      onChange = sinon.spy()
-      wrapper = enzyme.shallow(R(bootstrap.NumberInput, decimal: true, value: null, onChange: onChange))
-      wrapper.find("input").props().onChange({ target: { value: "2.3"}})
-      wrapper.find("input").props().onBlur()
+    return assert(onChange.calledWith(2.3));
+  });
 
-      assert onChange.calledWith(2.3)
+  it("sets null on gibberish blur", function() {
+    const onChange = sinon.spy();
+    const wrapper = enzyme.shallow(R(bootstrap.NumberInput, {decimal: true, value: null, onChange}));
+    wrapper.find("input").props().onChange({ target: { value: "2."}});
+    wrapper.find("input").props().onBlur();
 
-    it "sets null on gibberish blur", ->
-      onChange = sinon.spy()
-      wrapper = enzyme.shallow(R(bootstrap.NumberInput, decimal: true, value: null, onChange: onChange))
-      wrapper.find("input").props().onChange({ target: { value: "2."}})
-      wrapper.find("input").props().onBlur()
+    return assert(onChange.calledWith(null));
+  });
 
-      assert onChange.calledWith(null)
+  it("sets null on empty blur", function() {
+    const onChange = sinon.spy();
+    const wrapper = enzyme.shallow(R(bootstrap.NumberInput, {decimal: true, value: 2.3, onChange}));
+    wrapper.find("input").props().onChange({ target: { value: "" }});
+    wrapper.find("input").props().onBlur();
 
-    it "sets null on empty blur", ->
-      onChange = sinon.spy()
-      wrapper = enzyme.shallow(R(bootstrap.NumberInput, decimal: true, value: 2.3, onChange: onChange))
-      wrapper.find("input").props().onChange({ target: { value: "" }})
-      wrapper.find("input").props().onBlur()
+    return assert(onChange.calledWith(null));
+  });
 
-      assert onChange.calledWith(null)
+  it("stringifies null as blank", function() {
+    const onChange = sinon.spy();
+    const wrapper = enzyme.shallow(R(bootstrap.NumberInput, {decimal: true, value: null, onChange}));
 
-    it "stringifies null as blank", ->
-      onChange = sinon.spy()
-      wrapper = enzyme.shallow(R(bootstrap.NumberInput, decimal: true, value: null, onChange: onChange))
+    return assert.equal(wrapper.find("input").props().value, "");
+  });
 
-      assert.equal wrapper.find("input").props().value, ""
+  it("stringifies 2.3 as 2.3", function() {
+    const onChange = sinon.spy();
+    const wrapper = enzyme.shallow(R(bootstrap.NumberInput, {decimal: true, value: 2.3, onChange}));
 
-    it "stringifies 2.3 as 2.3", ->
-      onChange = sinon.spy()
-      wrapper = enzyme.shallow(R(bootstrap.NumberInput, decimal: true, value: 2.3, onChange: onChange))
+    return assert.equal(wrapper.find("input").props().value, "2.3");
+  });
 
-      assert.equal wrapper.find("input").props().value, "2.3"
+  return describe("decimalPlaces", function() {
+    it("adds decimals", function() {
+      const wrapper = enzyme.shallow(R(bootstrap.NumberInput, {decimal: true, value: 2.3, decimalPlaces: 3, onChange() {}}));
 
-    describe "decimalPlaces", ->
-      it "adds decimals", ->
-        wrapper = enzyme.shallow(R(bootstrap.NumberInput, decimal: true, value: 2.3, decimalPlaces: 3, onChange: ->))
+      return assert.equal(wrapper.find("input").props().value, "2.300");
+    });
 
-        assert.equal wrapper.find("input").props().value, "2.300"
+    return it("rounds decimals", function() {
+      const onChange = sinon.spy();
+      const wrapper = enzyme.shallow(R(bootstrap.NumberInput, {decimal: true, value: 2.3, decimalPlaces: 3, onChange}));
 
-      it "rounds decimals", ->
-        onChange = sinon.spy()
-        wrapper = enzyme.shallow(R(bootstrap.NumberInput, decimal: true, value: 2.3, decimalPlaces: 3, onChange: onChange))
-
-        wrapper.find("input").props().onChange({ target: { value: "2.3456"}})
-        wrapper.find("input").props().onBlur()
-        assert onChange.calledWith(2.346), "" + onChange.args[0]
+      wrapper.find("input").props().onChange({ target: { value: "2.3456"}});
+      wrapper.find("input").props().onBlur();
+      return assert(onChange.calledWith(2.346), "" + onChange.args[0]);
+  });
+});
+}));
 
 

@@ -1,46 +1,62 @@
-PropTypes = require('prop-types')
-# Pane
-# 
-# Internally used by SplitPane to create the resizable panes
-#
-# Vertical splitpane panes gets the classes "pane vertical"
-# Horizontal splitpane panes gets the classes "pane horizontal"
-# 
-# The first pane gets an added class "first"
+let Pane;
+import PropTypes from 'prop-types';
 
-React = require 'react'
-R = React.createElement
+// Pane
+// 
+// Internally used by SplitPane to create the resizable panes
+//
+// Vertical splitpane panes gets the classes "pane vertical"
+// Horizontal splitpane panes gets the classes "pane horizontal"
+// 
+// The first pane gets an added class "first"
 
-module.exports = class Pane extends React.Component
-  
-  @propTypes: {
-    split: PropTypes.oneOf(['vertical', 'horizontal'])
-    width: PropTypes.oneOfType([PropTypes.string,PropTypes.number])
-  }
+import React from 'react';
 
-  @defaultProps: ->
-    split: 'vertical'
+const R = React.createElement;
 
-  render: ->
-    classNames = ["pane"]
-    style =
-      flex: "0 0 auto"
-      position: "relative"
-
-    if @props.split == 'vertical'
-      classNames.push('vertical')
-      style.width = @props.width if @props.width?
-    else
-      classNames.push('horizontal')
-      style.height = @props.width if @props.width?
-
-    if @props.width
-      classNames.push("first")
-    else
-      style.flex = 1 
-      if @props.split == 'vertical'
-        style.width = "100%"
-      else
-        style.height = "100%"
+export default Pane = (function() {
+  Pane = class Pane extends React.Component {
+    static initClass() {
     
-    R 'div', {style: style, className: classNames.join(" ")}, @props.children
+      this.propTypes = {
+        split: PropTypes.oneOf(['vertical', 'horizontal']),
+        width: PropTypes.oneOfType([PropTypes.string,PropTypes.number])
+      };
+    }
+
+    static defaultProps() {
+      return {split: 'vertical'};
+    }
+
+    render() {
+      const classNames = ["pane"];
+      const style = {
+        flex: "0 0 auto",
+        position: "relative"
+      };
+
+      if (this.props.split === 'vertical') {
+        classNames.push('vertical');
+        if (this.props.width != null) { style.width = this.props.width; }
+      } else {
+        classNames.push('horizontal');
+        if (this.props.width != null) { style.height = this.props.width; }
+      }
+
+      if (this.props.width) {
+        classNames.push("first");
+      } else {
+        style.flex = 1; 
+        if (this.props.split === 'vertical') {
+          style.width = "100%";
+        } else {
+          style.height = "100%";
+        }
+      }
+    
+      return R('div', {style, className: classNames.join(" ")}, this.props.children);
+    }
+  };
+  Pane.initClass();
+  return Pane;
+})();
