@@ -6,7 +6,7 @@ const R = React.createElement
 
 import CrossComponent from "./CrossComponent"
 
-interface VerticalTreeLayoutComponentProps {
+export interface VerticalTreeLayoutComponentProps {
   headElem?: any
   /** e.g. 50 */
   height?: number

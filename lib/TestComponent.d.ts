@@ -1,5 +1,7 @@
 import React from "react";
 export default class TestComponent {
+    div: any;
+    comp: any;
     constructor(elem: any);
     setElement(elem: any): Element;
     getComponent(): any;

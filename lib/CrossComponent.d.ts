@@ -1,5 +1,5 @@
 import React from "react";
-interface CrossComponentProps {
+export interface CrossComponentProps {
     /** north border style (e.g. "solid 1px blue") */
     n?: string;
     /** east border style (e.g. "solid 1px blue") */
@@ -30,4 +30,3 @@ export default class CrossComponent extends React.Component<CrossComponentProps>
         };
     }, HTMLElement>;
 }
-export {};

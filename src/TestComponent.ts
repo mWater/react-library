@@ -7,6 +7,9 @@ import _ from "lodash"
 // Test component that can be created, have its element changed, have clicks and other actions simulated
 // Used for unit testing React components
 export default class TestComponent {
+  div: any
+  comp: any
+
   constructor(elem: any) {
     this.div = document.createElement("div")
     this.comp = ReactDOM.render(elem, this.div)
@@ -28,7 +31,7 @@ export default class TestComponent {
   findDOMNodesByText(pattern: any) {
     const matches: any = []
 
-    function findRecursively(node: any) {
+    function findRecursively(node: any): any {
       // Recurse to children
       if (node.nodeType === 1) {
         return (() => {
@@ -66,7 +69,7 @@ export default class TestComponent {
   }
 
   findComponentById(id: any) {
-    return ReactTestUtils.findAllInRenderedTree(this.comp, (c) => c.id === id)[0]
+    return ReactTestUtils.findAllInRenderedTree(this.comp, (c: any) => c.id === id)[0]
   }
 
   static click(comp: any) {

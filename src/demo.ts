@@ -5,7 +5,6 @@ import ReactDOM from "react-dom"
 const R = React.createElement
 import _ from "lodash"
 import uuid from "uuid"
-import SampleComponent from "./SampleComponent"
 import ModalPopupComponent from "./ModalPopupComponent"
 import ModalWindowComponent from "./ModalWindowComponent"
 import VerticalTreeLayoutComponent from "./VerticalTreeLayoutComponent"

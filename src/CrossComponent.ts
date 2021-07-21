@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import React from "react"
 const R = React.createElement
 
-interface CrossComponentProps {
+export interface CrossComponentProps {
   /** north border style (e.g. "solid 1px blue") */
   n?: string
   /** east border style (e.g. "solid 1px blue") */

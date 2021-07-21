@@ -1,15 +1,11 @@
-import PropTypes from "prop-types";
 import React from "react";
-export default class Divider extends React.Component {
-    static propTypes: {
-        split: PropTypes.Requireable<string>;
-    };
-    static defaultProps(): {
-        split: string;
-    };
-    onMouseDown: (event: any) => any;
+export default class Divider extends React.Component<{
+    split?: "vertical" | "horizontal";
+    onMouseDown: (ev: any) => void;
+}> {
+    onMouseDown: (event: any) => void;
     render(): React.DetailedReactHTMLElement<{
         className: string;
-        onMouseDown: (event: any) => any;
+        onMouseDown: (event: any) => void;
     }, HTMLElement>;
 }
