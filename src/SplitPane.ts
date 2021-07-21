@@ -66,10 +66,10 @@ export default class SplitPane extends React.Component<SplitPaneProps, { resizin
     if (this.state.resizing) {
       let currentPosition, firstPaneSize
       if (this.props.split === "vertical") {
-        firstPaneSize = ReactDOM.findDOMNode(this.firstPane)!.offsetWidth
+        firstPaneSize = (ReactDOM.findDOMNode(this.firstPane) as HTMLElement).offsetWidth
         currentPosition = event.clientX
       } else {
-        firstPaneSize = ReactDOM.findDOMNode(this.firstPane)!.offsetHeight
+        firstPaneSize = (ReactDOM.findDOMNode(this.firstPane) as HTMLElement).offsetHeight
         currentPosition = event.clientY
       }
 
