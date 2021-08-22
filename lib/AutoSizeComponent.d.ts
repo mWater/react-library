@@ -1,5 +1,5 @@
 import React from "react";
-import { default as ReactResizeDetector } from "react-resize-detector";
+import ReactResizeDetector from 'react-resize-detector/build/withPolyfill';
 interface AutoSizeComponentProps {
     /** True to inject width */
     injectWidth?: boolean;

@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react"
+import ReactResizeDetector from 'react-resize-detector/build/withPolyfill';
 const R = React.createElement
-import { default as ReactResizeDetector } from "react-resize-detector"
 
 interface AutoSizeComponentProps {
   /** True to inject width */
