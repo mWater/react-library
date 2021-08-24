@@ -134,8 +134,8 @@ export interface NumberInputProps {
     onChange?: (value: number | null) => void;
     style?: CSSProperties;
     size?: "sm" | "lg";
-    onTab?: () => void;
-    onEnter?: () => void;
+    onTab?: (ev: React.KeyboardEvent<HTMLInputElement>) => void;
+    onEnter?: (ev: React.KeyboardEvent<HTMLInputElement>) => void;
     /** Force an exact number of decimal places, rounding value as necessary */
     decimalPlaces?: number;
     placeholder?: string;

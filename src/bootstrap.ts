@@ -306,8 +306,8 @@ export interface NumberInputProps {
   onChange?: (value: number | null) => void
   style?: CSSProperties
   size?: "sm" | "lg"
-  onTab?: () => void
-  onEnter?: () => void
+  onTab?: (ev: React.KeyboardEvent<HTMLInputElement>) => void
+  onEnter?: (ev: React.KeyboardEvent<HTMLInputElement>) => void
   /** Force an exact number of decimal places, rounding value as necessary */
   decimalPlaces?: number
   placeholder?: string
@@ -366,7 +366,7 @@ export class NumberInput extends React.Component<NumberInputProps, { inputText: 
       this.handleBlur()
 
       if (this.props.onEnter) {
-        this.props.onEnter()
+        this.props.onEnter(ev)
         ev.preventDefault()
       }
     }
@@ -376,7 +376,7 @@ export class NumberInput extends React.Component<NumberInputProps, { inputText: 
       this.handleBlur()
 
       if (this.props.onTab) {
-        this.props.onTab()
+        this.props.onTab(ev)
         // It's important to prevent the default behavior when handling tabs (or else the tab is applied after the focus change)
         return ev.preventDefault()
       }
