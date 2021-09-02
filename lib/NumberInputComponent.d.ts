@@ -12,5 +12,8 @@ export interface NumberInputComponentProps {
     placeholder?: string;
 }
 export default class NumberInputComponent extends React.Component<NumberInputComponentProps> {
+    static defaultProps: {
+        decimal: boolean;
+    };
     render(): React.CElement<ui.NumberInputProps, ui.NumberInput>;
 }

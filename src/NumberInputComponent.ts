@@ -19,6 +19,9 @@ export interface NumberInputComponentProps {
 
 // Number input component that handles parsing and maintains state when number is invalid
 export default class NumberInputComponent extends React.Component<NumberInputComponentProps> {
+  static defaultProps = {
+    decimal: true
+  }
 
   render() {
     return React.createElement(ui.NumberInput, {
