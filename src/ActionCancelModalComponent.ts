@@ -23,6 +23,8 @@ interface ActionCancelModalComponentProps {
   size?: "large" | "full"
   /** True for action button to show spinner and be disabled */
   actionBusy?: boolean
+  /** True for delete button to show spinner and be disabled */
+  deleteBusy?: boolean
 }
 
 // Modal with action and cancel buttons
@@ -66,8 +68,10 @@ export default class ActionCancelModalComponent extends React.Component<ActionCa
                   type: "button",
                   style: { float: "left" },
                   onClick: this.props.onDelete,
+                  disabled: this.props.deleteBusy,
                   className: "btn btn-danger"
                 },
+                this.props.deleteBusy ? [R("i", { className: "fa fa-spinner fa-spin" }), "\u00A0"] : undefined,
                 this.props.deleteLabel || "Delete"
               )
             : undefined

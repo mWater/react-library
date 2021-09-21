@@ -19,6 +19,8 @@ interface ActionCancelModalComponentProps {
     size?: "large" | "full";
     /** True for action button to show spinner and be disabled */
     actionBusy?: boolean;
+    /** True for delete button to show spinner and be disabled */
+    deleteBusy?: boolean;
 }
 export default class ActionCancelModalComponent extends React.Component<ActionCancelModalComponentProps> {
     render(): React.CElement<any, ModalPopupComponent>;
