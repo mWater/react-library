@@ -9,9 +9,9 @@ describe("update", function () {
     this.newValue = null
 
     this.value = { x: 1 }
-    return this.onChange = (newValue: any) => {
+    return (this.onChange = (newValue: any) => {
       return (this.newValue = newValue)
-    };
+    })
   })
 
   it("updates using object", function () {
