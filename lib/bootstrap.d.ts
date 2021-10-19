@@ -1,12 +1,16 @@
 import React, { CSSProperties, ReactNode } from "react";
+/** Simple spinner */
 export declare function Spinner(): React.DetailedReactHTMLElement<{
     className: string;
 }, HTMLElement>;
+/** Standard button */
 export declare class Button extends React.Component<{
+    /** "default" gets mapped to "secondary" */
     type: string;
     onClick?: () => void;
     disabled?: boolean;
     active?: boolean;
+    /** xs is deprecated. TODO how to handle */
     size?: "sm" | "xs" | "lg";
 }> {
     static defaultProps: {
@@ -19,6 +23,7 @@ export declare class Button extends React.Component<{
         disabled: boolean | undefined;
     }, HTMLElement>;
 }
+/** Icon, font-awesome v4 */
 export declare class Icon extends React.Component<{
     id: string;
 }> {
@@ -36,11 +41,11 @@ export declare class FormGroup extends React.Component<{
     hint?: ReactNode;
     /** Help block at bottom */
     help?: ReactNode;
-    /** True to display as success */
+    /** @deprecated True to display as success */
     hasSuccess?: boolean;
-    /** True to display as warning */
+    /** @deprecated True to display as warning */
     hasWarnings?: boolean;
-    /** True to display as error */
+    /** @deprecated True to display as error */
     hasErrors?: boolean;
 }> {
     render(): React.DetailedReactHTMLElement<{
@@ -196,6 +201,7 @@ export declare class Toggle<T> extends React.Component<{
         value: T | null;
         label: ReactNode;
     }>;
+    /** xs is deprecated */
     size?: "xs" | "sm" | "lg";
     allowReset?: boolean;
 }> {

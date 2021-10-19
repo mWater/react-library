@@ -379,7 +379,7 @@ class BlocksComponent extends React.Component {
             {
               style: { position: "absolute", left: "50%", top: -8, border: "solid 1px #DDF", backgroundColor: "white" }
             },
-            R("span", { className: "glyphicon glyphicon-move" })
+            R("span", { className: "fas fa-arrows-alt" })
           )
         ),
         e
@@ -395,7 +395,7 @@ class BlocksComponent extends React.Component {
           src: "http://image.shutterstock.com/display_pic_with_logo/359716/161613653/stock-photo-orange-fruit-isolated-on-white-161613653.jpg",
           style: {
             width: "33%",
-            className: "img-thumbnail",
+            className: "",
             border: "solid 1px #DDD",
             float: "right"
           }

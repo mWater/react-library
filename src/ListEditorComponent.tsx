@@ -78,14 +78,14 @@ export function ListEditorComponent<T>(props: {
     return (
       <li className="list-group-item" onClick={props.editLink ? undefined : handleClick} key={index}>
         <a
-          className="btn btn-link btn-xs"
+          className="btn btn-link btn-sm"
           onClick={handleDelete.bind(null, index)}
           style={{ float: "right", cursor: "pointer" }}
         >
           <i className="fa fa-remove" />
         </a>
         {props.editLink && props.renderEditor != null ? (
-          <a className="btn btn-link btn-xs" onClick={handleClick} style={{ float: "right", cursor: "pointer" }}>
+          <a className="btn btn-link btn-sm" onClick={handleClick} style={{ float: "right", cursor: "pointer" }}>
             <i className="fa fa-pencil" />
           </a>
         ) : null}
