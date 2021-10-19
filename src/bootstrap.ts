@@ -103,7 +103,7 @@ export class FormGroup extends React.Component<{
     )
   }
 }
- 
+
 export class Checkbox extends React.Component<{
   value: boolean | null | undefined
   onChange?: (value: boolean) => void
@@ -198,7 +198,7 @@ export class Radio extends React.Component<{
 
 /** Select dropdown. Note: stringifies the value of the option so that null, strings, numbers, booleans etc.
  * all work as possible options.*/
- export class Select<T> extends React.Component<{
+export class Select<T> extends React.Component<{
   value: T | null
   onChange?: (value: T | null) => void
   options: Array<{ value: T | null; label: string }>

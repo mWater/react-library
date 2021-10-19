@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react"
-import ReactResizeDetector from 'react-resize-detector/build/withPolyfill';
+import ReactResizeDetector from "react-resize-detector/build/withPolyfill"
 const R = React.createElement
 
 interface AutoSizeComponentProps {
@@ -45,7 +45,7 @@ export default class AutoSizeComponent extends React.Component<AutoSizeComponent
         if (typeof this.props.children === "function") {
           innerElem = this.props.children(overrides)
         } else {
-          // DEPRECATED 
+          // DEPRECATED
           innerElem = React.cloneElement(React.Children.only(this.props.children as any), overrides)
         }
 

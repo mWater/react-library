@@ -35,7 +35,10 @@ export interface SplitPaneProps {
   onResize: (size?: number | string) => void
 }
 
-export default class SplitPane extends React.Component<SplitPaneProps, { resizing: boolean, firstPaneSize?: string | number, dragStartAt?: any }> {
+export default class SplitPane extends React.Component<
+  SplitPaneProps,
+  { resizing: boolean; firstPaneSize?: string | number; dragStartAt?: any }
+> {
   firstPane: any
 
   constructor(props: SplitPaneProps) {

@@ -12,7 +12,7 @@ import React from "react"
 
 const R = React.createElement
 
-export default class Divider extends React.Component<{ 
+export default class Divider extends React.Component<{
   split?: "vertical" | "horizontal"
   onMouseDown: (ev: any) => void
 }> {
@@ -28,8 +28,7 @@ export default class Divider extends React.Component<{
     }
     if (this.props.split === "horizontal") {
       classNames.push("horizontal")
-    }
-    else {
+    } else {
       classNames.push("vertical")
     }
 

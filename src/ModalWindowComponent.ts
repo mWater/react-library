@@ -20,7 +20,7 @@ interface ModalWindowComponentProps {
 // Modal window that fills screen
 export default class ModalWindowComponent extends React.Component<ModalWindowComponentProps> {
   modalNode: any
-  
+
   static show = (modalFunc: any, onClose: any) => {
     // Create temporary div to render into
     const tempDiv = document.createElement("div")
