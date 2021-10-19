@@ -120,7 +120,8 @@ export class Checkbox extends React.Component<{
         "label",
         { className: "form-check form-check-inline" },
         R("input", {
-          type: "form-check-input",
+          type: "checkbox",
+          className: "form-check-input",
           checked: this.props.value || false,
           onChange: this.props.onChange ? this.handleChange : undefined
         }),
@@ -131,7 +132,8 @@ export class Checkbox extends React.Component<{
         "div",
         { className: "form-check" },
         R("input", {
-          type: "form-check-input",
+          type: "checkbox",
+          className: "form-check-input",
           checked: this.props.value || false,
           onChange: this.props.onChange ? this.handleChange : undefined
         }),
