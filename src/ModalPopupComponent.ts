@@ -136,7 +136,7 @@ class InnerModalComponent extends React.Component<InnerModalComponentProps> {
                 this.props.showCloseX
                   ? R("button", { className: "close", onClick: this.props.onClose }, R("span", null, "\u00d7"))
                   : undefined,
-                R("h4", { className: "modal-title" }, this.props.header)
+                R("h5", { className: "modal-title" }, this.props.header)
               )
             : undefined,
 

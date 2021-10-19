@@ -54,7 +54,7 @@ export default class ActionCancelModalComponent extends React.Component<ActionCa
               key: "cancel",
               type: "button",
               onClick: this.props.onCancel,
-              className: "btn btn-default"
+              className: "btn btn-secondary"
             },
             this.props.cancelLabel || (this.props.onAction ? "Cancel" : "Close")
           ),

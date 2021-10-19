@@ -49,15 +49,19 @@ export default class TabbedComponent extends React.Component<TabbedComponentProp
     }
     return R(
       "li",
-      { key: tab.id, className: tabId === tab.id ? "active" : undefined },
+      { key: tab.id, className: "nav-item" },
       R(
         "a",
-        { onClick: this.handleClick.bind(null, tab.id), style: { cursor: "pointer" } },
+        {
+          onClick: this.handleClick.bind(null, tab.id),
+          style: { cursor: "pointer" },
+          className: tabId === tab.id ? "nav-link active" : "nav-link"
+        },
         tab.label,
         tab.onRemove
           ? R(
               "button",
-              { type: "button", className: "btn btn-xs btn-link", onClick: this.handleRemove.bind(null, tab) },
+              { type: "button", className: "btn btn-sm btn-link", onClick: this.handleRemove.bind(null, tab) },
               R("span", { className: "fa fa-times" })
             )
           : undefined
@@ -84,10 +88,10 @@ export default class TabbedComponent extends React.Component<TabbedComponentProp
         this.props.onAddTab
           ? R(
               "li",
-              { key: "_add" },
+              { key: "_add", className: "nav-item" },
               R(
                 "a",
-                { onClick: this.props.onAddTab, style: { cursor: "pointer" } },
+                { className: "nav-link", onClick: this.props.onAddTab, style: { cursor: "pointer" } },
                 R("i", { className: "fa fa-plus" })
               )
             )

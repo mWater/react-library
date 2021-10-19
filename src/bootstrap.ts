@@ -1,4 +1,3 @@
-import PropTypes from "prop-types"
 import classnames from "classnames"
 import React, { CSSProperties, ReactNode } from "react"
 const R = React.createElement
@@ -6,31 +5,36 @@ import _ from "lodash"
 
 // Bootstrap components
 
-// Simple spinner
+/** Simple spinner */
 export function Spinner() {
   return R("i", { className: "fa fa-spinner fa-spin" })
 }
 
-// Standard button
+/** Standard button */
 export class Button extends React.Component<{
+  /** "default" gets mapped to "secondary" */
   type: string // e.g. "primary"
   onClick?: () => void
   disabled?: boolean
   active?: boolean
+  /** xs is deprecated. TODO how to handle */
   size?: "sm" | "xs" | "lg"
 }> {
-  static defaultProps = { type: "default" }
+  static defaultProps = { type: "secondary" }
 
   render() {
+    const type = this.props.type == "default" ? "secondary" : this.props.type
+    const size = this.props.size == "xs" ? "sm" : this.props.size
+
     return R(
       "button",
       {
         type: "button",
         className: classnames(
           "btn",
-          `btn-${this.props.type}`,
+          `btn-${type}`,
           { active: this.props.active },
-          { [`btn-${this.props.size}`]: this.props.size != null }
+          { [`btn-${size}`]: this.props.size != null }
         ),
         onClick: this.props.onClick,
         disabled: this.props.disabled
@@ -40,13 +44,11 @@ export class Button extends React.Component<{
   }
 }
 
-// Icon, either font-awesome or glyphicon
+/** Icon, font-awesome v4 */
 export class Icon extends React.Component<{ id: string }> {
   render() {
     if (this.props.id.match(/^fa-/)) {
       return R("i", { className: `fa ${this.props.id}` })
-    } else if (this.props.id.match(/^glyphicon-/)) {
-      return R("i", { className: `glyphicon ${this.props.id}` })
     } else {
       return null
     }
@@ -63,24 +65,17 @@ export class FormGroup extends React.Component<{
   hint?: ReactNode
   /** Help block at bottom */
   help?: ReactNode
-  /** True to display as success */
+  /** @deprecated True to display as success */
   hasSuccess?: boolean
-  /** True to display as warning */
+  /** @deprecated True to display as warning */
   hasWarnings?: boolean
-  /** True to display as error */
+  /** @deprecated True to display as error */
   hasErrors?: boolean
 }> {
   render() {
-    const classes = {
-      "form-group": true,
-      "has-error": this.props.hasErrors,
-      "has-warning": this.props.hasWarnings,
-      "has-success": this.props.hasSuccess
-    }
-
     return R(
       "div",
-      { className: classnames(classes) },
+      { className: "mb-3" },
       R(
         "label",
         { key: "label" },
@@ -98,7 +93,7 @@ export class FormGroup extends React.Component<{
 
       R("div", { key: "contents", style: { marginLeft: 5 } }, this.props.children),
       this.props.help
-        ? R("p", { key: "help", className: "help-block", style: { marginLeft: 5 } }, this.props.help)
+        ? R("p", { key: "help", className: "form-text text-muted", style: { marginLeft: 5 } }, this.props.help)
         : undefined
     )
   }
@@ -123,28 +118,24 @@ export class Checkbox extends React.Component<{
     if (this.props.inline) {
       return R(
         "label",
-        { className: "checkbox-inline" },
+        { className: "form-check form-check-inline" },
         R("input", {
-          type: "checkbox",
+          type: "form-check-input",
           checked: this.props.value || false,
           onChange: this.props.onChange ? this.handleChange : undefined
         }),
-        this.props.children
+        R("form-check-label", null, this.props.children)
       )
     } else {
       return R(
         "div",
-        { className: "checkbox" },
-        R(
-          "label",
-          null,
-          R("input", {
-            type: "checkbox",
-            checked: this.props.value || false,
-            onChange: this.props.onChange ? this.handleChange : undefined
-          }),
-          this.props.children
-        )
+        { className: "form-check" },
+        R("input", {
+          type: "form-check-input",
+          checked: this.props.value || false,
+          onChange: this.props.onChange ? this.handleChange : undefined
+        }),
+        R("form-check-label", null, this.props.children)
       )
     }
   }
@@ -166,31 +157,29 @@ export class Radio extends React.Component<{
   render() {
     if (this.props.inline) {
       return R(
-        "label",
-        { className: "radio-inline" },
+        "div",
+        { className: "form-check form-check-inline" },
         R("input", {
           type: "radio",
+          className: "form-check-input",
           checked: this.props.value === this.props.radioValue,
           onChange() {}, // Do nothing
           onClick: this.props.onChange ? (ev) => this.props.onChange(this.props.radioValue) : undefined
         }),
-        this.props.children
+        R("form-check-label", null, this.props.children)
       )
     } else {
       return R(
         "div",
-        { className: "radio" },
-        R(
-          "label",
-          null,
-          R("input", {
-            type: "radio",
-            checked: this.props.value === this.props.radioValue,
-            onChange() {}, // Do nothing
-            onClick: this.props.onChange ? (ev) => this.props.onChange(this.props.radioValue) : undefined
-          }),
-          this.props.children
-        )
+        { className: "form-check" },
+        R("input", {
+          type: "radio",
+          className: "form-check-input",
+          checked: this.props.value === this.props.radioValue,
+          onChange() {}, // Do nothing
+          onClick: this.props.onChange ? (ev) => this.props.onChange(this.props.radioValue) : undefined
+        }),
+        R("form-check-label", null, this.props.children)
       )
     }
   }
@@ -230,9 +219,9 @@ export class Select<T> extends React.Component<{
         style,
         disabled: this.props.onChange == null,
         className: classnames(
-          "form-control",
-          { "input-sm": this.props.size === "sm" },
-          { "input-lg": this.props.size === "lg" }
+          "form-select",
+          { "form-select-sm": this.props.size === "sm" },
+          { "form-select-lg": this.props.size === "lg" }
         ),
         value: JSON.stringify(this.props.value != null ? this.props.value : null),
         onChange: this.props.onChange ? this.handleChange : function () {}
@@ -288,8 +277,8 @@ export class TextInput extends React.Component<TextInputProps> {
       type: "text",
       className: classnames(
         "form-control",
-        { "input-sm": this.props.size === "sm" },
-        { "input-lg": this.props.size === "lg" }
+        { "form-control-sm": this.props.size === "sm" },
+        { "form-control-lg": this.props.size === "lg" }
       ),
       value: this.props.value || "",
       style: this.props.style,
@@ -462,7 +451,7 @@ export class NumberInput extends React.Component<NumberInputProps, { inputText: 
         return (this.input = c)
       },
       type: inputType,
-      className: `form-control ${this.props.size ? `input-${this.props.size}` : ""}`,
+      className: `form-control ${this.props.size ? `form-control-${this.props.size}` : ""}`,
       lang: "en",
       style,
       value: this.state.inputText,
@@ -505,7 +494,7 @@ export class CollapsibleSection extends React.Component<CollapsibleSectionProps,
   render() {
     return R(
       "div",
-      { className: "form-group" },
+      { className: "mb-3" },
       R(
         "label",
         { key: "label", onClick: this.handleToggle, style: { cursor: "pointer" } },
@@ -548,8 +537,16 @@ export class NavPills extends React.Component<{
       _.map(this.props.pills, (pill) => {
         return R(
           "li",
-          { key: pill.id, className: pill.id === this.props.activePill ? "active" : "" },
-          R("a", { href: pill.href, onClick: () => this.props.onPillClick?.(pill.id) }, pill.label)
+          { key: pill.id, className: "nav-item" },
+          R(
+            "a",
+            {
+              href: pill.href,
+              onClick: () => this.props.onPillClick?.(pill.id),
+              className: pill.id === this.props.activePill ? "nav-link active" : "nav-link"
+            },
+            pill.label
+          )
         )
       })
     )
@@ -561,13 +558,14 @@ export class Toggle<T> extends React.Component<{
   value: T | null
   onChange?: (value: T | null) => void
   options: Array<{ value: T | null; label: ReactNode }>
+  /** xs is deprecated */
   size?: "xs" | "sm" | "lg"
   allowReset?: boolean
 }> {
   renderOption = (option: any, index: any) => {
     const value = this.props.value === option.value && this.props.allowReset ? null : option.value
     const btnClasses = classnames("btn", {
-      "btn-default": !(this.props.value === option.value),
+      "btn-secondary": !(this.props.value === option.value),
       "btn-primary": this.props.value === option.value,
       active: this.props.value === option.value
     })
@@ -586,9 +584,11 @@ export class Toggle<T> extends React.Component<{
   }
 
   render() {
+    const size = this.props.size == "xs" ? "sm" : this.props.size
+
     return R(
       "div",
-      { className: `btn-group ${this.props.size ? `btn-group-${this.props.size}` : ""}` },
+      { className: `btn-group ${size ? `btn-group-${size}` : ""}` },
       _.map(this.props.options, this.renderOption)
     )
   }
