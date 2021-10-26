@@ -567,7 +567,7 @@ export class Toggle<T> extends React.Component<{
   renderOption = (option: any, index: any) => {
     const value = this.props.value === option.value && this.props.allowReset ? null : option.value
     const btnClasses = classnames("btn", {
-      "btn-secondary": !(this.props.value === option.value),
+      "btn-outline-primary": !(this.props.value === option.value),
       "btn-primary": this.props.value === option.value,
       active: this.props.value === option.value
     })
