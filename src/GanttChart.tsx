@@ -204,63 +204,63 @@ export function GanttChart(props: {
           <div className="menu" style={{ position: "absolute", right: 5, top: 1 }}>
             <div
               style={{ cursor: "pointer", visibility: hoverIndex == index ? "visible" : "hidden" }}
-              data-toggle="dropdown"
+              data-bs-toggle="dropdown"
             >
               <i className="fa fa-caret-square-o-down text-primary" />
             </div>
             <ul className="dropdown-menu" style={{ marginTop: 0 }}>
               {props.onInsertRowAbove != null ? (
                 <li>
-                  <a onClick={() => props.onInsertRowAbove!(index)}>
+                  <a className="dropdown-item" onClick={() => props.onInsertRowAbove!(index)}>
                     <i className="fa fa-fw text-muted fa-chevron-up" /> {props.T("Add Above")}
                   </a>
                 </li>
               ) : null}
               {props.onInsertRowBelow != null ? (
                 <li>
-                  <a onClick={() => props.onInsertRowBelow!(index)}>
+                  <a className="dropdown-item" onClick={() => props.onInsertRowBelow!(index)}>
                     <i className="fa fa-fw text-muted fa-chevron-down" /> {props.T("Add Below")}
                   </a>
                 </li>
               ) : null}
               {props.onInsertChildRow != null ? (
                 <li>
-                  <a onClick={() => props.onInsertChildRow!(index)}>
+                  <a className="dropdown-item" onClick={() => props.onInsertChildRow!(index)}>
                     <i className="fa fa-fw text-muted fa-chevron-right" /> {props.T("Add Subitem")}
                   </a>
                 </li>
               ) : null}
               {canMoveUp ? (
                 <li key="moveUp">
-                  <a onClick={() => props.onMoveRowUp!(index)}>
+                  <a className="dropdown-item" onClick={() => props.onMoveRowUp!(index)}>
                     <i className="fa fa-fw text-muted fa-arrow-up" /> {props.T("Move Up")}
                   </a>
                 </li>
               ) : null}
               {canMoveDown ? (
                 <li key="moveDown">
-                  <a onClick={() => props.onMoveRowDown!(index)}>
+                  <a className="dropdown-item" onClick={() => props.onMoveRowDown!(index)}>
                     <i className="fa fa-fw text-muted fa-arrow-down" /> {props.T("Move Down")}
                   </a>
                 </li>
               ) : null}
               {canMoveLeft ? (
                 <li key="moveLeft">
-                  <a onClick={() => props.onMoveRowLeft!(index)}>
+                  <a className="dropdown-item" onClick={() => props.onMoveRowLeft!(index)}>
                     <i className="fa fa-fw text-muted fa-arrow-left" /> {props.T("Move Left")}
                   </a>
                 </li>
               ) : null}
               {canMoveRight ? (
                 <li key="moveRight">
-                  <a onClick={() => props.onMoveRowRight!(index)}>
+                  <a className="dropdown-item" onClick={() => props.onMoveRowRight!(index)}>
                     <i className="fa fa-fw text-muted fa-arrow-right" /> {props.T("Move Right")}
                   </a>
                 </li>
               ) : null}
               {props.onRemoveRow ? (
                 <li key="removeRow">
-                  <a onClick={() => props.onRemoveRow!(index)}>
+                  <a className="dropdown-item" onClick={() => props.onRemoveRow!(index)}>
                     <i className="fa fa-fw text-muted fa-remove" /> {props.T("Remove")}
                   </a>
                 </li>
