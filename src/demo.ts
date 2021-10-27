@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 import React from "react"
 import ReactDOM from "react-dom"
 const R = React.createElement
@@ -23,7 +21,9 @@ import { DragDropContext } from "react-dnd"
 
 class PopoverHelpSample extends React.Component {
   render() {
-    return R(PopoverHelpComponent, null, "This is a test")
+    return R("div", { style: { margin: 20 }},
+      R(PopoverHelpComponent, null, "This is a test")
+    )
   }
 }
 
@@ -492,8 +492,10 @@ class ReorderDemo extends React.Component {
 
 const ReorderDemoWrapped = DragDropContext(HTML5Backend)(ReorderDemo)
 
-// Wait for DOM to load
-$(function () {
+ReactDOM.render(R(PopoverHelpSample), document.getElementById("main"))
+
+// // Wait for DOM to load
+// $(function () {
   // elem = R VerticalTreeLayoutComponent,
   //   line: "solid 1px red"
   //   height: 50
@@ -557,8 +559,7 @@ $(function () {
   //     }, _.map(_.range(1, 10), (x) -> R 'div', null, "#{x}"))
   //   )
 
-  return ReactDOM.render(elem, document.getElementById("main"))
-})
+// })
 
 //  elem = R ModalPopupComponent, { header: "OUTER", size: "large", trigger: R('button', null, "Open Modal") },
 //    R ModalPopupComponent, { header: "INNER", trigger: R('a', null, "Open Modal") },
