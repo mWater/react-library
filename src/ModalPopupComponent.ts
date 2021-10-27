@@ -133,10 +133,10 @@ class InnerModalComponent extends React.Component<InnerModalComponentProps> {
             ? R(
                 "div",
                 { className: "modal-header" },
+                R("h5", { className: "modal-title" }, this.props.header),
                 this.props.showCloseX
-                  ? R("button", { className: "close", onClick: this.props.onClose }, R("span", null, "\u00d7"))
+                  ? R("button", { type: "button", className: "btn-close", onClick: this.props.onClose })
                   : undefined,
-                R("h5", { className: "modal-title" }, this.props.header)
               )
             : undefined,
 
@@ -156,8 +156,7 @@ class InnerModalComponent extends React.Component<InnerModalComponentProps> {
           !this.props.header && this.props.showCloseX
             ? R(
                 "button",
-                { className: "close", style: { position: "absolute", right: 10, top: 10 } }, // Put above body
-                R("span", { onClick: this.props.onClose }, "\u00d7")
+                { className: "btn-close", style: { position: "absolute", right: 10, top: 10 } }, // Put above body
               )
             : undefined
         )
