@@ -1,7 +1,7 @@
 import _ from "lodash"
 import React, { ReactNode } from "react"
 import ReactDOM from "react-dom"
-import { Popover } from "bootstrap"
+import Popover from "bootstrap/js/dist/popover"
 
 interface PopoverHelpComponentProps {
   placement?: "top" | "right" | "bottom" | "left"
