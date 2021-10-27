@@ -12,14 +12,7 @@ export default class PopoverHelpComponent extends React.Component<PopoverHelpCom
         placement: string;
         trigger: string;
     };
-    render(): React.CElement<{
-        trigger: string[];
-        placement: "left" | "right" | "bottom" | "top" | undefined;
-        overlay: React.CElement<{}, React.Component<{}, any, any>>;
-    }, React.Component<{
-        trigger: string[];
-        placement: "left" | "right" | "bottom" | "top" | undefined;
-        overlay: React.CElement<{}, React.Component<{}, any, any>>;
-    }, any, any>>;
+    divRef: (el: any) => void;
+    render(): JSX.Element;
 }
 export {};
