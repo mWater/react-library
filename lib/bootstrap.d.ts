@@ -52,19 +52,22 @@ export declare class FormGroup extends React.Component<{
         className: string;
     }, HTMLElement>;
 }
-export declare class Checkbox extends React.Component<{
+export interface CheckboxProps {
     value: boolean | null | undefined;
     onChange?: (value: boolean) => void;
     inline?: boolean;
     /** Uses null for false */
     nullForFalse?: boolean;
-}> {
+}
+export declare class Checkbox extends React.Component<CheckboxProps> {
+    id: string;
+    constructor(props: CheckboxProps);
     handleChange: (ev: any) => void;
     render(): React.DetailedReactHTMLElement<{
         className: string;
     }, HTMLElement>;
 }
-export declare class Radio extends React.Component<{
+export interface RadioProps {
     /** Value to display */
     value: any;
     /** Value that radio button represents. If equal to value, button is checked */
@@ -73,7 +76,10 @@ export declare class Radio extends React.Component<{
     onChange: (value: any) => void;
     /** Makes horizontal */
     inline?: boolean;
-}> {
+}
+export declare class Radio extends React.Component<RadioProps> {
+    id: string;
+    constructor(props: RadioProps);
     render(): React.DetailedReactHTMLElement<{
         className: string;
     }, HTMLElement>;

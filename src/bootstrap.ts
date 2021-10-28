@@ -99,13 +99,26 @@ export class FormGroup extends React.Component<{
   }
 }
 
-export class Checkbox extends React.Component<{
+/** Unique id sequence for making ids of elements in checkbox + radio */
+let uniqueId = 0
+
+export interface CheckboxProps {
   value: boolean | null | undefined
   onChange?: (value: boolean) => void
   inline?: boolean
   /** Uses null for false */
   nullForFalse?: boolean
-}> {
+}
+
+export class Checkbox extends React.Component<CheckboxProps> {
+  id: string
+
+  constructor(props: CheckboxProps) {
+    super(props)
+    this.id = `id_${uniqueId}`
+    uniqueId += 1
+  }
+
   handleChange = (ev: any) => {
     if (this.props.nullForFalse) {
       return this.props.onChange!(ev.target.checked || null)
@@ -121,11 +134,12 @@ export class Checkbox extends React.Component<{
         { className: "form-check form-check-inline" },
         R("input", {
           type: "checkbox",
+          id: this.id,
           className: "form-check-input",
           checked: this.props.value || false,
           onChange: this.props.onChange ? this.handleChange : undefined
         }),
-        R("form-check-label", null, this.props.children)
+        R("form-check-label", { htmlFor: this.id }, this.props.children)
       )
     } else {
       return R(
@@ -133,17 +147,19 @@ export class Checkbox extends React.Component<{
         { className: "form-check" },
         R("input", {
           type: "checkbox",
+          id: this.id,
           className: "form-check-input",
           checked: this.props.value || false,
           onChange: this.props.onChange ? this.handleChange : undefined
         }),
-        R("form-check-label", null, this.props.children)
+        R("form-check-label", { htmlFor: this.id }, this.props.children)
       )
     }
   }
 }
 
-export class Radio extends React.Component<{
+
+export interface RadioProps {
   /** Value to display */
   value: any
 
@@ -155,7 +171,17 @@ export class Radio extends React.Component<{
 
   /** Makes horizontal */
   inline?: boolean
-}> {
+}
+
+export class Radio extends React.Component<RadioProps> {
+  id: string
+
+  constructor(props: RadioProps) {
+    super(props)
+    this.id = `id_${uniqueId}`
+    uniqueId += 1
+  }
+
   render() {
     if (this.props.inline) {
       return R(
@@ -164,11 +190,12 @@ export class Radio extends React.Component<{
         R("input", {
           type: "radio",
           className: "form-check-input",
+          id: this.id,
           checked: this.props.value === this.props.radioValue,
           onChange() {}, // Do nothing
           onClick: this.props.onChange ? (ev) => this.props.onChange(this.props.radioValue) : undefined
         }),
-        R("form-check-label", null, this.props.children)
+        R("form-check-label", { htmlFor: this.id }, this.props.children)
       )
     } else {
       return R(
@@ -177,11 +204,12 @@ export class Radio extends React.Component<{
         R("input", {
           type: "radio",
           className: "form-check-input",
+          id: this.id,
           checked: this.props.value === this.props.radioValue,
           onChange() {}, // Do nothing
           onClick: this.props.onChange ? (ev) => this.props.onChange(this.props.radioValue) : undefined
         }),
-        R("form-check-label", null, this.props.children)
+        R("form-check-label", { htmlFor: this.id }, this.props.children)
       )
     }
   }
