@@ -58,6 +58,7 @@ export interface CheckboxProps {
     inline?: boolean;
     /** Uses null for false */
     nullForFalse?: boolean;
+    disabled?: boolean;
 }
 export declare class Checkbox extends React.Component<CheckboxProps> {
     id: string;
@@ -76,6 +77,7 @@ export interface RadioProps {
     onChange: (value: any) => void;
     /** Makes horizontal */
     inline?: boolean;
+    disabled?: boolean;
 }
 export declare class Radio extends React.Component<RadioProps> {
     id: string;
