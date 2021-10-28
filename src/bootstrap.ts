@@ -139,7 +139,7 @@ export class Checkbox extends React.Component<CheckboxProps> {
           checked: this.props.value || false,
           onChange: this.props.onChange ? this.handleChange : undefined
         }),
-        R("form-check-label", { htmlFor: this.id }, this.props.children)
+        R("label", { className: "form-check-label", htmlFor: this.id }, this.props.children)
       )
     } else {
       return R(
@@ -152,7 +152,7 @@ export class Checkbox extends React.Component<CheckboxProps> {
           checked: this.props.value || false,
           onChange: this.props.onChange ? this.handleChange : undefined
         }),
-        R("form-check-label", { htmlFor: this.id }, this.props.children)
+        R("label", { className: "form-check-label", htmlFor: this.id }, this.props.children)
       )
     }
   }
@@ -195,7 +195,7 @@ export class Radio extends React.Component<RadioProps> {
           onChange() {}, // Do nothing
           onClick: this.props.onChange ? (ev) => this.props.onChange(this.props.radioValue) : undefined
         }),
-        R("form-check-label", { htmlFor: this.id }, this.props.children)
+        R("label", { className: "form-check-label", htmlFor: this.id }, this.props.children)
       )
     } else {
       return R(
@@ -209,7 +209,7 @@ export class Radio extends React.Component<RadioProps> {
           onChange() {}, // Do nothing
           onClick: this.props.onChange ? (ev) => this.props.onChange(this.props.radioValue) : undefined
         }),
-        R("form-check-label", { htmlFor: this.id }, this.props.children)
+        R("label", { className: "form-check-label", htmlFor: this.id }, this.props.children)
       )
     }
   }
