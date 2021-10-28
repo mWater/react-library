@@ -108,6 +108,7 @@ export interface CheckboxProps {
   inline?: boolean
   /** Uses null for false */
   nullForFalse?: boolean
+  disabled?: boolean
 }
 
 export class Checkbox extends React.Component<CheckboxProps> {
@@ -135,6 +136,7 @@ export class Checkbox extends React.Component<CheckboxProps> {
         R("input", {
           type: "checkbox",
           id: this.id,
+          disabled: this.props.disabled,
           className: "form-check-input",
           checked: this.props.value || false,
           onChange: this.props.onChange ? this.handleChange : undefined
@@ -148,6 +150,7 @@ export class Checkbox extends React.Component<CheckboxProps> {
         R("input", {
           type: "checkbox",
           id: this.id,
+          disabled: this.props.disabled,
           className: "form-check-input",
           checked: this.props.value || false,
           onChange: this.props.onChange ? this.handleChange : undefined
@@ -171,6 +174,8 @@ export interface RadioProps {
 
   /** Makes horizontal */
   inline?: boolean
+
+  disabled?: boolean
 }
 
 export class Radio extends React.Component<RadioProps> {
@@ -191,6 +196,7 @@ export class Radio extends React.Component<RadioProps> {
           type: "radio",
           className: "form-check-input",
           id: this.id,
+          disabled: this.props.disabled,
           checked: this.props.value === this.props.radioValue,
           onChange() {}, // Do nothing
           onClick: this.props.onChange ? (ev) => this.props.onChange(this.props.radioValue) : undefined
@@ -205,6 +211,7 @@ export class Radio extends React.Component<RadioProps> {
           type: "radio",
           className: "form-check-input",
           id: this.id,
+          disabled: this.props.disabled,
           checked: this.props.value === this.props.radioValue,
           onChange() {}, // Do nothing
           onClick: this.props.onChange ? (ev) => this.props.onChange(this.props.radioValue) : undefined
