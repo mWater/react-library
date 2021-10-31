@@ -131,7 +131,7 @@ export class Checkbox extends React.Component<CheckboxProps> {
   render() {
     if (this.props.inline) {
       return R(
-        "label",
+        "div",
         { className: "form-check form-check-inline" },
         R("input", {
           type: "checkbox",
