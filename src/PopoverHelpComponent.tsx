@@ -28,7 +28,8 @@ export default class PopoverHelpComponent extends React.Component<PopoverHelpCom
       new Popover(el, {
         content: contentDiv,
         trigger: this.props.trigger,
-        placement: this.props.placement
+        placement: this.props.placement,
+        html: true
       })
     }
   }
