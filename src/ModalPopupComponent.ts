@@ -93,7 +93,7 @@ class InnerModalComponent extends React.Component<InnerModalComponentProps> {
       dialogClass += " modal-sm"
     }
     if (this.props.size === "full") {
-      dialogStyle = { width: "95%" }
+      dialogStyle = { maxWidth: "95%" }
     }
 
     if (this.props.width) {
