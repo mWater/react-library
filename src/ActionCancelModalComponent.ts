@@ -1,10 +1,9 @@
-import PropTypes from "prop-types"
 import React from "react"
 const R = React.createElement
 import _ from "lodash"
 import ModalPopupComponent from "./ModalPopupComponent"
 
-interface ActionCancelModalComponentProps {
+export interface ActionCancelModalComponentProps {
   /** Title of modal */
   title?: React.ReactNode
   /** Action button. Defaults to "Save" */
