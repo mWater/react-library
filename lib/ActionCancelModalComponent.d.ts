@@ -1,6 +1,6 @@
 import React from "react";
 import ModalPopupComponent from "./ModalPopupComponent";
-interface ActionCancelModalComponentProps {
+export interface ActionCancelModalComponentProps {
     /** Title of modal */
     title?: React.ReactNode;
     /** Action button. Defaults to "Save" */
@@ -25,4 +25,3 @@ interface ActionCancelModalComponentProps {
 export default class ActionCancelModalComponent extends React.Component<ActionCancelModalComponentProps> {
     render(): React.CElement<any, ModalPopupComponent>;
 }
-export {};
