@@ -1,24 +1,34 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-import PropTypes from "prop-types"
 import _ from "lodash"
-import React from "react"
+import React, { ReactElement, ReactNode } from "react"
 import uuid from "uuid"
-const R = React.createElement
 import ReorderableListItemComponent from "./ReorderableListItemComponent"
+const R = React.createElement
 
-interface ReorderableListComponentProps {
+interface ReorderableListComponentProps<T> {
   /** items to be reordered */
-  items: any
+  items: T[]
+
   /** callback function, called when an item is dropped, gets passed the reordered item list */
-  onReorder: any
-  /** function which renders the item, gets passed the current item and react dnd connectors */
-  renderItem: any
-  /** a uniqid for the list */
+  onReorder: (items: T[]) => void
+
+  /** function which renders the item, gets passed the current item and react dnd connectors
+   * signature: function(item, index, connectDragSource, connectDragPreview, connectDropTarget) */
+  renderItem: (
+    item: T,
+    index: number,
+    connectDragSource: (node: ReactNode) => ReactNode,
+    connectDragPreview: (node: ReactNode) => ReactNode,
+    connectDropTarget: (node: ReactNode) => ReactNode
+  ) => ReactNode
+
+  /** function which should return the identifier of the current item, gets passed the current item. Used for key */
+  getItemId: (item: T) => any
+
+  /** a unique id for the list */
   listId?: string
-  /** function which should return the identifier of the current item, gets passed the current item */
-  getItemId: any
-  element?: any
+
+  /** the element to render this component as. Default is div */
+  element?: ReactElement
 }
 
 interface ReorderableListComponentState {
@@ -26,9 +36,9 @@ interface ReorderableListComponentState {
   listId: any
 }
 
-// Reorderable component for nested items
-// Currently supports reordering within the same list
-class ReorderableListComponent extends React.Component<ReorderableListComponentProps, ReorderableListComponentState> {
+/** Reorderable component for nested items
+ * Currently supports reordering within the same list */
+ export default class ReorderableListComponent<T> extends React.Component<ReorderableListComponentProps<T>, ReorderableListComponentState> {
   static defaultProps = { element: R("div", null) }
 
   constructor(props: any) {
@@ -40,7 +50,7 @@ class ReorderableListComponent extends React.Component<ReorderableListComponentP
     }
   }
 
-  componentWillReceiveProps(nextProps: any) {
+  componentWillReceiveProps(nextProps: ReorderableListComponentProps<T>) {
     const newOrder = _.map(nextProps.items, (item) => this.props.getItemId(item))
     const oldOrder = _.map(this.props.items, (item) => this.props.getItemId(item))
 
@@ -115,8 +125,8 @@ class ReorderableListComponent extends React.Component<ReorderableListComponentP
     this.fixOrder(items, this.state.order)
 
     return React.cloneElement(
-      this.props.element,
-      null,
+      this.props.element!,
+      {},
       _.map(items, (item, index) => {
         return R(ReorderableListItemComponent, {
           key: this.props.getItemId(item),
@@ -133,5 +143,3 @@ class ReorderableListComponent extends React.Component<ReorderableListComponentP
     )
   }
 }
-
-export default ReorderableListComponent

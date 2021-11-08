@@ -30,19 +30,20 @@ export default abstract class AsyncLoadComponent<P, S extends { loading: boolean
     this._loadSeqCompleted = 0
   }
 
+  /** Check if mid-loading */
   isLoading = () => {
     return this.state.loading
   }
 
-  // Override to determine if a load is needed. Not called on mounting
-  abstract isLoadNeeded(newProps: any, oldProps: any): boolean
+  /** Override to determine if a load is needed. Not called on mounting */
+  abstract isLoadNeeded(newProps: P, oldProps: P): boolean
 
-  // Call callback with state changes
-  abstract load(props: any, prevProps: any, callback: any): void
+  /** Call callback with state changes */
+  abstract load(props: P, prevProps: P, callback: (stateUpdate: Partial<S>) => void): void
 
-  // Call to force load
-  forceLoad() {
-    return this._performLoad(this.props, this.props)
+  /** Call to force load */
+  forceLoad(): void {
+    this._performLoad(this.props, this.props)
   }
 
   _performLoad(newProps: any, oldProps: any) {
