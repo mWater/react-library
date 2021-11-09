@@ -3,7 +3,7 @@ import _ from "lodash"
 import React, { ReactNode } from "react"
 const R = React.createElement
 
-interface TabbedComponentProps {
+export interface TabbedComponentProps {
   /** Array of { id, label, elem, onRemove (optional) } */
   tabs: Array<{ id: string; label: ReactNode; elem: ReactNode; onRemove?: () => void }>
 

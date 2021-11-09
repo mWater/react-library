@@ -798,14 +798,14 @@ export interface RenderCellEditorProps {
   onEndEdit: () => Promise<boolean>
 }
 
-interface CellRange {
+export interface CellRange {
   colStart: number
   colEnd: number
   rowStart: number
   rowEnd: number
 }
 
-interface CellSelection {
+export interface CellSelection {
   row: number
   col: number
 }

@@ -3,7 +3,7 @@ import React, { ReactNode } from "react"
 import ReactDOM from "react-dom"
 import Popover from "bootstrap/js/dist/popover"
 
-interface PopoverHelpComponentProps {
+export interface PopoverHelpComponentProps {
   placement?: "top" | "right" | "bottom" | "left"
 
   /** hover is default */

@@ -109,8 +109,8 @@ export declare class Select<T> extends React.Component<{
         onChange: ((ev: any) => void) | (() => void);
     }, Element>;
 }
-declare type TextInputProps = TextInputPropsNull | TextInputPropsNoNull;
-interface TextInputPropsNoNull {
+export declare type TextInputProps = TextInputPropsNull | TextInputPropsNoNull;
+export interface TextInputPropsNoNull {
     value: string | null;
     onChange?: (value: string) => void;
     placeholder?: string;
@@ -118,7 +118,7 @@ interface TextInputPropsNoNull {
     emptyNull?: false;
     style?: object;
 }
-interface TextInputPropsNull {
+export interface TextInputPropsNull {
     value: string | null;
     onChange?: (value: string | null) => void;
     placeholder?: string;
@@ -169,7 +169,7 @@ export declare class NumberInput extends React.Component<NumberInputProps, {
     isValid(): boolean;
     render(): React.DetailedReactHTMLElement<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 }
-interface CollapsibleSectionProps {
+export interface CollapsibleSectionProps {
     initiallyOpen?: boolean;
     /** Label to display */
     label: ReactNode;
@@ -222,4 +222,3 @@ export declare class Toggle<T> extends React.Component<{
         className: string;
     }, HTMLElement>;
 }
-export {};

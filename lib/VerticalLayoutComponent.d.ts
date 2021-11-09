@@ -1,5 +1,5 @@
 import React from "react";
-interface VerticalLayoutComponentProps {
+export interface VerticalLayoutComponentProps {
     /** Height of component */
     height: number;
     /** Fraction to allocate for fractional heights. Should total 1.0. Keyed by key of child */

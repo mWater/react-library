@@ -2,7 +2,7 @@ import React, { CSSProperties } from "react"
 import ReactResizeDetector from "react-resize-detector/build/withPolyfill"
 const R = React.createElement
 
-interface AutoSizeComponentProps {
+export interface AutoSizeComponentProps {
   /** True to inject width */
   injectWidth?: boolean
   /** True to inject height */

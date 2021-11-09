@@ -87,7 +87,7 @@ function collectSource(connect: any, monitor: any) {
   }
 }
 
-interface ReorderableListItemComponentProps {
+export interface ReorderableListItemComponentProps {
   /** the item from reorderable list */
   item: any
   /** internally used for tracking if an item is being dragged */

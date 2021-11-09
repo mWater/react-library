@@ -118,3 +118,13 @@ export interface RenderCellEditorProps {
     /** Call to end editing. Returns success */
     onEndEdit: () => Promise<boolean>;
 }
+export interface CellRange {
+    colStart: number;
+    colEnd: number;
+    rowStart: number;
+    rowEnd: number;
+}
+export interface CellSelection {
+    row: number;
+    col: number;
+}
