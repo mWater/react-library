@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-interface TabbedComponentProps {
+export interface TabbedComponentProps {
     /** Array of { id, label, elem, onRemove (optional) } */
     tabs: Array<{
         id: string;
@@ -28,4 +28,3 @@ export default class TabbedComponent extends React.Component<TabbedComponentProp
     }, HTMLElement>;
     render(): React.DetailedReactHTMLElement<React.HTMLAttributes<HTMLElement>, HTMLElement>;
 }
-export {};

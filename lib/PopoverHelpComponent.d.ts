@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-interface PopoverHelpComponentProps {
+export interface PopoverHelpComponentProps {
     placement?: "top" | "right" | "bottom" | "left";
     /** hover is default */
     trigger?: "hover" | "click";
@@ -15,4 +15,3 @@ export default class PopoverHelpComponent extends React.Component<PopoverHelpCom
     divRef: (el: any) => void;
     render(): JSX.Element;
 }
-export {};

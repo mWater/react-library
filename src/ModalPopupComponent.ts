@@ -1,10 +1,9 @@
-import PropTypes from "prop-types"
 import React from "react"
 import ReactDOM from "react-dom"
 const R = React.createElement
 import _ from "lodash"
 
-interface ModalPopupComponentProps {
+export interface ModalPopupComponentProps {
   /** Header of modal. Any react element */
   header?: React.ReactNode
   /** Footer of modal. Any react element */
@@ -67,7 +66,7 @@ export default class ModalPopupComponent extends React.Component<ModalPopupCompo
   }
 }
 
-interface InnerModalComponentProps {
+export interface InnerModalComponentProps {
   /** Header of modal. Any react element */
   header?: any
   /** Footer of modal. Any react element */

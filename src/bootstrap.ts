@@ -270,9 +270,9 @@ export class Select<T> extends React.Component<{
   }
 }
 
-type TextInputProps = TextInputPropsNull | TextInputPropsNoNull
+export type TextInputProps = TextInputPropsNull | TextInputPropsNoNull
 
-interface TextInputPropsNoNull {
+export interface TextInputPropsNoNull {
   value: string | null
   onChange?: (value: string) => void
   placeholder?: string
@@ -281,7 +281,7 @@ interface TextInputPropsNoNull {
   style?: object
 }
 
-interface TextInputPropsNull {
+export interface TextInputPropsNull {
   value: string | null
   onChange?: (value: string | null) => void
   placeholder?: string
@@ -501,7 +501,7 @@ export class NumberInput extends React.Component<NumberInputProps, { inputText: 
   }
 }
 
-interface CollapsibleSectionProps {
+export interface CollapsibleSectionProps {
   initiallyOpen?: boolean
 
   /** Label to display */

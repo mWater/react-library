@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react"
 const R = React.createElement
 
-interface VerticalLayoutComponentProps {
+export interface VerticalLayoutComponentProps {
   /** Height of component */
   height: number
 

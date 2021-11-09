@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 const R = React.createElement
 import _ from "lodash"
 
-interface ModalWindowComponentProps {
+export interface ModalWindowComponentProps {
   /** True to display modal window */
   isOpen: boolean
 

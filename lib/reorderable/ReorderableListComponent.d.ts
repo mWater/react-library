@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from "react";
-interface ReorderableListComponentProps<T> {
+export interface ReorderableListComponentProps<T> {
     /** items to be reordered */
     items: T[];
     /** callback function, called when an item is dropped, gets passed the reordered item list */

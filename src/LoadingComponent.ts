@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 const R = React.createElement
 
-interface LoadingComponentProps {
+export interface LoadingComponentProps {
   /** Defaults to 100% */
   width?: string | number
   /** Defaults to 100% */

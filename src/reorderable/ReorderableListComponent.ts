@@ -4,7 +4,7 @@ import uuid from "uuid"
 import ReorderableListItemComponent from "./ReorderableListItemComponent"
 const R = React.createElement
 
-interface ReorderableListComponentProps<T> {
+export interface ReorderableListComponentProps<T> {
   /** items to be reordered */
   items: T[]
 

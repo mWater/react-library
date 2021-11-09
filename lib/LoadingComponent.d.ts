@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-interface LoadingComponentProps {
+export interface LoadingComponentProps {
     /** Defaults to 100% */
     width?: string | number;
     /** Defaults to 100% */
@@ -28,4 +28,3 @@ export default class LoadingComponent extends React.Component<LoadingComponentPr
         };
     }, HTMLElement>;
 }
-export {};

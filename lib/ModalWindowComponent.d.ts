@@ -1,5 +1,5 @@
 import React from "react";
-interface ModalWindowComponentProps {
+export interface ModalWindowComponentProps {
     /** True to display modal window */
     isOpen: boolean;
     /** Called when close X is clicked */
@@ -17,4 +17,3 @@ export default class ModalWindowComponent extends React.Component<ModalWindowCom
     componentWillUnmount(): any;
     render(): React.ReactPortal;
 }
-export {};
