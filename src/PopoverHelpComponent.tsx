@@ -15,11 +15,6 @@ export interface PopoverHelpComponentProps {
 
 /** Shows a popover when help icon is clicked. Needs bootstrap */
 export default class PopoverHelpComponent extends React.Component<PopoverHelpComponentProps> {
-  static defaultProps = {
-    placement: "top",
-    trigger: "hover",
-  }
-
   divRef = (el: any) => {
     if (el) {
       // Create div with content
@@ -27,8 +22,8 @@ export default class PopoverHelpComponent extends React.Component<PopoverHelpCom
       ReactDOM.render(this.props.children as any, contentDiv)
       new Popover(el, {
         content: contentDiv,
-        trigger: this.props.trigger,
-        placement: this.props.placement,
+        trigger: this.props.trigger || "hover",
+        placement: this.props.placement || "top",
         html: true
       })
     }
