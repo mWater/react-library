@@ -8,10 +8,6 @@ export interface PopoverHelpComponentProps {
 }
 /** Shows a popover when help icon is clicked. Needs bootstrap */
 export default class PopoverHelpComponent extends React.Component<PopoverHelpComponentProps> {
-    static defaultProps: {
-        placement: string;
-        trigger: string;
-    };
     divRef: (el: any) => void;
     render(): JSX.Element;
 }
