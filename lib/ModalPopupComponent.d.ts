@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 export interface ModalPopupComponentProps {
     /** Header of modal. Any react element */
     header?: React.ReactNode;
@@ -14,8 +14,9 @@ export interface ModalPopupComponentProps {
 }
 export default class ModalPopupComponent extends React.Component<ModalPopupComponentProps> {
     modalNode: any;
-    static show: (modalFunc: any, onClose: any) => Element;
-    constructor(props: any);
+    /** Render something into a top-level div */
+    static show: (modalFunc: (close: () => void) => ReactElement, onClose?: (() => void) | undefined) => void | Element | React.Component<any, any, any>;
+    constructor(props: ModalPopupComponentProps);
     componentWillUnmount(): any;
     render(): React.ReactPortal;
 }
