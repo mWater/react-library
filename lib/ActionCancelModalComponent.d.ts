@@ -23,5 +23,5 @@ export interface ActionCancelModalComponentProps {
     deleteBusy?: boolean;
 }
 export default class ActionCancelModalComponent extends React.Component<ActionCancelModalComponentProps> {
-    render(): React.CElement<any, ModalPopupComponent>;
+    render(): React.CElement<import("./ModalPopupComponent").ModalPopupComponentProps, ModalPopupComponent>;
 }

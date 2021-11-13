@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ReactElement } from "react"
 import ReactDOM from "react-dom"
 const R = React.createElement
 import _ from "lodash"
@@ -21,7 +21,8 @@ export interface ModalPopupComponentProps {
 export default class ModalPopupComponent extends React.Component<ModalPopupComponentProps> {
   modalNode: any
 
-  static show = (modalFunc: any, onClose: any) => {
+  /** Render something into a top-level div */
+  static show = (modalFunc: (close: () => void) => ReactElement, onClose?: () => void) => {
     // Create temporary div to render into
     const tempDiv = document.createElement("div")
 
@@ -43,7 +44,7 @@ export default class ModalPopupComponent extends React.Component<ModalPopupCompo
     return ReactDOM.render(popupElem, tempDiv)
   }
 
-  constructor(props: any) {
+  constructor(props: ModalPopupComponentProps) {
     super(props)
 
     // Add special region to body

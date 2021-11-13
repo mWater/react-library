@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 export interface ModalWindowComponentProps {
     /** True to display modal window */
     isOpen: boolean;
@@ -12,8 +12,9 @@ export interface ModalWindowComponentProps {
 }
 export default class ModalWindowComponent extends React.Component<ModalWindowComponentProps> {
     modalNode: any;
-    static show: (modalFunc: any, onClose: any) => Element;
-    constructor(props: any);
+    /** Render something into a top-level div */
+    static show: (modalFunc: (close: () => void) => ReactElement, onClose?: (() => void) | undefined) => void | Element | React.Component<any, any, any>;
+    constructor(props: ModalWindowComponentProps);
     componentWillUnmount(): any;
     render(): React.ReactPortal;
 }
