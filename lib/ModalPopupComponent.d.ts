@@ -5,7 +5,7 @@ export interface ModalPopupComponentProps {
     /** Footer of modal. Any react element */
     footer?: React.ReactNode;
     /** Size of modal. Default is "normal" */
-    size?: "large" | "full" | "normal" | "small";
+    size?: "large" | "full" | "normal" | "small" | "x-large";
     /** True to show close 'x' at top right */
     showCloseX?: boolean;
     /** callback function to be called when close is requested */
@@ -26,7 +26,7 @@ export interface InnerModalComponentProps {
     /** Footer of modal. Any react element */
     footer?: any;
     /** "large" for large, "full" for full-width */
-    size?: string;
+    size?: "large" | "full" | "normal" | "small" | "x-large";
     /** True to show close 'x' at top right */
     showCloseX?: boolean;
     /** callback function to be called when close is requested */
