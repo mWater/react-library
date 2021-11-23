@@ -33,6 +33,18 @@ export default class ActionCancelModalComponent extends React.Component<ActionCa
         size: this.props.size,
         header: this.props.title,
         footer: [
+          this.props.onDelete
+            ? R(
+                "button",
+                {
+                  key: "delete",
+                  type: "button",
+                  onClick: this.props.onDelete,
+                  className: "btn btn-danger me-auto"
+                },
+                this.props.deleteLabel || "Delete"
+              )
+            : undefined,
           this.props.onAction
             ? R(
                 "button",
@@ -57,19 +69,6 @@ export default class ActionCancelModalComponent extends React.Component<ActionCa
             },
             this.props.cancelLabel || (this.props.onAction ? "Cancel" : "Close")
           ),
-          this.props.onDelete
-            ? R(
-                "button",
-                {
-                  key: "delete",
-                  type: "button",
-                  style: { float: "left" },
-                  onClick: this.props.onDelete,
-                  className: "btn btn-danger"
-                },
-                this.props.deleteLabel || "Delete"
-              )
-            : undefined
         ]
       },
       this.props.children
