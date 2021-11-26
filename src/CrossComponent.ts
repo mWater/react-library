@@ -26,29 +26,26 @@ export default class CrossComponent extends React.Component<CrossComponentProps>
     height: "100%"
   }
 
-  // Make sure to always use className flexBox and not style: {display: 'flex'} (or else it won't work on all browsers)
   render() {
     // Make horizontal two boxes
     return R(
       "div",
       {
-        className: "flexBox",
         style: { display: "flex", flexDirection: "column", width: this.props.width, height: this.props.height }
       },
       R(
         "div",
-        { className: "flexBox", style: { display: "flex", flex: this.props.collapseTop ? "0 1 0px" : "1 1 0px" } },
+        { style: { display: "flex", flex: this.props.collapseTop ? "0 1 0px" : "1 1 0px" } },
         R("div", {
-          className: "flexBox",
-          style: { flex: "1 1 0px", borderRight: this.props.n, borderBottom: this.props.w }
+          style: { display: "flex", flex: "1 1 0px", borderRight: this.props.n, borderBottom: this.props.w }
         }),
-        R("div", { className: "flexBox", style: { flex: "1 1 0px", borderBottom: this.props.e } })
+        R("div", { style: { display: "flex", flex: "1 1 0px", borderBottom: this.props.e } })
       ),
       R(
         "div",
-        { className: "flexBox", style: { display: "flex", flex: "1 1 0px" } },
-        R("div", { className: "flexBox", style: { flex: "1 1 0px", borderRight: this.props.s } }),
-        R("div", { className: "flexBox", style: { flex: "1 1 0px" } })
+        { style: { display: "flex", flex: "1 1 0px" } },
+        R("div", { style: { display: "flex", flex: "1 1 0px", borderRight: this.props.s } }),
+        R("div", { style: { display: "flex", flex: "1 1 0px" } })
       )
     )
   }

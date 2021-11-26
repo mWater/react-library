@@ -8,7 +8,7 @@ import PropTypes from "prop-types"
 // Vertical splitpane divider gets the classes "divider vertical"
 // Horizontal splitpane divider gets the classes "divider horizontal"
 
-import React from "react"
+import React, { CSSProperties } from "react"
 
 const R = React.createElement
 
@@ -22,14 +22,18 @@ export default class Divider extends React.Component<{
 
   render() {
     const classNames = ["divider"]
-
-    if (this.props.split === "vertical") {
-      classNames.push("vertical")
+    const style: CSSProperties = {
+      backgroundColor: "#aeaeae"
     }
+
     if (this.props.split === "horizontal") {
       classNames.push("horizontal")
+      style.height = 4
+      style.cursor = "row-resize"
     } else {
       classNames.push("vertical")
+      style.width = 4
+      style.cursor = "col-resize"
     }
 
     return R("div", { className: classNames.join(" "), onMouseDown: this.onMouseDown })
