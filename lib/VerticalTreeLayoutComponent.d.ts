@@ -9,7 +9,6 @@ export interface VerticalTreeLayoutComponentProps {
 export default class VerticalTreeLayoutComponent extends React.Component<VerticalTreeLayoutComponentProps> {
     renderChildren(): (React.CElement<import("./CrossComponent").CrossComponentProps, CrossComponent> | React.DetailedReactHTMLElement<{
         key: number;
-        className: string;
         style: {
             display: "flex";
             flexFlow: "column nowrap";
@@ -18,8 +17,8 @@ export default class VerticalTreeLayoutComponent extends React.Component<Vertica
         };
     }, HTMLElement>)[];
     render(): React.DetailedReactHTMLElement<{
-        className: string;
         style: {
+            display: "flex";
             flexFlow: "column nowrap";
             alignItems: "center";
         };
