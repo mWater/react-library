@@ -55,7 +55,6 @@ export default class VerticalTreeLayoutComponent extends React.Component<Vertica
             "div",
             {
               key: i,
-              className: "flexBox",
               style: { display: "flex", flexFlow: "column nowrap", justifyContent: "flex-start", flexShrink: 0 }
             },
             React.createElement(CrossComponent, {
@@ -75,11 +74,10 @@ export default class VerticalTreeLayoutComponent extends React.Component<Vertica
     return children
   }
 
-  // Make sure to always use className flexBox and not style: {display: 'flex'} (or else it won't work on all browsers)
   render() {
     return R(
       "div",
-      { className: "flexBox", style: { flexFlow: "column nowrap", alignItems: "center" } },
+      { style: { display: "flex", flexFlow: "column nowrap", alignItems: "center" } },
       // Center head
       this.props.headElem,
       React.Children.count(this.props.children) > 0
@@ -90,8 +88,7 @@ export default class VerticalTreeLayoutComponent extends React.Component<Vertica
         "div",
         {
           key: "children",
-          className: "flexBox",
-          style: { flexFlow: "row nowrap", justifyContent: "flex-start", width: "100%" }
+          style: { display: "flex", flexFlow: "row nowrap", justifyContent: "flex-start", width: "100%" }
         },
         this.renderChildren()
       )
