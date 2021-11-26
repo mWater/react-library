@@ -56,7 +56,7 @@ export default class VerticalTreeLayoutComponent extends React.Component<Vertica
             {
               key: i,
               className: "flexBox",
-              style: { flexFlow: "column nowrap", justifyContent: "flex-start", flexShrink: 0 }
+              style: { display: "flex", flexFlow: "column nowrap", justifyContent: "flex-start", flexShrink: 0 }
             },
             React.createElement(CrossComponent, {
               collapseTop: true,

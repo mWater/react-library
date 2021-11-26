@@ -11,6 +11,7 @@ export default class VerticalTreeLayoutComponent extends React.Component<Vertica
         key: number;
         className: string;
         style: {
+            display: "flex";
             flexFlow: "column nowrap";
             justifyContent: "flex-start";
             flexShrink: number;

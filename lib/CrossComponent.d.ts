@@ -21,7 +21,6 @@ export default class CrossComponent extends React.Component<CrossComponentProps>
         height: string;
     };
     render(): React.DetailedReactHTMLElement<{
-        className: string;
         style: {
             display: "flex";
             flexDirection: "column";
