@@ -610,7 +610,9 @@ export class Toggle<T> extends React.Component<{
     const props = {
       key: index,
       type: "button",
-      className: btnClasses
+      className: btnClasses,
+      // Wrapping creates awkward looking toggles
+      style: { whiteSpace: "nowrap" }
     }
 
     if (!(this.props.value === option.value) || this.props.allowReset) {

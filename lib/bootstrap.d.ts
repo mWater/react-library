@@ -213,11 +213,7 @@ export declare class Toggle<T> extends React.Component<{
     size?: "xs" | "sm" | "lg";
     allowReset?: boolean;
 }> {
-    renderOption: (option: any, index: any) => React.DetailedReactHTMLElement<{
-        key: any;
-        type: string;
-        className: string;
-    }, HTMLElement>;
+    renderOption: (option: any, index: any) => React.DOMElement<React.DOMAttributes<Element>, Element>;
     render(): React.DetailedReactHTMLElement<{
         className: string;
     }, HTMLElement>;
