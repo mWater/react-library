@@ -19,7 +19,7 @@ export interface ActionCancelModalComponentProps {
   /** Big red destuctive action in footer. Not present if null */
   onDelete?: () => void
   /** "large" for large, "full" for full width */
-  size?: "large" | "full"
+  size?: "large" | "x-large" | "full"
   /** True for action button to show spinner and be disabled */
   actionBusy?: boolean
 }
