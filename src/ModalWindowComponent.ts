@@ -143,7 +143,10 @@ class InnerModalComponent extends React.Component<InnerModalComponentProps> {
         { style: windowStyle, className: "modal-window-component-window" },
         R("div", { style: contentStyle }, this.props.children),
         this.props.onRequestClose
-          ? R("div", { style: closeStyle }, R("i", { className: "fa fa-remove", onClick: this.props.onRequestClose }))
+          ? 
+            R("div", { style: closeStyle }, 
+              R("button", { type: "button", className: "btn-close", onClick: this.props.onRequestClose })
+            )
           : undefined
       )
     )
