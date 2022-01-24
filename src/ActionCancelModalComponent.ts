@@ -44,6 +44,7 @@ export default class ActionCancelModalComponent extends React.Component<ActionCa
                   onClick: this.props.onDelete,
                   className: "btn btn-danger me-auto"
                 },
+                this.props.deleteBusy ? [R("i", { className: "fa fa-spinner fa-spin" }), "\u00A0"] : undefined,
                 this.props.deleteLabel || "Delete"
               )
             : undefined,

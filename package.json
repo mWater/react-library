@@ -49,7 +49,7 @@
     "@types/react": "^16.9.49",
     "@types/react-select": "^3.0.19",
     "@types/uuid": "^3.4.10",
-    "build-library": "github:mWater/build-library#bs5",
+    "build-library": "github:mWater/build-library",
     "canonical-json": "0.0.4",
     "chai": "^3.4.0",
     "enzyme": "^2.8.0",
