@@ -5,7 +5,7 @@ export interface AutoSizeComponentProps {
     injectWidth?: boolean;
     /** True to inject height */
     injectHeight?: boolean;
-    children: (size: {
+    children?: (size: {
         width?: number;
         height?: number;
     }) => React.ReactElement<any>;
