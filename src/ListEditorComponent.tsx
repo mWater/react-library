@@ -38,7 +38,9 @@ export function ListEditorComponent<T>(props: {
   const [editing, setEditing] = useState<Partial<T>>()
   const [editingIndex, setEditingIndex] = useState<number>()
 
-  const handleAdd = () => {
+  const handleAdd = (ev: React.MouseEvent<HTMLButtonElement>) => {
+    ev.stopPropagation()
+
     if (props.renderEditor != null) {
       setAdding(props.createNew!())
     } else {
