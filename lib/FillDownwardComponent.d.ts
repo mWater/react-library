@@ -1,9 +1,14 @@
 import React from "react";
-export default class FillDownwardComponent extends React.Component<{}, {
+export interface FillDownwardComponentProps {
+    /** Optional bottom margin */
+    margin?: number;
+}
+/** Component which sets its height to automatically fill all remaining vertical space, minus an optional margin */
+export default class FillDownwardComponent extends React.Component<FillDownwardComponentProps, {
     height: number | null;
 }> {
     self: any;
-    constructor(props: any);
+    constructor(props: FillDownwardComponentProps);
     componentDidMount(): void;
     componentWillUnmount(): void;
     updateSize: () => void;
@@ -12,6 +17,6 @@ export default class FillDownwardComponent extends React.Component<{}, {
             height: number;
             position: "relative";
         };
-        ref: (c: HTMLElement | null) => HTMLElement | null;
+        ref: (c: HTMLElement | null) => void;
     }, HTMLElement>;
 }
