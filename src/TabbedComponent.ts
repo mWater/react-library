@@ -1,11 +1,18 @@
-import PropTypes from "prop-types"
 import _ from "lodash"
 import React, { ReactNode } from "react"
 const R = React.createElement
 
+/** Single tab of a tabbed component */
+export interface TabbedComponentTab {
+  id: string
+  label: ReactNode
+  elem: ReactNode
+  onRemove?: () => void 
+}
+
 export interface TabbedComponentProps {
   /** Array of { id, label, elem, onRemove (optional) } */
-  tabs: Array<{ id: string; label: ReactNode; elem: ReactNode; onRemove?: () => void }>
+  tabs: TabbedComponentTab[]
 
   /** Initially selected id of tab */
   initialTabId?: string
@@ -20,7 +27,7 @@ export interface TabbedComponentProps {
   onTabClick?: (tabId: string) => void
 }
 
-// Simple bootstrap tabbed component
+/** Simple bootstrap tabbed component */
 export default class TabbedComponent extends React.Component<TabbedComponentProps, { tabId?: string }> {
   constructor(props: any) {
     super(props)

@@ -1,12 +1,14 @@
 import React, { ReactNode } from "react";
+/** Single tab of a tabbed component */
+export interface TabbedComponentTab {
+    id: string;
+    label: ReactNode;
+    elem: ReactNode;
+    onRemove?: () => void;
+}
 export interface TabbedComponentProps {
     /** Array of { id, label, elem, onRemove (optional) } */
-    tabs: Array<{
-        id: string;
-        label: ReactNode;
-        elem: ReactNode;
-        onRemove?: () => void;
-    }>;
+    tabs: TabbedComponentTab[];
     /** Initially selected id of tab */
     initialTabId?: string;
     /** Selected id of tab if controlled component */
@@ -16,6 +18,7 @@ export interface TabbedComponentProps {
     /** Set to be called back when a tab is clicked (tabId) instead of setting internal state */
     onTabClick?: (tabId: string) => void;
 }
+/** Simple bootstrap tabbed component */
 export default class TabbedComponent extends React.Component<TabbedComponentProps, {
     tabId?: string;
 }> {
