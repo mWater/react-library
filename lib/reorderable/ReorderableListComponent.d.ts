@@ -30,6 +30,6 @@ export default class ReorderableListComponent<T> extends React.Component<Reorder
     handlePutAfter: (id: any, afterId: any) => void;
     handleEndDrag: () => void;
     fixOrder: (items: any, order: any) => any;
-    render(): React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)>;
+    render(): React.ReactElement<any, string | React.JSXElementConstructor<any>>;
 }
 export {};

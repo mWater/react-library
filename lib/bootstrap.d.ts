@@ -106,7 +106,7 @@ export declare class Select<T> extends React.Component<{
         disabled: boolean;
         className: string;
         value: string;
-        onChange: ((ev: any) => void) | (() => void);
+        onChange: (ev: any) => void;
     }, Element>;
 }
 export declare type TextInputProps = TextInputPropsNull | TextInputPropsNoNull;

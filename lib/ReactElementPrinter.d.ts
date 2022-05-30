@@ -8,5 +8,5 @@ export default class ReactElementPrinter {
     print(element: ReactElement, options: {
         delay?: number;
         text?: string;
-    }): void;
+    }): Promise<void>;
 }
