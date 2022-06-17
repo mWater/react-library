@@ -218,3 +218,10 @@ export declare class Toggle<T> extends React.Component<{
         className: string;
     }, HTMLElement>;
 }
+/** Panel that can be opened and closed */
+export declare function CollapsiblePanel(props: {
+    title: ReactNode;
+    hint?: ReactNode;
+    children: any;
+    initiallyClosed?: boolean;
+}): JSX.Element;

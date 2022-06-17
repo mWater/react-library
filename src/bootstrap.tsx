@@ -1,7 +1,7 @@
-import classnames from "classnames"
-import React, { CSSProperties, ReactNode } from "react"
-const R = React.createElement
 import _ from "lodash"
+import classnames from "classnames"
+import React, { CSSProperties, ReactNode, useState } from "react"
+const R = React.createElement
 
 // Bootstrap components
 
@@ -631,4 +631,28 @@ export class Toggle<T> extends React.Component<{
       _.map(this.props.options, this.renderOption)
     )
   }
+}
+
+/** Panel that can be opened and closed */
+export function CollapsiblePanel(props: {
+  title: ReactNode
+  hint?: ReactNode
+  children: any
+  initiallyClosed?: boolean
+}) {
+  const [open, setOpen] = useState(props.initiallyClosed ? false : true)
+
+  return <div className="card mb-3">
+    <div className="card-header">
+      <div
+        style={{ display: "inline-block", paddingRight: 5, color: "var(--bs-primary)", cursor: "pointer" }}
+        onClick={() => setOpen((o) => !o)}
+      >
+        { open ? <i className="fas fa-caret-down fa-fw" /> : <i className="fas fa-caret-right fa-fw" /> }
+      </div>
+      {props.title}
+      {props.hint ? <span className="text-muted">{" - "}{props.hint}</span> : null}
+    </div>
+    { open ? <div className="card-body">{props.children}</div> : null }
+  </div>
 }
