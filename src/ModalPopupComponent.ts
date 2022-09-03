@@ -104,12 +104,7 @@ class InnerModalComponent extends React.Component<InnerModalComponentProps> {
     }
 
     const rootStyle = {
-      position: "fixed",
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      zIndex: 1040 // Same as bootstrap modals
+      display: "block"
     }
 
     const overlayStyle = {
@@ -123,7 +118,7 @@ class InnerModalComponent extends React.Component<InnerModalComponentProps> {
 
     return R(
       "div",
-      { style: rootStyle },
+      { style: rootStyle, className: "modal show" },
       R("style", null, "body { overflow-y: hidden }"),
       R("div", { style: overlayStyle, onClick: this.props.onClose }),
       R(
