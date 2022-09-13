@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import ReactDOM from "react-dom"
 const R = React.createElement
 import _ from "lodash"
@@ -18,6 +18,7 @@ import { GridComponentDemo } from "./GridComponentDemo"
 import { GanttChartDemo } from "./GanttChartDemo"
 import { default as HTML5Backend } from "react-dnd-html5-backend"
 import { DragDropContext } from "react-dnd"
+import { ListEditorComponent } from "./ListEditorComponent"
 
 class PopoverHelpSample extends React.Component {
   render() {
@@ -490,9 +491,24 @@ class ReorderDemo extends React.Component {
   }
 }
 
+function ListEditorComponentSample(props: {}) {
+  const [items, setItems] = useState(["a", "b", "c"])
+
+  return <ListEditorComponent
+    items={items}
+    onItemsChange={setItems}
+    renderItem={(item, index) => <div key={item}>{item}</div>}
+    getReorderableKey={(item, index) => index}
+  />
+}
+
+
 const ReorderDemoWrapped = DragDropContext(HTML5Backend)(ReorderDemo)
 
-ReactDOM.render(R(PopoverHelpSample), document.getElementById("main"))
+const ListEditorComponentSampleWrapped = DragDropContext(HTML5Backend)(ListEditorComponentSample)
+
+// ReactDOM.render(R(PopoverHelpSample), document.getElementById("main"))
+ReactDOM.render(R(ListEditorComponentSampleWrapped), document.getElementById("main"))
 
 // // Wait for DOM to load
 // $(function () {

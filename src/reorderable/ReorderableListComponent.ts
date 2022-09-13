@@ -21,8 +21,8 @@ export interface ReorderableListComponentProps<T> {
     connectDropTarget: (node: ReactNode) => ReactNode
   ) => ReactNode
 
-  /** function which should return the identifier of the current item, gets passed the current item. Used for key */
-  getItemId: (item: T) => any
+  /** function which should return the identifier of the current item, gets passed the current item. Used for key. Optional */
+  getItemId?: (item: T, index: number) => any
 
   /** a unique id for the list */
   listId?: string
@@ -32,13 +32,13 @@ export interface ReorderableListComponentProps<T> {
 }
 
 interface ReorderableListComponentState {
-  order: any
-  listId: any
+  order: number[] | null
+  listId: string
 }
 
 /** Reorderable component for nested items
  * Currently supports reordering within the same list */
- export default class ReorderableListComponent<T> extends React.Component<ReorderableListComponentProps<T>, ReorderableListComponentState> {
+export default class ReorderableListComponent<T> extends React.Component<ReorderableListComponentProps<T>, ReorderableListComponentState> {
   static defaultProps = { element: R("div", null) }
 
   constructor(props: any) {
@@ -50,21 +50,16 @@ interface ReorderableListComponentState {
     }
   }
 
-  componentWillReceiveProps(nextProps: ReorderableListComponentProps<T>) {
-    const newOrder = _.map(nextProps.items, (item) => this.props.getItemId(item))
-    const oldOrder = _.map(this.props.items, (item) => this.props.getItemId(item))
-
-    // If order changed, reset order
-    if (!_.isEqual(newOrder, oldOrder)) {
+  componentDidUpdate(prevProps: Readonly<ReorderableListComponentProps<T>>, prevState: Readonly<ReorderableListComponentState>): void {
+    // Reset if props changed
+    if (this.props.items != prevProps.items) {
       this.setState({ order: null })
     }
-
-    return this.setState({ listId: nextProps.listId ? nextProps.listId : uuid() })
   }
 
   // Put beforeId right before id
-  handlePutBefore = (id: any, beforeId: any) => {
-    let order = _.map(this.props.items, (item) => this.props.getItemId(item))
+  handlePutBefore = (id: number, beforeId: number) => {
+    let order = _.map(this.props.items, (item, index) => index)
 
     // Remove beforeId and splice in
     order = _.without(order, beforeId)
@@ -78,8 +73,9 @@ interface ReorderableListComponentState {
   }
 
   // Put afterId right after id
-  handlePutAfter = (id: any, afterId: any) => {
-    let order = _.map(this.props.items, (item) => this.props.getItemId(item))
+  handlePutAfter = (id: number, afterId: number) => {
+    let order = _.map(this.props.items, (item, index) => index)
+    // let order = _.map(this.props.items, (item) => this.props.getItemId(item))
 
     // Remove afterId and splice in
     order = _.without(order, afterId)
@@ -104,37 +100,29 @@ interface ReorderableListComponentState {
 
   // Re-arrange items to match the order of order (list of ids)
   // If order is null, return list
-  fixOrder = (items: any, order: any) => {
+  fixOrder = (items: T[], order: number[] | null) => {
     if (!order) {
       return items
     }
 
-    return items.sort((left: any, right: any) => {
-      if (order.indexOf(this.props.getItemId(left)) < order.indexOf(this.props.getItemId(right))) {
-        return -1
-      }
-      if (order.indexOf(this.props.getItemId(left)) > order.indexOf(this.props.getItemId(right))) {
-        return 1
-      }
-      return 0
-    })
+    return order.map(o => items[o])
   }
 
   render() {
-    const items = this.props.items.slice()
-    this.fixOrder(items, this.state.order)
+    let items = this.props.items.slice()
+    items = this.fixOrder(items, this.state.order)
 
     return React.cloneElement(
       this.props.element!,
       {},
       _.map(items, (item, index) => {
         return R(ReorderableListItemComponent, {
-          key: this.props.getItemId(item),
+          key: this.props.getItemId ? this.props.getItemId(item, index) : index,
           item,
           index,
           renderItem: this.props.renderItem,
           constrainTo: this.state.listId,
-          getItemId: this.props.getItemId,
+          getItemId: () => index,
           onPutAfter: this.handlePutAfter,
           onPutBefore: this.handlePutBefore,
           onEndDrag: this.handleEndDrag

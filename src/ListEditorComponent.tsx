@@ -28,8 +28,10 @@ export function ListEditorComponent<T>(props: {
   /** Prompt to confirm deletion */
   deleteConfirmPrompt?: string
 
-  /** Allows list to be re-ordered by dragging. Returns unique key for each item */
-  getReorderableKey?: (item: T) => any
+  /** Allows list to be re-ordered by dragging. Returns unique key for each item.
+   * Can just return index for simplicity.
+   */
+  getReorderableKey?: (item: T, index: number) => any
 
   /** Puts an edit on the right which must be clicked to edit */
   editLink?: boolean

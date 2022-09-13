@@ -1,6 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-import PropTypes from "prop-types"
 import _ from "lodash"
 import React from "react"
 const R = React.createElement
@@ -23,7 +20,7 @@ const itemTarget = {
       return
     }
 
-    const hoverBoundingRect = ReactDOM.findDOMNode(component).getBoundingClientRect()
+    const hoverBoundingRect = (ReactDOM.findDOMNode(component) as HTMLElement).getBoundingClientRect()
 
     const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
     const clientOffset = monitor.getClientOffset()
@@ -66,7 +63,7 @@ const itemSource = {
       id: props.getItemId(props.item),
       constrainTo: props.constrainTo,
       // Save height of dragged component
-      height: ReactDOM.findDOMNode(component).getBoundingClientRect().height
+      height: (ReactDOM.findDOMNode(component) as HTMLElement).getBoundingClientRect().height
     }
   },
 
