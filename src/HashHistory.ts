@@ -113,12 +113,22 @@
     return false
   }
 
-  /** Push a new location */
+  /** Push a new location
+   * @param search must start with "?" if non-empty string or must be object that
+   * will be encoded.
+   */
   push(location: string): void
   push(location: { pathname: string, search?: string }): void
-  async push(location: string | { pathname: string, search?: string }) {
+  push(location: { pathname: string, search?: { [key: string]: string } }): void
+  async push(location: string | { pathname: string, search?: string } | { pathname: string, search?: { [key: string]: string } }) {
     if (typeof location !== "string") {
-      location = location.pathname + (location.search || "")
+      if (typeof location.search === "string") {
+        location = location.pathname + (location.search || "")
+      }
+      else {
+        const searchObj = location.search || {}
+        location = location.pathname + "?" + Object.keys(searchObj).map(key => key + '=' + encodeURIComponent(searchObj[key])).join('&')
+      }
     }
 
     const newLocation = this.parseLocation(location, this.index + 1)
@@ -136,9 +146,16 @@
   /** Replace current location */
   replace(location: string): void
   replace(location: { pathname: string, search?: string }): void
-  async replace(location: string | { pathname: string, search?: string }) {
+  replace(location: { pathname: string, search?: { [key: string]: string } }): void
+  async replace(location: string | { pathname: string, search?: string } | { pathname: string, search?: { [key: string]: string } }) {
     if (typeof location !== "string") {
-      location = location.pathname + (location.search || "")
+      if (typeof location.search === "string") {
+        location = location.pathname + (location.search || "")
+      }
+      else {
+        const searchObj = location.search || {}
+        location = location.pathname + "?" + Object.keys(searchObj).map(key => key + '=' + encodeURIComponent(searchObj[key])).join('&')
+      }
     }
 
     const newLocation = this.parseLocation(location, this.index + 1)

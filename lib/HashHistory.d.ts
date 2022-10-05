@@ -26,17 +26,32 @@ export declare class HashHistory {
     private notifyLocationListeners;
     /** Check if a new location is going to be blocked */
     private checkBlockers;
-    /** Push a new location */
+    /** Push a new location
+     * @param search must start with "?" if non-empty string or must be object that
+     * will be encoded.
+     */
     push(location: string): void;
     push(location: {
         pathname: string;
         search?: string;
+    }): void;
+    push(location: {
+        pathname: string;
+        search?: {
+            [key: string]: string;
+        };
     }): void;
     /** Replace current location */
     replace(location: string): void;
     replace(location: {
         pathname: string;
         search?: string;
+    }): void;
+    replace(location: {
+        pathname: string;
+        search?: {
+            [key: string]: string;
+        };
     }): void;
     /** Go back. Calls history.back() */
     back(): void;
