@@ -114,19 +114,19 @@
   }
 
   /** Push a new location
-   * @param search must start with "?" if non-empty string or must be object that
-   * will be encoded.
+   * @param location.search must start with "?" if non-empty string
+   * @param location.query must be object that will be encoded.
    */
   push(location: string): void
   push(location: { pathname: string, search?: string }): void
-  push(location: { pathname: string, search?: { [key: string]: string | number | boolean | undefined | null } }): void
-  async push(location: string | { pathname: string, search?: string } | { pathname: string, search?: { [key: string]: string | number | boolean | undefined | null } }) {
+  push(location: { pathname: string, query?: { [key: string]: string | number | boolean | undefined | null } }): void
+  async push(location: string | { pathname: string, search?: string } & { pathname: string, query?: { [key: string]: string | number | boolean | undefined | null } }) {
     if (typeof location !== "string") {
       if (typeof location.search === "string") {
         location = location.pathname + (location.search || "")
       }
       else {
-        const searchObj = location.search || {}
+        const searchObj = location.query || {}
         location = location.pathname + "?" + Object.keys(searchObj).map(key => key + '=' + encodeURIComponent(searchObj[key] ?? "")).join('&')
       }
     }
@@ -146,14 +146,14 @@
   /** Replace current location */
   replace(location: string): void
   replace(location: { pathname: string, search?: string }): void
-  replace(location: { pathname: string, search?: { [key: string]: string | number | boolean | undefined | null } }): void
-  async replace(location: string | { pathname: string, search?: string } | { pathname: string, search?: { [key: string]: string | number | boolean | undefined | null } }) {
+  replace(location: { pathname: string, query?: { [key: string]: string | number | boolean | undefined | null } }): void
+  async replace(location: string | { pathname: string, search?: string } & { pathname: string, query?: { [key: string]: string | number | boolean | undefined | null } }) {
     if (typeof location !== "string") {
       if (typeof location.search === "string") {
         location = location.pathname + (location.search || "")
       }
       else {
-        const searchObj = location.search || {}
+        const searchObj = location.query || {}
         location = location.pathname + "?" + Object.keys(searchObj).map(key => key + '=' + encodeURIComponent(searchObj[key] ?? "")).join('&')
       }
     }

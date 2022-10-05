@@ -27,8 +27,8 @@ export declare class HashHistory {
     /** Check if a new location is going to be blocked */
     private checkBlockers;
     /** Push a new location
-     * @param search must start with "?" if non-empty string or must be object that
-     * will be encoded.
+     * @param location.search must start with "?" if non-empty string
+     * @param location.query must be object that will be encoded.
      */
     push(location: string): void;
     push(location: {
@@ -37,7 +37,7 @@ export declare class HashHistory {
     }): void;
     push(location: {
         pathname: string;
-        search?: {
+        query?: {
             [key: string]: string | number | boolean | undefined | null;
         };
     }): void;
@@ -49,7 +49,7 @@ export declare class HashHistory {
     }): void;
     replace(location: {
         pathname: string;
-        search?: {
+        query?: {
             [key: string]: string | number | boolean | undefined | null;
         };
     }): void;
