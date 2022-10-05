@@ -24,6 +24,7 @@ export declare class HashHistory {
     /** Add listener to block location changes. Returns unsubscribe */
     addBlockerListener(listener: HashBlockerListener): () => void;
     private notifyLocationListeners;
+    /** Check if a new location is going to be blocked */
     private checkBlockers;
     /** Push a new location */
     push(location: string): void;

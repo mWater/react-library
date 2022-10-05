@@ -64,7 +64,7 @@
     const delta = ev.state == null ? 1 : ev.state - this.index
 
     // Check blockers
-    const blocked = await this.checkBlockers()
+    const blocked = await this.checkBlockers(this.getLocation())
     if (blocked) {
       // Undo
       this.ignoringPopstate++
@@ -103,9 +103,10 @@
     }
   }
 
-  private async checkBlockers(): Promise<boolean> {
+  /** Check if a new location is going to be blocked */
+  private async checkBlockers(newLocation: HashLocation): Promise<boolean> {
     for (const listener of this.blockerListeners) {
-      if (await listener(this.currentLocation, this.getLocation())) {
+      if (await listener(this.currentLocation, newLocation)) {
         return true
       }
     }
@@ -120,7 +121,8 @@
       location = location.pathname + (location.search || "")
     }
 
-    if (await this.checkBlockers()) {
+    const newLocation = this.parseLocation(location, this.index + 1)
+    if (await this.checkBlockers(newLocation)) {
       return
     }
 
@@ -139,7 +141,8 @@
       location = location.pathname + (location.search || "")
     }
 
-    if (await this.checkBlockers()) {
+    const newLocation = this.parseLocation(location, this.index + 1)
+    if (await this.checkBlockers(newLocation)) {
       return
     }
 
