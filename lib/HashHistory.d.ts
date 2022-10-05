@@ -38,7 +38,7 @@ export declare class HashHistory {
     push(location: {
         pathname: string;
         search?: {
-            [key: string]: string;
+            [key: string]: string | number | boolean | undefined | null;
         };
     }): void;
     /** Replace current location */
@@ -50,7 +50,7 @@ export declare class HashHistory {
     replace(location: {
         pathname: string;
         search?: {
-            [key: string]: string;
+            [key: string]: string | number | boolean | undefined | null;
         };
     }): void;
     /** Go back. Calls history.back() */

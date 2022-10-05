@@ -119,15 +119,15 @@
    */
   push(location: string): void
   push(location: { pathname: string, search?: string }): void
-  push(location: { pathname: string, search?: { [key: string]: string } }): void
-  async push(location: string | { pathname: string, search?: string } | { pathname: string, search?: { [key: string]: string } }) {
+  push(location: { pathname: string, search?: { [key: string]: string | number | boolean | undefined | null } }): void
+  async push(location: string | { pathname: string, search?: string } | { pathname: string, search?: { [key: string]: string | number | boolean | undefined | null } }) {
     if (typeof location !== "string") {
       if (typeof location.search === "string") {
         location = location.pathname + (location.search || "")
       }
       else {
         const searchObj = location.search || {}
-        location = location.pathname + "?" + Object.keys(searchObj).map(key => key + '=' + encodeURIComponent(searchObj[key])).join('&')
+        location = location.pathname + "?" + Object.keys(searchObj).map(key => key + '=' + encodeURIComponent(searchObj[key] ?? "")).join('&')
       }
     }
 
@@ -146,15 +146,15 @@
   /** Replace current location */
   replace(location: string): void
   replace(location: { pathname: string, search?: string }): void
-  replace(location: { pathname: string, search?: { [key: string]: string } }): void
-  async replace(location: string | { pathname: string, search?: string } | { pathname: string, search?: { [key: string]: string } }) {
+  replace(location: { pathname: string, search?: { [key: string]: string | number | boolean | undefined | null } }): void
+  async replace(location: string | { pathname: string, search?: string } | { pathname: string, search?: { [key: string]: string | number | boolean | undefined | null } }) {
     if (typeof location !== "string") {
       if (typeof location.search === "string") {
         location = location.pathname + (location.search || "")
       }
       else {
         const searchObj = location.search || {}
-        location = location.pathname + "?" + Object.keys(searchObj).map(key => key + '=' + encodeURIComponent(searchObj[key])).join('&')
+        location = location.pathname + "?" + Object.keys(searchObj).map(key => key + '=' + encodeURIComponent(searchObj[key] ?? "")).join('&')
       }
     }
 
