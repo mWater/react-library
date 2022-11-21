@@ -88,7 +88,7 @@ export function ListEditorComponent<T>(props: {
           <i className="fa fa-remove" />
         </a>
         {props.editLink && props.renderEditor != null ? (
-          <a onClick={handleClick} style={{ float: "right", cursor: "pointer", color: "var(--bs-primary)" }}>
+          <a onClick={handleClick} style={{ float: "right", cursor: "pointer", color: "var(--bs-primary)", marginRight: 5 }}>
             <i className="fa fa-pencil" />
           </a>
         ) : null}
