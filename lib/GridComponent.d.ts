@@ -60,6 +60,8 @@ export declare const GridComponent: (props: {
     rowHeaderExtraHeight?: number | undefined;
     /** Render extra region below last row header */
     renderRowHeaderExtra?: (() => ReactNode) | undefined;
+    /** Render top left corner (optional) */
+    renderTopLeft?: (() => ReactNode) | undefined;
     /** Handle row click. Prevents selection by click if present */
     onRowClick?: ((rowIndex: number) => void) | undefined;
     /** Handle row double click. Prevents editing by double click if present */

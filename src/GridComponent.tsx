@@ -68,6 +68,9 @@ export const GridComponent = (props: {
   /** Render extra region below last row header */
   renderRowHeaderExtra?: () => ReactNode
 
+  /** Render top left corner (optional) */
+  renderTopLeft?: () => ReactNode
+
   /** Handle row click. Prevents selection by click if present */
   onRowClick?: (rowIndex: number) => void
   /** Handle row double click. Prevents editing by double click if present */
@@ -661,7 +664,9 @@ export const GridComponent = (props: {
       backgroundColor: "#f5f5f5"
     }
 
-    return <div key="h:h" style={style} />
+    return <div key="h:h" style={style}>
+      {props.renderTopLeft ? props.renderTopLeft() : null}
+    </div>
   }
 
   /** Render editor control */
