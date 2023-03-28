@@ -1,5 +1,6 @@
 /** Simple hash-based history that allows blocking transitions within the page
- * asynchronously. */
+ * asynchronously. 
+ */
  export class HashHistory {
   /** Index of current page in stack. Used to determine if push or pop */
   index: number
@@ -116,11 +117,14 @@
   /** Push a new location
    * @param location.search must start with "?" if non-empty string
    * @param location.query must be object that will be encoded.
+   * @param options.silent: Do not notify listeners or check blockers
    */
-  push(location: string): void
-  push(location: { pathname: string, search?: string }): void
-  push(location: { pathname: string, query?: { [key: string]: string | number | boolean | undefined | null } }): void
-  async push(location: string | { pathname: string, search?: string } & { pathname: string, query?: { [key: string]: string | number | boolean | undefined | null } }) {
+  push(location: string, options?: { silent?: boolean }): void
+  push(location: { pathname: string, search?: string }, options?: { silent?: boolean }): void
+  push(location: { pathname: string, query?: { [key: string]: string | number | boolean | undefined | null } }, options?: { silent?: boolean }): void
+  async push(location: string | { pathname: string, search?: string } & { pathname: string, query?: { [key: string]: string | number | boolean | undefined | null } }, options?: { silent?: boolean }) {
+    const silent = options?.silent ?? false
+
     if (typeof location !== "string") {
       if (typeof location.search === "string") {
         location = location.pathname + (location.search || "")
@@ -132,22 +136,31 @@
     }
 
     const newLocation = this.parseLocation(location, this.index + 1)
-    if (await this.checkBlockers(newLocation)) {
-      return
+    if (!silent) {
+      if (await this.checkBlockers(newLocation)) {
+        return
+      }
     }
 
     this.index += 1
     history.pushState(this.index, "", "#" + location)
 
     this.currentLocation = this.getLocation()
-    this.notifyLocationListeners(this.getLocation())
+    
+    if (!silent) {
+      this.notifyLocationListeners(this.getLocation())
+    }
   }
 
-  /** Replace current location */
-  replace(location: string): void
-  replace(location: { pathname: string, search?: string }): void
-  replace(location: { pathname: string, query?: { [key: string]: string | number | boolean | undefined | null } }): void
-  async replace(location: string | { pathname: string, search?: string } & { pathname: string, query?: { [key: string]: string | number | boolean | undefined | null } }) {
+  /** Replace current location 
+   * @param options.silent: Do not notify listeners or check blockers
+   */
+  replace(location: string, options?: { silent?: boolean }): void
+  replace(location: { pathname: string, search?: string }, options?: { silent?: boolean }): void
+  replace(location: { pathname: string, query?: { [key: string]: string | number | boolean | undefined | null } }, options?: { silent?: boolean }): void
+  async replace(location: string | { pathname: string, search?: string } & { pathname: string, query?: { [key: string]: string | number | boolean | undefined | null } }, options?: { silent?: boolean }) {
+    const silent = options?.silent ?? false
+
     if (typeof location !== "string") {
       if (typeof location.search === "string") {
         location = location.pathname + (location.search || "")
@@ -159,17 +172,31 @@
     }
 
     const newLocation = this.parseLocation(location, this.index + 1)
-    if (await this.checkBlockers(newLocation)) {
-      return
+    if (!silent) {
+      if (await this.checkBlockers(newLocation)) {
+        return
+      }
     }
 
     history.replaceState(this.index, "", "#" + location)
     this.currentLocation = this.getLocation()
-    this.notifyLocationListeners(this.getLocation())
+
+    if (!silent) {
+      this.notifyLocationListeners(this.getLocation())
+    }
   }
 
-  /** Go back. Calls history.back() */
-  back() {
+  /** Go back. Calls history.back() 
+   * @param options.silent: Do not notify listeners or check blockers
+  */
+  back(options?: { silent?: boolean }) {
+    const silent = options?.silent ?? false
+
+    // If silent, do not notify listeners or check blockers
+    if (silent) {
+      this.ignoringPopstate++
+    }
+
     history.back()
   }
 }

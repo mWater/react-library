@@ -1,5 +1,6 @@
 /** Simple hash-based history that allows blocking transitions within the page
- * asynchronously. */
+ * asynchronously.
+ */
 export declare class HashHistory {
     /** Index of current page in stack. Used to determine if push or pop */
     index: number;
@@ -29,32 +30,51 @@ export declare class HashHistory {
     /** Push a new location
      * @param location.search must start with "?" if non-empty string
      * @param location.query must be object that will be encoded.
+     * @param options.silent: Do not notify listeners or check blockers
      */
-    push(location: string): void;
+    push(location: string, options?: {
+        silent?: boolean;
+    }): void;
     push(location: {
         pathname: string;
         search?: string;
+    }, options?: {
+        silent?: boolean;
     }): void;
     push(location: {
         pathname: string;
         query?: {
             [key: string]: string | number | boolean | undefined | null;
         };
+    }, options?: {
+        silent?: boolean;
     }): void;
-    /** Replace current location */
-    replace(location: string): void;
+    /** Replace current location
+     * @param options.silent: Do not notify listeners or check blockers
+     */
+    replace(location: string, options?: {
+        silent?: boolean;
+    }): void;
     replace(location: {
         pathname: string;
         search?: string;
+    }, options?: {
+        silent?: boolean;
     }): void;
     replace(location: {
         pathname: string;
         query?: {
             [key: string]: string | number | boolean | undefined | null;
         };
+    }, options?: {
+        silent?: boolean;
     }): void;
-    /** Go back. Calls history.back() */
-    back(): void;
+    /** Go back. Calls history.back()
+     * @param options.silent: Do not notify listeners or check blockers
+    */
+    back(options?: {
+        silent?: boolean;
+    }): void;
 }
 export interface HashLocation {
     /** Base part of the path. Starts with "/" */
