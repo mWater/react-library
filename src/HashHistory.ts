@@ -64,17 +64,20 @@
     // Determine delta
     const delta = ev.state === null ? 1 : ev.state - this.index
 
+    // Optimistically update index
+    this.index += delta
+
     // Check blockers
     const blocked = await this.checkBlockers(this.getLocation())
     if (blocked) {
       // Undo
       this.ignoringPopstate++
+      this.index -= delta
       history.go(-delta)
       return
     }
 
     // Set index in state
-    this.index += delta
     history.replaceState(this.index, "")
 
     const location = this.getLocation()
