@@ -62,7 +62,7 @@
     }
 
     // Determine delta
-    const delta = ev.state == null ? 1 : ev.state - this.index
+    const delta = ev.state === null ? 1 : ev.state - this.index
 
     // Check blockers
     const blocked = await this.checkBlockers(this.getLocation())
