@@ -26,7 +26,7 @@ export function ListEditorComponent<T>(props: {
   addLabel?: string
 
   /** Prompt to confirm deletion */
-  deleteConfirmPrompt?: string
+  deleteConfirmPrompt?: string | ((item: T) => string)
 
   /** Allows list to be re-ordered by dragging. Returns unique key for each item.
    * Can just return index for simplicity.
@@ -35,6 +35,9 @@ export function ListEditorComponent<T>(props: {
 
   /** Puts an edit on the right which must be clicked to edit */
   editLink?: boolean
+
+  /** Selected item is highlighted */
+  selectedIndex?: number
 }) {
   const [adding, setAdding] = useState<Partial<T>>()
   const [editing, setEditing] = useState<Partial<T>>()
@@ -55,8 +58,11 @@ export function ListEditorComponent<T>(props: {
     ev.preventDefault()
 
     // Confirm deletion
-    if (props.deleteConfirmPrompt && !confirm(props.deleteConfirmPrompt)) {
-      return
+    if (props.deleteConfirmPrompt) {
+      const prompt = (typeof props.deleteConfirmPrompt === "string") ? props.deleteConfirmPrompt : props.deleteConfirmPrompt(props.items[index])
+      if (!confirm(prompt)) {
+        return
+      }
     }
 
     const items = props.items.slice()
@@ -80,15 +86,15 @@ export function ListEditorComponent<T>(props: {
     }
 
     return (
-      <li className="list-group-item" onClick={props.editLink ? undefined : handleClick} key={index}>
+      <li className={props.selectedIndex === index ? "list-group-item active" : "list-group-item"} onClick={props.editLink ? undefined : handleClick} key={index}>
         <a
           onClick={handleDelete.bind(null, index)}
-          style={{ float: "right", cursor: "pointer", color: "var(--bs-primary)" }}
+          style={{ float: "right", cursor: "pointer", color: props.selectedIndex === index ? "var(--bs-list-group-active-color)" : "var(--bs-primary)" }}
         >
           <i className="fa fa-remove" />
         </a>
         {props.editLink && props.renderEditor != null ? (
-          <a onClick={handleClick} style={{ float: "right", cursor: "pointer", color: "var(--bs-primary)", marginRight: 5 }}>
+          <a onClick={handleClick} style={{ float: "right", cursor: "pointer", color: props.selectedIndex === index ? "var(--bs-list-group-active-color)" : "var(--bs-primary)", marginRight: 5 }}>
             <i className="fa fa-pencil" />
           </a>
         ) : null}
